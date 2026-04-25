@@ -1,0 +1,18 @@
+<div class="tool-card">
+    <div class="input-group" style="display: flex; gap: 10px;">
+        <input type="number" id="input-valor" placeholder="Valor..." style="flex: 2;">
+        <select id="select-unidade" style="flex: 1;">
+            <option value="kB">kB / KiB</option>
+            <option value="MB" selected>MB / MiB</option>
+            <option value="GB">GB / GiB</option>
+            <option value="TB">TB / TiB</option>
+        </select>
+    </div>
+
+    <div class="comparison-grid">
+        <div id="resultado-binario" class="result-display">
+            </div>
+        <div id="resultado-decimal" class="result-display" style="border-left: 2px solid var(--border); padding-left: 20px;">
+            </div>
+    </div>
+</div>

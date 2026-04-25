@@ -1,0 +1,24 @@
+baseURL = 'https://scalar.com/'
+languageCode = 'pt-br'
+title = 'Scalar | Ferramentas de Precisão'
+theme = []
+
+[permalinks]
+  ferramentas = '/:contentbasename/'
+
+[build]
+  writeStats = true
+  [build.buildStats]
+    enableResourceIndices = true
+
+[minify]
+  disableHTML = false
+  minifyOutput = true
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[params]
+  description = "Scalar: Ferramentas de Precisão para Engenharia e Computação."

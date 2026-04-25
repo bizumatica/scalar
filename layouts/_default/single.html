@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="container">
+    <article class="tool-card">
+        <h1>{{ .Title }}</h1>
+        
+        {{ if .Params.tool_partial }}
+            {{ partial (printf "tools/%s.html" .Params.tool_partial) . }}
+        {{ end }}
+
+        <div class="content-text">
+            {{ .Content }}
+        </div>
+    </article>
+
+    {{ $js := .Resources.GetMatch "solver.js" }}
+    {{ if $js }}
+        {{ $finalJS := $js | resources.Minify | resources.Fingerprint }}
+        <script src="{{ $finalJS.RelPermalink }}" integrity="{{ $finalJS.Data.Integrity }}"></script>
+    {{ end }}
+</div>
+{{ end }}

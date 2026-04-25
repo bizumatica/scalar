@@ -1,0 +1,24 @@
+<div class="tool-card">
+    <div class="input-group">
+        <label for="input-decimal" style="display:block; margin-bottom:8px; font-size:0.8rem; color:var(--text-muted);">
+            Insira o decimal (Ex: 0.75 ou 0.333...)
+        </label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="input-decimal" placeholder="0.333" style="flex: 2;">
+            <button id="btn-resolver" style="flex: 1;">Calcular</button>
+        </div>
+    </div>
+
+    <div class="comparison-grid">
+        <div id="resultado-fracao" class="result-display">
+            <h4>Fração Irredutível</h4>
+            <div id="fracao-final" style="font-size: 2rem; margin-top: 10px;">—</div>
+        </div>
+        <div id="passo-a-passo" class="result-display" style="border-left: 2px solid var(--border); padding-left: 20px;">
+            <h4>Lógica Aplicada</h4>
+            <div id="logica-detalhe" style="font-size: 0.9rem; color: var(--text-muted);">
+                Aguardando entrada...
+            </div>
+        </div>
+    </div>
+</div>

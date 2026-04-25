@@ -1,0 +1,7 @@
+<div class="ad-slot" style="background: #eee; border: 1px solid #ccc; padding: 20px; text-align: center;">
+    {{ if .Site.IsServer }}
+        <strong>[ADSENSE PLACEHOLDER]</strong><br>
+        ID: {{ .Site.Params.adsense_id }}
+    {{ else }}
+        {{ end }}
+</div>

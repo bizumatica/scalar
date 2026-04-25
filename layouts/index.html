@@ -1,0 +1,41 @@
+{{ define "main" }}
+<div class="container">
+    {{/* Seção Hero: Impacto inicial e descrição */}}
+    <header class="hero-section">
+        <h1 class="hero-title">Precisão em cada bit.</h1>
+        <p class="hero-subtitle">Ferramentas de engenharia otimizadas para performance e exatidão.</p>
+    </header>
+
+    {{/* Grid de Ferramentas: Renderização automática das páginas em /ferramentas/ */}}
+    <div class="tools-grid">
+        {{ range (where .Site.RegularPages "Section" "ferramentas") }}
+        <a href="{{ .RelPermalink }}" class="tool-link">
+            <article class="tool-card card-hover">
+                {{/* Ícone do Lucide definido no frontmatter (icon) ou fallback para wrench */}}
+                <div class="tool-icon">
+                    <i data-lucide="{{ .Params.icon | default "wrench" }}"></i>
+                </div>
+                <h3 class="tool-title">{{ .Title }}</h3>
+                <p class="tool-description">{{ .Description }}</p>
+            </article>
+        </a>
+        {{ end }}
+    </div>
+
+    {{/* Seção de Texto para SEO: Crucial para o AdSense e ranqueamento */}}
+    <section class="home-seo-text" style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 3rem;">
+        <div style="max-width: 700px; margin: 0 auto; color: var(--text-muted); line-height: 1.8;">
+            <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Por que usar o Scalar?</h2>
+            <p>
+                O <strong>Scalar</strong> foi projetado para engenheiros e desenvolvedores que buscam resultados rápidos 
+                sem sacrificar o rigor matemático. Diferente de conversores genéricos, aqui tratamos ambiguidades 
+                como o padrão <strong>IEC (Binário)</strong> vs <strong>SI (Decimal)</strong> de forma transparente.
+            </p>
+            <p style="margin-top: 1rem;">
+                Nossas ferramentas são processadas localmente via JavaScript, garantindo privacidade total, 
+                segurança e velocidade instantânea no cálculo de bases numéricas, frações e unidades de dados.
+            </p>
+        </div>
+    </section>
+</div>
+{{ end }}
