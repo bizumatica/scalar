@@ -1,41 +1,32 @@
 {{ define "main" }}
-<div class="container">
-    {{/* Seção Hero: Impacto inicial e descrição */}}
-    <header class="hero-section">
-        <h1 class="hero-title">Precisão em cada bit.</h1>
-        <p class="hero-subtitle">Ferramentas de engenharia otimizadas para performance e exatidão.</p>
+<div class="container mx-auto px-4">
+    <header class="hero-section text-center py-10">
+        <h1 class="hero-title text-4xl font-extrabold text-white">Precisão em cada bit.</h1>
+        <p class="hero-subtitle text-slate-400 mt-2">Engenharia e exatidão matemática.</p>
     </header>
 
-    {{/* Grid de Ferramentas: Renderização automática das páginas em /ferramentas/ */}}
-    <div class="tools-grid">
-        {{ range (where .Site.RegularPages "Section" "ferramentas") }}
-        <a href="{{ .RelPermalink }}" class="tool-link">
-            <article class="tool-card card-hover">
-                {{/* Ícone do Lucide definido no frontmatter (icon) ou fallback para wrench */}}
-                <div class="tool-icon">
-                    <i data-lucide="{{ .Params.icon | default "wrench" }}"></i>
-                </div>
-                <h3 class="tool-title">{{ .Title }}</h3>
-                <p class="tool-description">{{ .Description }}</p>
-            </article>
-        </a>
-        {{ end }}
-    </div>
+<div class="tools-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; padding: 1rem 0;">
+    {{ range (where .Site.RegularPages "Section" "ferramentas") }}
+    <a href="{{ .RelPermalink }}" style="text-decoration: none;">
+        <article style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; background: rgba(30, 41, 59, 0.4); border: 1px solid #334155; border-radius: 0.75rem; min-height: 140px; text-align: center;">
+            
+            {{/* Ícone */}}
+            <div style="color: #60a5fa; margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: center;">
+                {{ partial "icon.html" (dict "name" (.Params.icon | default "wrench") "class" "w-8 h-8") }}
+            </div>
+            
+            {{/* Título */}}
+            <h3 style="font-size: 1rem; font-weight: 700; color: #f1f5f9; margin: 0; line-height: 1.2;">
+                {{ .Title }}
+            </h3>
+        </article>
+    </a>
+    {{ end }}
 
-    {{/* Seção de Texto para SEO: Crucial para o AdSense e ranqueamento */}}
-    <section class="home-seo-text" style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 3rem;">
-        <div style="max-width: 700px; margin: 0 auto; color: var(--text-muted); line-height: 1.8;">
-            <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Por que usar o Scalar?</h2>
-            <p>
-                O <strong>Scalar</strong> foi projetado para engenheiros e desenvolvedores que buscam resultados rápidos 
-                sem sacrificar o rigor matemático. Diferente de conversores genéricos, aqui tratamos ambiguidades 
-                como o padrão <strong>IEC (Binário)</strong> vs <strong>SI (Decimal)</strong> de forma transparente.
-            </p>
-            <p style="margin-top: 1rem;">
-                Nossas ferramentas são processadas localmente via JavaScript, garantindo privacidade total, 
-                segurança e velocidade instantânea no cálculo de bases numéricas, frações e unidades de dados.
-            </p>
-        </div>
-    </section>
+    {{/* Card AdSense */}}
+    <div style="display: flex; align-items: center; justify-content: center; padding: 1.5rem; border: 2px dashed #334155; border-radius: 0.75rem; background: rgba(15, 23, 42, 0.2); min-height: 140px;">
+         <span style="font-size: 0.75rem; color: #475569; font-family: monospace;">Espaço AdSense</span>
+    </div>
 </div>
+
 {{ end }}

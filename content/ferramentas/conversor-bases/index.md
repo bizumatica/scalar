@@ -1,9 +1,12 @@
 ---
 title: "Conversor de Bases Numéricas"
 description: "Converta valores entre Decimal, Binário, Hexadecimal e Octal em tempo real com precisão de bit."
+date: 2024-05-19
 layout: "single"
 tool_partial: "conversor-bases"
 icon: "binary"
+categories: ["Computação"]
+keywords: ["binário para decimal", "hexadecimal", "conversor de bases", "octal"]
 ---
 
 A conversão entre sistemas numéricos é a base da computação moderna. No **Scalar**, você pode alternar entre as bases mais utilizadas na engenharia:

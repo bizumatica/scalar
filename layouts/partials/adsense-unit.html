@@ -1,7 +1,22 @@
-<div class="ad-slot" style="background: #eee; border: 1px solid #ccc; padding: 20px; text-align: center;">
+{{ $adsenseId := .Site.Params.adsense_id }}
+
+<div class="ad-container" style="margin: 2rem 0; min-height: 280px; display: flex; justify-content: center; align-items: center;">
     {{ if .Site.IsServer }}
-        <strong>[ADSENSE PLACEHOLDER]</strong><br>
-        ID: {{ .Site.Params.adsense_id }}
+        <div style="width: 100%; max-width: 728px; height: 280px; background: repeating-linear-gradient(45deg, #f0f0f0, #f0f0f0 10px, #e8e8e8 10px, #e8e8e8 20px); border: 2px dashed #3498db; color: #2980b9; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: monospace;">
+            <strong style="font-size: 1.2rem;">[ADSENSE PLACEHOLDER]</strong>
+            <span>Slot ID: {{ .slot }}</span>
+            <span>Publisher: {{ $adsenseId }}</span>
+        </div>
     {{ else }}
-        {{ end }}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adsenseId }}" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="{{ $adsenseId }}"
+             data-ad-slot="{{ .slot }}"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    {{ end }}
 </div>

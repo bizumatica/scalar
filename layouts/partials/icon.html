@@ -1,0 +1,10 @@
+{{- $path := printf "icons/%s.svg" .name -}}
+{{- $svg := resources.Get $path -}}
+{{- if $svg -}}
+    <span class="icon-wrapper {{ .class }}">
+        {{ $svg.Content | safeHTML }}
+    </span>
+{{- else -}}
+    {{/* Fallback caso o ícone não exista */}}
+    <span class="icon-fallback text-xs text-red-500">?</span>
+{{- end -}}

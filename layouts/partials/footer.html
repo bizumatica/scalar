@@ -5,15 +5,16 @@
             Desenvolvido com precisão por Julio Prata.
         </p>
 
+        {{/* Links Sociais com o seu Partial de Ícones */}}
         <nav style="display: flex; justify-content: center; gap: 30px; margin-bottom: 2rem;">
-            <a href="https://github.com/bizumatica" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted);">
-                <i data-lucide="github"></i>
+            <a href="https://github.com/bizumatica" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
+                {{ partial "icon.html" (dict "name" "github" "class" "w-6 h-6") }}
             </a>
-            <a href="https://www.linkedin.com/in/julio-prata-2729a5b9/" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted);">
-                <i data-lucide="linkedin"></i>
+            <a href="https://www.linkedin.com/in/julio-prata-2729a5b9/" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
+                {{ partial "icon.html" (dict "name" "linkedin" "class" "w-6 h-6") }}
             </a>
-            <a href="https://juliostudio.dev.br/" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted);">
-                <i data-lucide="briefcase"></i>
+            <a href="https://juliostudio.dev.br/" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
+                {{ partial "icon.html" (dict "name" "briefcase" "class" "w-6 h-6") }}
             </a>
         </nav>
 

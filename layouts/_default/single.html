@@ -1,21 +1,80 @@
 {{ define "main" }}
-<div class="container">
-    <article class="tool-card">
-        <h1>{{ .Title }}</h1>
+<main class="container mx-auto px-4 py-8 max-w-4xl" role="main">
+    <article style="background: rgba(15, 23, 42, 0.4); border: 1px solid #1e293b; border-radius: 1rem; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
         
-        {{ if .Params.tool_partial }}
-            {{ partial (printf "tools/%s.html" .Params.tool_partial) . }}
-        {{ end }}
+        <header style="padding: 1.5rem 2rem; border-bottom: 1px solid #1e293b; background: rgba(30, 41, 59, 0.2);">
+            <h1 style="font-size: 1.75rem !important; font-weight: 800; color: #fff; margin: 0; letter-spacing: -0.02em;">{{ .Title }}</h1>
+            {{ with .Description }}
+                <p style="color: #94a3b8; margin-top: 0.5rem; font-size: 0.95rem !important; line-height: 1.5;">{{ . }}</p>
+            {{ end }}
+        </header>
+        
+        <div style="padding: 2rem;">
+            <section style="margin-bottom: 2rem;">
+                {{ if .Params.tool_partial }}
+                    {{ partial (printf "tools/%s.html" .Params.tool_partial) . }}
+                {{ end }}
+            </section>
 
-        <div class="content-text">
-            {{ .Content }}
+            <div style="margin: 3rem 0; padding: 1rem 0; border-top: 1px dashed #334155; border-bottom: 1px dashed #334155;">
+                {{ partial "adsense-tool.html" . }}
+            </div>
+
+            <section class="documentacao-tecnica">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.2rem 0.75rem; border-radius: 9999px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: #60a5fa; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
+                    Documentação e Teoria
+                </div>
+
+                <style>
+                    /* FORÇANDO PADRÃO TÉCNICO (Resolve Foto 7, 9 e 10) */
+                    .markdown-content h1, 
+                    .markdown-content h2,
+                    .markdown-content h3 {
+                        font-size: 1.1rem !important; /* Tamanho discreto e profissional */
+                        color: #ffffff !important;
+                        margin-top: 2rem !important;
+                        margin-bottom: 0.75rem !important;
+                        font-weight: 700 !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        gap: 10px !important;
+                    }
+
+                    .markdown-content h2::before {
+                        content: ''; width: 3px; height: 16px; background: #2563eb; border-radius: 2px;
+                    }
+
+                    .markdown-content p {
+                        font-size: 0.9rem !important;
+                        color: #94a3b8 !important;
+                        line-height: 1.6 !important;
+                        margin-bottom: 1rem !important;
+                    }
+
+                    .markdown-content ul, .markdown-content ol {
+                        background: rgba(30, 41, 59, 0.4) !important;
+                        padding: 1rem 1.25rem 1rem 2rem !important;
+                        border-radius: 0.5rem !important;
+                        border: 1px solid #334155 !important;
+                        margin: 1rem 0 !important;
+                        font-size: 0.85rem !important;
+                    }
+
+                    /* Esconder o erro da Foto 10 */
+                    .markdown-content img[alt*="Image of"] { display: none !important; }
+                </style>
+
+                <div class="markdown-content">
+                    {{ .Content }}
+                </div>
+            </section>
         </div>
     </article>
 
     {{ $js := .Resources.GetMatch "solver.js" }}
     {{ if $js }}
         {{ $finalJS := $js | resources.Minify | resources.Fingerprint }}
-        <script src="{{ $finalJS.RelPermalink }}" integrity="{{ $finalJS.Data.Integrity }}"></script>
+        <script src="{{ $finalJS.RelPermalink }}" integrity="{{ $finalJS.Data.Integrity }}" defer></script>
     {{ end }}
-</div>
+</main>
 {{ end }}

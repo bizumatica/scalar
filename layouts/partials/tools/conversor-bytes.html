@@ -1,18 +1,73 @@
-<div class="tool-card">
-    <div class="input-group" style="display: flex; gap: 10px;">
-        <input type="number" id="input-valor" placeholder="Valor..." style="flex: 2;">
-        <select id="select-unidade" style="flex: 1;">
-            <option value="kB">kB / KiB</option>
-            <option value="MB" selected>MB / MiB</option>
-            <option value="GB">GB / GiB</option>
-            <option value="TB">TB / TiB</option>
-        </select>
+<div class="mem-converter-container p-4 bg-slate-900 rounded-xl border border-slate-700">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {{/* Input de Valor */}}
+        <div class="col-span-1 md:col-span-2">
+            <label class="block text-sm font-medium text-slate-400 mb-1">Valor</label>
+            <input type="number" id="mem-input-value" placeholder="Ex: 1024" class="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-white text-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+        </div>
+
+        {{/* Unidade de Origem */}}
+        <div>
+            <label class="block text-sm font-medium text-slate-400 mb-1">De</label>
+            <select id="mem-from-unit" class="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-white">
+                <optgroup label="SI (Base 10)">
+                    <option value="B">Bytes (B)</option>
+                    <option value="KB">Kilobytes (KB)</option>
+                    <option value="MB">Megabytes (MB)</option>
+                    <option value="GB">Gigabytes (GB)</option>
+                    <option value="TB">Terabytes (TB)</option>
+                </optgroup>
+                <optgroup label="IEC (Base 2)">
+                    <option value="KiB">Kibibytes (KiB)</option>
+                    <option value="MiB">Mebibytes (MiB)</option>
+                    <option value="GiB">Gibibytes (GiB)</option>
+                    <option value="TiB">Tebibytes (TiB)</option>
+                </optgroup>
+                <optgroup label="Outros">
+                    <option value="bit">Bits (bit)</option>
+                </optgroup>
+            </select>
+        </div>
+
+        {{/* Unidade de Destino */}}
+        <div>
+            <label class="block text-sm font-medium text-slate-400 mb-1">Para</label>
+            <select id="mem-to-unit" class="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-white">
+                <optgroup label="SI (Base 10)">
+                    <option value="B">Bytes (B)</option>
+                    <option value="KB">Kilobytes (KB)</option>
+                    <option value="MB" selected>Megabytes (MB)</option>
+                    <option value="GB">Gigabytes (GB)</option>
+                </optgroup>
+                <optgroup label="IEC (Base 2)">
+                    <option value="KiB">Kibibytes (KiB)</option>
+                    <option value="MiB">Mebibytes (MiB)</option>
+                    <option value="GiB">Gibibytes (GiB)</option>
+                </optgroup>
+                 <optgroup label="Outros">
+                    <option value="bit">Bits (bit)</option>
+                </optgroup>
+            </select>
+        </div>
     </div>
 
-    <div class="comparison-grid">
-        <div id="resultado-binario" class="result-display">
-            </div>
-        <div id="resultado-decimal" class="result-display" style="border-left: 2px solid var(--border); padding-left: 20px;">
-            </div>
+    {{/* Área de Resultado */}}
+    <div class="result-wrapper" style="margin-top: 1.5rem;">
+    <label style="display: block; text-sm; font-medium; color: var(--text-muted); mb-1;">Resultado</label>
+    <div id="result-container" style="
+        width: 100%; 
+        height: 50px; /* Ajuste para a altura exata do seu input/select */
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between; 
+        padding: 0 1rem; 
+        background-color: rgba(59, 130, 246, 0.15); 
+        border: 1px solid var(--accent); 
+        border-radius: 0.5rem;
+    ">
+        <span id="mem-result" style="font-size: 1.25rem; font-weight: 800; color: #fff; font-family: tabular-nums;">0</span>
+        <span id="mem-result-unit" style="font-size: 0.85rem; color: var(--accent); font-weight: bold; text-transform: uppercase;"></span>
     </div>
+    <div id="mem-result-full" style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace; mt-1; padding-left: 0.5rem;"></div>
+</div>
 </div>

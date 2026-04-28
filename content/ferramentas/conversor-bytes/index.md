@@ -1,18 +1,18 @@
 ---
-title: "Conversor de Unidades de Dados: MB, GB, TB"
-description: "Ferramenta de precisão para converter Megabytes, Gigabytes e outras unidades de armazenamento digital."
+title: "Conversor de Unidades de Memória (SI vs IEC)"
+description: "Converta entre Bits, Bytes, KB, MB, GB e as unidades de precisão binária KiB, MiB, GiB."
+date: 2024-05-25
 layout: "single"
 tool_partial: "conversor-bytes"
+icon: "database"
+categories: ["Computação"]
 ---
 
-O armazenamento digital é medido em potências de 2 (base binária) ou potências de 10 (base decimal). No **Scalar**, utilizamos o padrão decimal ($1 \text{ GB} = 1000 \text{ MB}$) para conformidade com a maioria dos fabricantes de hardware, mas você pode conferir a lógica detalhada abaixo.
+## Entendendo a Diferença: SI vs IEC
 
-### Como converter:
-1. Digite o valor numérico.
-2. Selecione a unidade de origem.
-3. A conversão para as demais unidades será instantânea.
+Na engenharia de computação, a ambiguidade na medição de dados pode causar erros graves. Existem dois padrões principais:
 
-> ### Por que os valores são diferentes?
-> Na computação, a ambiguidade surge de dois sistemas de medição:
-> 1. **SI (Sistema Internacional):** Utiliza base 10 ($10^3$). É o padrão usado por fabricantes de discos rígidos e marketing.
-> 2. **IEC (Padrão Binário):** Utiliza base 2 ($2^{10}$). É como sistemas operacionais (Windows, Linux) processam a memória RAM e arquivos.
+1.  **Padrão SI (Sistema Internacional - Base 10):** Usado por fabricantes de HDs e SSDs. 1 Kilobyte (KB) = 1.000 Bytes.
+2.  **Padrão IEC (International Electrotechnical Commission - Base 2):** Usado por sistemas operacionais (Windows, Linux) e memórias RAM. 1 Kibibyte (KiB) = 1.024 Bytes.
+
+Esta ferramenta realiza a conversão precisa entre ambos os padrões.

@@ -249,3 +249,58 @@ header.site-header .container {
     justify-content: center; /* Centraliza o Delta e o texto */
     width: 100%;
 }
+
+/* Container principal com max-width para não espalhar demais em telas UltraWide */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Garante que o texto da descrição não quebre o layout se for muito longo */
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+/* Estilização base do card para o tema Dark */
+.tool-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Customização para Documentação Técnica Scalar */
+.prose-invert {
+    --tw-prose-headings: #fff;
+    --tw-prose-bullets: var(--accent); /* Seus marcadores agora são azuis */
+    --tw-prose-counters: var(--accent);
+    --tw-prose-links: var(--accent);
+    --tw-prose-hr: var(--border);
+}
+
+.content-text h2 {
+    @apply text-xl font-bold mt-12 mb-4 pb-2 border-b border-slate-800 flex items-center gap-2;
+}
+
+.content-text h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1.2rem;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+.content-text ul, .content-text ol {
+    @apply bg-slate-900/30 p-6 rounded-xl border border-slate-800/50 my-6;
+}
+
+.content-text li {
+    @apply mb-3 last:mb-0;
+}
+
+.content-text strong {
+    @apply text-blue-400 font-semibold;
+}

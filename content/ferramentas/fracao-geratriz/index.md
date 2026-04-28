@@ -3,6 +3,7 @@
 title: "Conversor de Fração Geratriz: Decimal para Fração"
 date: 2024-05-20
 description: "Transforme números decimais e dízimas periódicas em frações irredutíveis passo a passo."
+icon: fracao
 
 # Configurações de Engenharia
 layout: "single"
