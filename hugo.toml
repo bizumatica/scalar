@@ -1,7 +1,7 @@
 baseURL = 'https://scalar1.pages.dev/'
 languageCode = 'pt-br'
 title = 'Scalar | Ferramentas de Precisão'
-theme = ""
+
 
 [permalinks]
   ferramentas = '/:filename/'
