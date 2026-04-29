@@ -1,10 +1,9 @@
 baseURL = 'https://scalar1.pages.dev/'
-languageCode = 'pt-br'
+locale = 'pt-br'
 title = 'Scalar | Ferramentas de Precisão'
 
-
 [permalinks]
-  ferramentas = '/:filename/'
+  ferramentas = '/:contentbasename/' 
 
 [build]
   writeStats = true
@@ -13,8 +12,10 @@ title = 'Scalar | Ferramentas de Precisão'
 
 [minify]
   disableHTML = false
+  disableJS = false
+  disableCSS = false
   minifyOutput = true
-
+  
 [sitemap]
   changefreq = "weekly"
   priority = 0.5

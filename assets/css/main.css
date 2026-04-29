@@ -304,3 +304,24 @@ header.site-header .container {
 .content-text strong {
     @apply text-blue-400 font-semibold;
 }
+
+/* Efeito de destaque nos cards da Home */
+.card {
+    transition: all 0.3s ease; /* Suaviza a animação */
+    cursor: pointer;
+    border: 1px solid transparent; /* Evita que o card "pule" ao ganhar borda */
+}
+
+.card:hover {
+    /* Faz o card subir 5 pixels */
+    transform: translateY(-5px);
+    
+    /* Melhora a sombra para parecer que está flutuando */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    
+    /* Destaque na borda (use a cor principal do Scalar) */
+    border-color: #3b82f6; /* Um tom de azul, ajuste se necessário */
+    
+    /* Opcional: destaque no fundo se quiser algo mais visível */
+    background-color: #f8fafc; 
+} 

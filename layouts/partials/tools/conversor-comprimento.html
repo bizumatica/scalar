@@ -1,0 +1,20 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    {{ $units := slice 
+        (dict "id" "mm" "label" "Milímetros (mm)") 
+        (dict "id" "cm" "label" "Centímetros (cm)") 
+        (dict "id" "m" "label" "Metros (m)") 
+        (dict "id" "km" "label" "Quilômetros (km)")
+        (dict "id" "in" "label" "Polegadas (in)")
+        (dict "id" "ft" "label" "Pés (ft)")
+        (dict "id" "yd" "label" "Jardas (yd)")
+        (dict "id" "mi" "label" "Milhas (mi)")
+    }}
+
+    {{ range $units }}
+    <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-tighter">{{ .label }}</label>
+        <input type="number" id="unit-{{ .id }}" data-unit="{{ .id }}" placeholder="0"
+               style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.5rem; border-radius: 0.4rem; font-family: monospace; font-size: 0.9rem; outline: none; width: 100%;">
+    </div>
+    {{ end }}
+</div>

@@ -10,24 +10,22 @@
     {{ $style := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" media="screen">
 
-    {{/* Favicon enviado por você */}}
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
+    {{/* AdSense: Só carrega se houver ID no hugo.toml e não for servidor local */}}
     {{ if and .Site.Params.adsense_id (not .Site.IsServer) }}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .Site.Params.adsense_id }}" crossorigin="anonymous"></script>
     {{ end }}
 </head>
-<body>
+<body class="bg-slate-950 text-slate-200">
     {{ partial "header.html" . }}
 
-    <main>
-        {{ block "main" . }}{{ end }} 
-    </main>
+    {{ block "main" . }}{{ end }} 
 
     {{ partial "footer.html" . }}
 
-    {{/* Único carregamento do Lucide: Versão UMD (mais estável) */}}
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    {{/* Lucide Icons: Deferido para não travar o carregamento */}}
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof lucide !== 'undefined') {

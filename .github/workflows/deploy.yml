@@ -1,0 +1,31 @@
+name: 🚀 Scalar CI/CD
+
+on:
+  push:
+    branches: [ main ] # Dispara sempre que houver push na main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.161.0'
+          extended: true # Necessário se usar SASS/SCSS no futuro
+
+      - name: Build with Precision
+        run: hugo --gc --minify --cleanDestinationDir
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # O comando abaixo envia a pasta 'public' gerada no step anterior
+          command: pages deploy public --project-name=scalar
