@@ -10,12 +10,11 @@
     {{ $style := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" media="screen">
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
-    {{ with .Site.Params.adsense_id }}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ . }}" crossorigin="anonymous"></script>
-    {{ end }}
-    </head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3733806324330520" crossorigin="anonymous"></script>
+    
+</head>
 <body class="bg-slate-950 text-slate-200">
     {{ partial "header.html" . }}
 
