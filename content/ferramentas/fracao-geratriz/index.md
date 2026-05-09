@@ -1,37 +1,53 @@
 ---
-# Metadados Básicos
-title: "Conversor de Fração Geratriz: Decimal para Fração"
+title: "Conversor de Fração Geratriz: Decimal para Fração Passo a Passo"
+description: "Transforme números decimais e dízimas periódicas em frações irredutíveis. Entenda o método para encontrar a geratriz com exemplos práticos."
 date: 2024-05-20
-description: "Transforme números decimais e dízimas periódicas em frações irredutíveis passo a passo."
-icon: fracao
-
-# Configurações de Engenharia
 layout: "single"
-tool_partial: "fracao-geratriz" # Nome do arquivo em layouts/partials/tools/
-engine: "math-v1"              # Tag para carregar scripts específicos
-is_educational: true
-
-# SEO & AdSense (Custom Params)
-keywords: ["fração geratriz", "converter decimal em fração", "geratriz de dízima"]
-ads_priority: "high"
+tool_partial: "fracao-geratriz"
+icon: "fracao"
+categories: ["Matemática"]
+keywords: ["fração geratriz", "converter decimal em fração", "geratriz de dízima periódica", "fração irredutível", "algoritmo de euclides"]
 ---
 
-A **fração geratriz** é a representação fracionária de um número decimal. Quando lidamos com dízimas periódicas, o cálculo exige a identificação do período e a aplicação de potências de 10 para isolar a parte repetitiva. 
+A **fração geratriz** é a representação fracionária exata de um número decimal. No **Scalar**, nossa ferramenta não apenas converte o valor, mas aplica algoritmos de simplificação para entregar sempre a fração em seu estado irredutível.
 
-### Como utilizar a ferramenta:
-1. Insira o valor decimal (use ponto para decimais).
-2. Clique em **Converter**.
-3. Obtenha a fração simplificada (irredutível).
+Basta inserir o decimal no campo abaixo e clicar em **Converter** para obter o resultado instantâneo.
 
-A conversão de um número decimal para fração é um processo fundamental na aritmética e engenharia. Quando um número decimal é finito, o denominador é sempre uma potência de 10 ($10, 100, 1000...$), dependendo do número de casas decimais.
+## O que é uma Fração Geratriz?
 
-### O Algoritmo de Simplificação
-Para chegar à **fração irredutível**, o Scalar utiliza o **Algoritmo de Euclides** para encontrar o Máximo Divisor Comum (MDC) entre o numerador e o denominador.
+Todo número racional pode ser escrito na forma de fração $a/b$. Quando o decimal é exato (como 0,5), a conversão é direta. No entanto, quando lidamos com **dízimas periódicas** (como 0,333...), precisamos encontrar a geratriz — a fração que "gera" aquela repetição infinita.
+
+<details>
+<summary>Como calcular a geratriz de uma dízima? (Ver Passo a Passo)</summary>
+
+## Método Prático para Dízimas Periódicas
+
+Para encontrar a fração geratriz de uma dízima simples, como $0,777...$, seguimos estes passos lógicos:
+
+1.  **Igualamos a X:** $x = 0,777...$
+2.  **Multiplicamos por 10:** (para deslocar o período) $10x = 7,777...$
+3.  **Subtraímos as equações:** * $10x - x = 7,777... - 0,777...$
+    * $9x = 7$
+4.  **Resultado:** $x = 7/9$
+
+### Algoritmo de Simplificação (MDC)
+
+Para decimais exatos, após escrever a fração base (ex: $0,75 = 75/100$), o Scalar utiliza o **Algoritmo de Euclides** para encontrar o Máximo Divisor Comum entre o numerador e o denominador, garantindo que a fração seja simplificada ao máximo.
+
+
 
 [Image of Euclidean algorithm flowchart]
 
-### Exemplo Prático:
-Ao converter **0,75**:
-1. Escrevemos como $75/100$.
-2. O MDC de 75 e 100 é **25**.
-3. Dividimos ambos por 25, resultando em **3/4**.
+
+| Decimal | Fração Base | Simplificação (MDC) | Fração Irredutível |
+| :--- | :--- | :--- | :--- |
+| **0,5** | 5/10 | ÷ 5 | 1/2 |
+| **0,125** | 125/1000 | ÷ 125 | 1/8 |
+| **0,75** | 75/100 | ÷ 25 | 3/4 |
+| **0,333...** | - | - | 1/3 |
+
+</details>
+
+## Por que usar o Scalar?
+
+Cálculos manuais com dízimas compostas (ex: $0,1222...$) são complexos e propensos a erros de arredondamento. O **Scalar** trata cada dígito com precisão absoluta, sendo uma ferramenta indispensável para estudantes, engenheiros e entusiastas da matemática que buscam exatidão em seus resultados.

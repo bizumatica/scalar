@@ -1,0 +1,1 @@
+google.com, {{ .Site.Params.adsense_id }}, DIRECT, f08c47fec0942fa0

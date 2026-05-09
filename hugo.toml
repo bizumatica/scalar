@@ -1,4 +1,4 @@
-baseURL = 'https://scalar1.pages.dev/'
+baseURL = 'https://scal4r.com/' 
 locale = 'pt-br'
 title = 'Scalar | Ferramentas de Precisão'
 
@@ -23,3 +23,18 @@ title = 'Scalar | Ferramentas de Precisão'
 
 [params]
   description = "Scalar: Ferramentas de Precisão para Engenharia e Computação."
+  adsense_id = "ca-pub-3733806324330520" 
+
+[outputs]
+  home = ["HTML", "RSS", "AdsTxt"]
+
+[outputFormats.AdsTxt]
+  baseName = "ads"
+  mediaType = "text/plain"
+  isPlainText = true
+  notAlternative = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

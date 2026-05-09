@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Engenharia on Scalar | Ferramentas de Precisão</title><link>http://localhost:1313/categories/engenharia/</link><description>Recent content in Engenharia on Scalar | Ferramentas de Precisão</description><generator>Hugo</generator><language>pt-br</language><lastBuildDate>Mon, 20 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/engenharia/index.xml" rel="self" type="application/rss+xml"/><item><title>Conversor de Unidades de Comprimento: Métrico e Imperial</title><link>http://localhost:1313/conversor-comprimento/</link><pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/conversor-comprimento/</guid><description>&lt;p&gt;A conversão precisa de medidas é um requisito fundamental em projetos de engenharia, arquitetura e modelagem técnica. No &lt;strong&gt;Scalar&lt;/strong&gt;, nossa ferramenta foi calibrada para oferecer suporte às unidades mais utilizadas globalmente, garantindo agilidade no cálculo de dimensões.&lt;/p&gt;
+&lt;p&gt;Basta digitar o valor em qualquer campo para atualizar todos os outros simultaneamente com precisão de bit.&lt;/p&gt;
+&lt;h2 id="sistemas-de-medida-suportados"&gt;Sistemas de Medida Suportados&lt;/h2&gt;
+&lt;p&gt;Para atender tanto projetos locais quanto especificações internacionais, o conversor abrange:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Sistema Métrico (SI):&lt;/strong&gt; Milímetros (mm), Centímetros (cm), Metros (m) e Quilômetros (km).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sistema Imperial:&lt;/strong&gt; Polegadas (in), Pés (ft), Jardas (yd) e Milhas (mi).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;Sistema Métrico vs. Imperial: Por que ainda usamos ambos? (Ver Teoria)&lt;/summary&gt;
+&lt;h2 id="a-dualidade-das-medidas"&gt;A Dualidade das Medidas&lt;/h2&gt;
+&lt;p&gt;Embora o &lt;strong&gt;Sistema Internacional de Unidades (SI)&lt;/strong&gt; seja o padrão científico na maior parte do mundo, o &lt;strong&gt;Sistema Imperial&lt;/strong&gt; (ou &lt;em&gt;US Customary&lt;/em&gt;) ainda é predominante nos Estados Unidos e em indústrias específicas, como a aeronáutica e a fabricação de telas (polegadas).&lt;/p&gt;</description></item></channel></rss>

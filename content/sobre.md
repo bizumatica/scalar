@@ -13,19 +13,25 @@ Em um ecossistema digital saturado de ferramentas lentas, repletas de anúncios 
 
 Para entregar a melhor experiência técnica, o Scalar foi construído sobre três pilares fundamentais:
 
-1. **Performance "Zero-Bloat":** Utilizamos o gerador de sites estáticos (SSG) **Hugo** para garantir que as ferramentas funcionem instantaneamente, sem dependências de frameworks pesados no lado do cliente.
-2. **Precisão de Bit:** Nossos algoritmos de conversão e cálculo são validados para garantir resultados confiáveis em contextos de computação e engenharia.
-3. **Privacidade por Design:** Operamos sob uma arquitetura *offline-first*. A maioria dos cálculos é processada localmente no seu navegador, sem enviar seus dados para servidores externos.
+1. **Performance "Zero-Bloat":** Utilizamos o gerador de sites estáticos (SSG) **Hugo** para garantir que as ferramentas funcionem instantaneamente. O carregamento é otimizado para o consumo mínimo de recursos, eliminando dependências de frameworks pesados.
+2. **Precisão de Bit:** Nossos algoritmos de conversão e cálculo são validados com base em padrões internacionais de metrologia e lógica computacional, garantindo resultados confiáveis para uso profissional e acadêmico.
+3. **Privacidade por Design:** Operamos sob uma arquitetura *client-side*. A maioria dos cálculos é processada localmente no seu navegador, garantindo que seus dados nunca saiam do seu dispositivo.
 
-## O Propósito
+## O Propósito e a Origem
 
-O Scalar faz parte do ecossistema **Bizumática**, uma iniciativa voltada para a simplificação de conceitos complexos de exatas. O objetivo aqui é fornecer "instrumentos de medição digital" que sejam tão confiáveis quanto uma calculadora científica de bancada.
+O Scalar é uma iniciativa do ecossistema **Bizumática**, focada na simplificação de conceitos complexos das ciências exatas. O projeto nasceu da necessidade de criar "instrumentos de medição digital" que fossem tão rápidos e confiáveis quanto uma calculadora científica de bancada, mas acessíveis de qualquer lugar através da web.
+
+Acreditamos que a utilidade de uma ferramenta é inversamente proporcional ao atrito necessário para usá-la. Por isso, no Scalar, não há cadastros, telas de espera ou interfaces poluídas.
+
+## Transparência e Qualidade
+
+Embora o Scalar utilize publicidade para manter os custos de servidor e desenvolvimento, mantemos um compromisso rígido com a experiência do usuário. Os anúncios são posicionados de forma a não interferir no fluxo de trabalho e na leitura técnica.
 
 ## Contato e Suporte
 
-O Scalar é um projeto em constante evolução. Se você identificou alguma discrepância matemática ou deseja sugerir uma nova ferramenta técnica, entre em contato através do e-mail oficial:
+O Scalar é um projeto em constante evolução. Se você identificou alguma discrepância matemática, deseja sugerir uma nova ferramenta técnica ou busca parcerias educacionais, entre em contato:
 
-📧 **julio@bizumatica.com.br**
+📧 **julio@bizumatica.com.br** 🌐 **[bizumatica.com.br](https://bizumatica.com.br)**
 
 ---
 *Scalar — Precisão em cada bit.*
