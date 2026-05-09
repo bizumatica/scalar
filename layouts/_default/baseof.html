@@ -12,19 +12,20 @@
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
-    {{/* AdSense: Só carrega se houver ID no hugo.toml e não for servidor local */}}
-    {{ if and .Site.Params.adsense_id (not .Site.IsServer) }}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .Site.Params.adsense_id }}" crossorigin="anonymous"></script>
+    {{ with .Site.Params.adsense_id }}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ . }}" crossorigin="anonymous"></script>
     {{ end }}
-</head>
+    </head>
 <body class="bg-slate-950 text-slate-200">
     {{ partial "header.html" . }}
 
-    {{ block "main" . }}{{ end }} 
+    <main>
+        {{ block "main" . }}{{ end }} 
+    </main>
 
     {{ partial "footer.html" . }}
 
-    {{/* Lucide Icons: Deferido para não travar o carregamento */}}
+    {{/* Lucide Icons */}}
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
