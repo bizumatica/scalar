@@ -1,20 +1,31 @@
 <div class="tool-card">
     <div class="comparison-grid">
+        {{/* Decimal */}}
         <div class="input-group">
             <label><i data-lucide="hash"></i> Decimal (Base 10)</label>
-            <input type="number" id="base-dec" placeholder="Ex: 255">
+            <input type="number" id="base-dec" placeholder="Ex: 255" 
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
         </div>
+
+        {{/* Binário */}}
         <div class="input-group">
             <label><i data-lucide="binary"></i> Binário (Base 2)</label>
-            <input type="text" id="base-bin" placeholder="Ex: 11111111">
+            <input type="text" id="base-bin" placeholder="Ex: 11111111" 
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
         </div>
+
+        {{/* Hexadecimal */}}
         <div class="input-group">
             <label><i data-lucide="terminal"></i> Hexadecimal (Base 16)</label>
-            <input type="text" id="base-hex" placeholder="Ex: FF">
+            <input type="text" id="base-hex" placeholder="Ex: FF" 
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
         </div>
+
+        {{/* Octal */}}
         <div class="input-group">
             <label><i data-lucide="cpu"></i> Octal (Base 8)</label>
-            <input type="text" id="base-oct" placeholder="Ex: 377">
+            <input type="text" id="base-oct" placeholder="Ex: 377" 
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
         </div>
     </div>
 </div>

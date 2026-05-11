@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Física on Scalar | Ferramentas de Precisão</title><link>http://localhost:1313/categories/f%C3%ADsica/</link><description>Recent content in Física on Scalar | Ferramentas de Precisão</description><generator>Hugo</generator><language>pt-br</language><lastBuildDate>Mon, 20 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/f%C3%ADsica/index.xml" rel="self" type="application/rss+xml"/><item><title>Conversor de Temperatura: Celsius, Fahrenheit e Kelvin</title><link>http://localhost:1313/conversor-temperatura/</link><pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/conversor-temperatura/</guid><description>&lt;p&gt;A conversão de escalas termométricas é fundamental em processos industriais, meteorologia e física experimental. No &lt;strong&gt;Scalar&lt;/strong&gt;, nossa ferramenta utiliza as constantes exatas de conversão para garantir resultados precisos em todas as escalas.&lt;/p&gt;
+&lt;p&gt;Basta inserir o valor em qualquer campo para obter a correspondência imediata nas outras unidades.&lt;/p&gt;
+&lt;h2 id="as-escalas-termométricas"&gt;As Escalas Termométricas&lt;/h2&gt;
+&lt;p&gt;Entender a base de cada escala é essencial para aplicações científicas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Celsius (°C):&lt;/strong&gt; Baseada nos pontos de congelamento (0 °C) e ebulição (100 °C) da água sob pressão atmosférica normal.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fahrenheit (°F):&lt;/strong&gt; Criada por Daniel Fahrenheit, ainda é o padrão nos EUA para clima e culinária.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kelvin (K):&lt;/strong&gt; A unidade fundamental de temperatura no Sistema Internacional (SI). Diferente das outras, ela não usa &amp;ldquo;graus&amp;rdquo;, mas sim uma escala absoluta.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;O que é o Zero Absoluto e como funcionam as fórmulas? (Ver Teoria)&lt;/summary&gt;
+&lt;h2 id="o-zero-absoluto-0-k"&gt;O Zero Absoluto (0 K)&lt;/h2&gt;
+&lt;p&gt;Na física, a temperatura é uma medida da agitação das moléculas. O &lt;strong&gt;Zero Absoluto&lt;/strong&gt; é o estado teórico onde essa agitação cessaria completamente. Isso ocorre em &lt;strong&gt;-273,15 °C&lt;/strong&gt;. Por isso, a escala Kelvin nunca possui valores negativos.&lt;/p&gt;</description></item></channel></rss>
