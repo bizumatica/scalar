@@ -28,4 +28,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Usamos o comando direto para evitar conflitos de ambiente
-          command: pages deploy public --project-name=scalar1
+          command: pages deploy public --project-name=scalar3
