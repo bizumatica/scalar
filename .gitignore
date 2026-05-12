@@ -1,0 +1,21 @@
+# Pasta de saída (CI/CD faz o build)
+public/
+
+# Recursos processados pelo Hugo
+resources/
+
+# Arquivos temporários e locks do Hugo
+.hugo_build.lock
+hugo_stats.json
+
+# Cache do Hugo
+.hugo_cache/
+
+# Sistema e Editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs e arquivos de depuração
+*.log

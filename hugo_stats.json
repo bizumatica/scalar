@@ -22,6 +22,7 @@
       "html",
       "i",
       "input",
+      "ins",
       "label",
       "li",
       "line",
@@ -54,6 +55,8 @@
       "ul"
     ],
     "classes": [
+      "ad-container",
+      "adsbygoogle",
       "bg-slate-900",
       "bg-slate-950",
       "block",
