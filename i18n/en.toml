@@ -1,0 +1,41 @@
+[header_subtitle]
+other = "Engineering & Precision Tools"
+
+# Labels Genéricas
+[value]
+other = "Value"
+
+[from]
+other = "From"
+
+[to]
+other = "To"
+
+[result]
+other = "Result"
+
+[calculate]
+other = "Calculate"
+
+[copy]
+other = "Copy"
+
+# Bases Numéricas
+[base_decimal]
+other = "Decimal"
+
+[base_binary]
+other = "Binary"
+
+[base_hex]
+other = "Hexadecimal"
+
+[base_octal]
+other = "Octal"
+
+# Placeholders Universais
+[placeholder_generic]
+other = "Enter value..."
+
+[placeholder_num]
+other = "e.g., 1024"

@@ -1,23 +1,37 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {{ $currentLang := site.Language.Lang }}
+    
     <div class="flex flex-col gap-2">
-        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Número A</label>
+        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">
+            {{ if eq $currentLang "pt-br" }}Número A{{ else }}Number A{{ end }}
+        </label>
         <input type="number" id="inputA" placeholder="Ex: 24" 
                style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
     </div>
+    
     <div class="flex flex-col gap-2">
-        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Número B</label>
+        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">
+            {{ if eq $currentLang "pt-br" }}Número B{{ else }}Number B{{ end }}
+        </label>
         <input type="number" id="inputB" placeholder="Ex: 36" 
                style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
     </div>
 </div>
 
 <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+    {{/* MDC / GCD */}}
     <div style="background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 0.75rem; text-align: center;">
-        <span class="text-xs text-blue-400 font-bold uppercase block mb-1">MDC</span>
+        <span class="text-xs text-blue-400 font-bold uppercase block mb-1">
+            {{ if eq $currentLang "pt-br" }}MDC (Máximo Divisor Comum){{ else }}GCD (Greatest Common Divisor){{ end }}
+        </span>
         <div id="resultMDC" class="text-2xl font-mono text-white">--</div>
     </div>
+    
+    {{/* MMC / LCM */}}
     <div style="background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 0.75rem; text-align: center;">
-        <span class="text-xs text-emerald-400 font-bold uppercase block mb-1">MMC</span>
+        <span class="text-xs text-emerald-400 font-bold uppercase block mb-1">
+            {{ if eq $currentLang "pt-br" }}MMC (Mínimo Múltiplo Comum){{ else }}LCM (Least Common Multiple){{ end }}
+        </span>
         <div id="resultMMC" class="text-2xl font-mono text-white">--</div>
     </div>
 </div>

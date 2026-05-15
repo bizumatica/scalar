@@ -1,9 +1,33 @@
-baseURL = 'https://scal4r.com/' 
-locale = 'pt-br'
-title = 'Scalar | Ferramentas de Precisão'
+baseURL = 'https://scal4r.com/'
+defaultContentLanguage = 'pt-br'
+# Mantém o PT-BR na raiz (scal4r.com/) e EN no subdiretório (scal4r.com/en/)
+defaultContentLanguageInSubdir = false
 
-[permalinks]
-  ferramentas = '/:contentbasename/' 
+[languages]
+  [languages.pt-br]
+    languageCode = 'pt-br'
+    languageName = 'Português'
+    contentDir = 'content' # Hugo buscará index.pt-br.md aqui
+    weight = 1
+    title = 'Scalar | Ferramentas de Precisão'
+    [languages.pt-br.params]
+      description = "Scalar: Ferramentas de Precisão para Engenharia e Computação."
+    [languages.pt-br.permalinks]
+      ferramentas = '/ferramentas/:slug/'
+
+  [languages.en]
+    languageCode = 'en-us'
+    languageName = 'English'
+    contentDir = 'content' # Hugo buscará index.en.md aqui
+    weight = 2
+    title = 'Scalar | Precision Tools'
+    [languages.en.params]
+      description = "Scalar: High-precision engineering and computing utility tools."
+    [languages.en.permalinks]
+      ferramentas = '/tools/:slug/' # URL amigável em inglês
+
+[params]
+  adsense_id = "ca-pub-3733806324330520"
 
 [build]
   writeStats = true
@@ -15,15 +39,11 @@ title = 'Scalar | Ferramentas de Precisão'
   disableJS = false
   disableCSS = false
   minifyOutput = true
-  
+
 [sitemap]
   changefreq = "weekly"
   priority = 0.5
   filename = "sitemap.xml"
-
-[params]
-  description = "Scalar: Ferramentas de Precisão para Engenharia e Computação."
-  adsense_id = "ca-pub-3733806324330520" 
 
 [outputs]
   home = ["HTML", "RSS", "AdsTxt"]
@@ -37,4 +57,4 @@ title = 'Scalar | Ferramentas de Precisão'
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
-      unsafe = true
+      unsafe = true # Para inserir HTML/Scripts nos .md

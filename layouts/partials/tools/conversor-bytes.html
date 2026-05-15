@@ -1,73 +1,65 @@
 <div class="mem-converter-container p-4 bg-slate-900 rounded-xl border border-slate-700">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
         {{/* Input de Valor */}}
         <div class="col-span-1 md:col-span-2">
-            <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">Valor</label>
-            <input type="number" id="mem-input-value" placeholder="Ex: 1024" 
+            <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">{{ i18n "value" | default "Valor" }}</label>
+            <input type="number" id="mem-input-value" placeholder="{{ i18n "placeholder_num" | default "Ex: 1024" }}" 
                    style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
         </div>
 
         {{/* Unidade de Origem */}}
         <div>
-            <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">De</label>
-            <select id="mem-from-unit" 
-                    style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; appearance: none; cursor: pointer;">
-                <optgroup label="SI (Base 10)" style="background: #0f172a;">
-                    <option value="B">Bytes (B)</option>
-                    <option value="KB">Kilobytes (KB)</option>
-                    <option value="MB">Megabytes (MB)</option>
-                    <option value="GB">Gigabytes (GB)</option>
-                    <option value="TB">Terabytes (TB)</option>
-                </optgroup>
-                <optgroup label="IEC (Base 2)" style="background: #0f172a;">
-                    <option value="KiB">Kibibytes (KiB)</option>
-                    <option value="MiB">Mebibytes (MiB)</option>
-                    <option value="GiB">Gibibytes (GiB)</option>
-                    <option value="TiB">Tebibytes (TiB)</option>
-                </optgroup>
-                <optgroup label="Outros" style="background: #0f172a;">
-                    <option value="bit">Bits (bit)</option>
-                </optgroup>
+            <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">{{ i18n "from" | default "De" }}</label>
+            <select id="mem-from-unit" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; cursor: pointer;">
+                {{ if site.Data.units.memory }}
+                    {{ $items := site.Data.units.memory }}
+                    <optgroup label="SI (Base 10)" style="background: #0f172a;">
+                        {{ range where $items "group" "SI (Base 10)" }}
+                            <option value="{{ .id }}">{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                        {{ end }}
+                    </optgroup>
+                    <optgroup label="IEC (Base 2)" style="background: #0f172a;">
+                        {{ range where $items "group" "IEC (Base 2)" }}
+                            <option value="{{ .id }}">{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                        {{ end }}
+                    </optgroup>
+                    <optgroup label="Outros" style="background: #0f172a;">
+                        {{ range where $items "group" "Outros / Others" }}
+                            <option value="{{ .id }}">{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                        {{ end }}
+                    </optgroup>
+                {{ else }}
+                    <option disabled>ERRO: data/units.toml não lido</option>
+                {{ end }}
             </select>
         </div>
 
         {{/* Unidade de Destino */}}
         <div>
-            <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">Para</label>
-            <select id="mem-to-unit" 
-                    style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; appearance: none; cursor: pointer;">
-                <optgroup label="SI (Base 10)" style="background: #0f172a;">
-                    <option value="B">Bytes (B)</option>
-                    <option value="KB">Kilobytes (KB)</option>
-                    <option value="MB" selected>Megabytes (MB)</option>
-                    <option value="GB">Gigabytes (GB)</option>
-                </optgroup>
-                <optgroup label="IEC (Base 2)" style="background: #0f172a;">
-                    <option value="KiB">Kibibytes (KiB)</option>
-                    <option value="MiB">Mebibytes (MiB)</option>
-                    <option value="GiB">Gibibytes (GiB)</option>
-                </optgroup>
-                 <optgroup label="Outros" style="background: #0f172a;">
-                    <option value="bit">Bits (bit)</option>
-                </optgroup>
+            <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">{{ i18n "to" | default "Para" }}</label>
+            <select id="mem-to-unit" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; cursor: pointer;">
+                {{ if site.Data.units.memory }}
+                    {{ $items := site.Data.units.memory }}
+                    <optgroup label="SI (Base 10)" style="background: #0f172a;">
+                        {{ range where $items "group" "SI (Base 10)" }}
+                            <option value="{{ .id }}" {{ if eq .id "MB" }}selected{{ end }}>{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                        {{ end }}
+                    </optgroup>
+                    <optgroup label="IEC (Base 2)" style="background: #0f172a;">
+                        {{ range where $items "items" "group" "IEC (Base 2)" }}
+                            <option value="{{ .id }}">{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                        {{ end }}
+                    </optgroup>
+                {{ end }}
             </select>
         </div>
     </div>
 
-    {{/* Área de Resultado */}}
+    {{/* Resultado */}}
     <div class="result-wrapper" style="margin-top: 1.5rem;">
-        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">Resultado</label>
-        <div id="result-container" style="
-            width: 100%; 
-            height: 54px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 1rem; 
-            background: rgba(30, 41, 59, 0.3); 
-            border: 1px solid #1e293b; 
-            border-radius: 0.75rem;
-        ">
+        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">{{ i18n "result" | default "Resultado" }}</label>
+        <div id="result-container" style="width: 100%; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; border-radius: 0.75rem;">
             <span id="mem-result" style="font-size: 1.25rem; font-weight: 800; color: #fff; font-family: tabular-nums;">0</span>
             <span id="mem-result-unit" style="font-size: 0.85rem; color: #60a5fa; font-weight: bold; text-transform: uppercase;"></span>
         </div>

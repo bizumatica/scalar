@@ -1,57 +1,57 @@
 <div class="tool-card" style="background: rgba(15, 23, 42, 0.5); border: 1px solid #334155; padding: 1.5rem; border-radius: 1rem;">
+    {{ $currentLang := site.Language.Lang }}
     
-    {{/* Seletor de Modo */}}
     <div style="display: flex; gap: 10px; margin-bottom: 2rem; background: rgba(15, 23, 42, 0.8); padding: 5px; border-radius: 0.75rem; border: 1px solid #1e293b;">
-        <button id="mode-simple" style="flex: 1; padding: 0.5rem; border-radius: 0.5rem; border: none; cursor: pointer; background: #3b82f6; color: white; font-weight: bold;">Simples</button>
-        <button id="mode-compound" style="flex: 1; padding: 0.5rem; border-radius: 0.5rem; border: none; cursor: pointer; background: transparent; color: #94a3b8;">Composta</button>
+        <button id="mode-simple" style="flex: 1; padding: 0.6rem; border-radius: 0.5rem; border: none; cursor: pointer; background: #3b82f6; color: white; font-weight: bold; transition: 0.2s;">
+            {{ if eq $currentLang "pt-br" }}Simples{{ else }}Simple{{ end }}
+        </button>
+        <button id="mode-compound" style="flex: 1; padding: 0.6rem; border-radius: 0.5rem; border: none; cursor: pointer; background: transparent; color: #94a3b8; font-weight: bold; transition: 0.2s;">
+            {{ if eq $currentLang "pt-br" }}Composta{{ else }}Compound{{ end }}
+        </button>
     </div>
 
-    <div id="r3-container" class="comparison-grid" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+    <div id="r3-container" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
         
-        {{/* Grandeza 1 */}}
         <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;">
             <div class="input-group">
-                <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.8rem;">Grandeza A</label>
-                <input type="number" id="val-a1" placeholder="Ex: 2" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+                <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.75rem; font-family: monospace; text-transform: uppercase;">{{ if eq $currentLang "pt-br" }}Grandeza A{{ else }}Value A{{ end }}</label>
+                <input type="text" id="val-a1" placeholder="2" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
             </div>
             <div class="input-group">
-                <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.8rem;">Está para...</label>
-                <input type="number" id="val-a2" placeholder="Ex: 4" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+                <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.75rem; font-family: monospace; text-transform: uppercase;">{{ if eq $currentLang "pt-br" }}Está para...{{ else }}Is to...{{ end }}</label>
+                <input type="text" id="val-a2" placeholder="3" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
             </div>
-            <select id="type-a" style="background: #1e293b; color: #60a5fa; border: 1px solid #334155; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.7rem; font-weight: bold; cursor: pointer;">
+            <select id="type-a" style="background: #1e293b; color: #60a5fa; border: 1px solid #334155; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.7rem; font-weight: 800; height: 47px; cursor: pointer;">
                 <option value="dir">DIRETA</option>
                 <option value="inv">INVERSA</option>
             </select>
         </div>
 
-        {{/* Grandeza 2 (Onde geralmente mora o X) */}}
         <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;">
             <div class="input-group">
-                <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.8rem;">Grandeza B</label>
-                <input type="number" id="val-b1" placeholder="Ex: 6" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+                <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.75rem; font-family: monospace; text-transform: uppercase;">{{ if eq $currentLang "pt-br" }}Grandeza B{{ else }}Value B{{ end }}</label>
+                <input type="text" id="val-b1" placeholder="4" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
             </div>
             <div class="input-group">
-                <label style="display: block; margin-bottom: 8px; color: #60a5fa; font-weight: bold; font-size: 0.8rem;">Resultado (X)</label>
-                <div id="result-x" style="width: 100%; background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; min-height: 45px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">?</div>
+                <label style="display: block; margin-bottom: 8px; color: #3b82f6; font-size: 0.75rem; font-family: monospace; text-transform: uppercase; font-weight: bold;">{{ if eq $currentLang "pt-br" }}Resultado (X){{ else }}Result (X){{ end }}</label>
+                <div id="result-x" style="width: 100%; background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; min-height: 47px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; transition: all 0.2s;">?</div>
             </div>
-            <div style="width: 75px; text-align: center; color: #4ade80; font-size: 0.7rem; font-weight: bold;">FIXO (X)</div>
+            <div style="width: 75px; text-align: center; color: #4ade80; font-size: 0.65rem; font-weight: 900; padding-bottom: 15px; letter-spacing: 0.05em;">FIXO (X)</div>
         </div>
 
-        {{/* Grandeza 3 (Oculta por padrão para Composta) */}}
-        <div id="row-compound" style="display: none; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; border-top: 1px dashed #334155; pt-4;">
+        <div id="row-compound" style="display: none; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; border-top: 1px dashed #334155; padding-top: 1.5rem;">
             <div class="input-group">
-                <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.8rem;">Grandeza C</label>
-                <input type="number" id="val-c1" placeholder="Ex: 10" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+                <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.75rem; font-family: monospace; text-transform: uppercase;">{{ if eq $currentLang "pt-br" }}Grandeza C{{ else }}Value C{{ end }}</label>
+                <input type="text" id="val-c1" placeholder="Ex: 10" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
             </div>
             <div class="input-group">
-                <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.8rem;">Está para...</label>
-                <input type="number" id="val-c2" placeholder="Ex: 20" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+                <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.75rem; font-family: monospace; text-transform: uppercase;">{{ if eq $currentLang "pt-br" }}Está para...{{ else }}Is to...{{ end }}</label>
+                <input type="text" id="val-c2" placeholder="Ex: 20" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
             </div>
-            <select id="type-c" style="background: #1e293b; color: #60a5fa; border: 1px solid #334155; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.7rem; font-weight: bold;">
+            <select id="type-c" style="background: #1e293b; color: #60a5fa; border: 1px solid #334155; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.7rem; font-weight: 800; height: 47px; cursor: pointer;">
                 <option value="dir">DIRETA</option>
                 <option value="inv">INVERSA</option>
             </select>
         </div>
-
     </div>
 </div>

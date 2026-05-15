@@ -1,0 +1,123 @@
+# Unidades de Memória - Scalar Data File
+
+# --- BASE 10 (SI) ---
+[[memory]]
+  id = "bit"
+  name_pt = "Bits"
+  name_en = "Bits"
+  group = "Outros / Others"
+
+[[memory]]
+  id = "B"
+  name_pt = "Bytes"
+  name_en = "Bytes"
+  group = "SI (Base 10)"
+
+[[memory]]
+  id = "KB"
+  name_pt = "Kilobytes"
+  name_en = "Kilobytes"
+  group = "SI (Base 10)"
+
+[[memory]]
+  id = "MB"
+  name_pt = "Megabytes"
+  name_en = "Megabytes"
+  group = "SI (Base 10)"
+
+[[memory]]
+  id = "GB"
+  name_pt = "Gigabytes"
+  name_en = "Gigabytes"
+  group = "SI (Base 10)"
+
+[[memory]]
+  id = "TB"
+  name_pt = "Terabytes"
+  name_en = "Terabytes"
+  group = "SI (Base 10)"
+
+# --- BASE 2 (IEC) ---
+[[memory]]
+  id = "KiB"
+  name_pt = "Kibibytes"
+  name_en = "Kibibytes"
+  group = "IEC (Base 2)"
+
+[[memory]]
+  id = "MiB"
+  name_pt = "Mebibytes"
+  name_en = "Mebibytes"
+  group = "IEC (Base 2)"
+
+[[memory]]
+  id = "GiB"
+  name_pt = "Gibibytes"
+  name_en = "Gibibytes"
+  group = "IEC (Base 2)"
+
+[[memory]]
+  id = "TiB"
+  name_pt = "Tebibytes"
+  name_en = "Tebibytes"
+  group = "IEC (Base 2)"
+
+# --- COMPRIMENTO/LENGHT ---
+[[length]]
+id = "mm"
+name_pt = "Milímetros"
+name_en = "Millimeters"
+
+[[length]]
+id = "cm"
+name_pt = "Centímetros"
+name_en = "Centimeters"
+
+[[length]]
+id = "m"
+name_pt = "Metros"
+name_en = "Meters"
+
+[[length]]
+id = "km"
+name_pt = "Quilômetros"
+name_en = "Kilometers"
+
+[[length]]
+id = "in"
+name_pt = "Polegadas"
+name_en = "Inches"
+
+[[length]]
+id = "ft"
+name_pt = "Pés"
+name_en = "Feet"
+
+[[length]]
+id = "yd"
+name_pt = "Jardas"
+name_en = "Yards"
+
+[[length]]
+id = "mi"
+name_pt = "Milhas"
+name_en = "Miles"
+
+# --- TEMPERATURA/TEMPERATURE ---
+[[temperature]]
+id = "C"
+name_pt = "Celsius"
+name_en = "Celsius"
+symbol = "°C"
+
+[[temperature]]
+id = "F"
+name_pt = "Fahrenheit"
+name_en = "Fahrenheit"
+symbol = "°F"
+
+[[temperature]]
+id = "K"
+name_pt = "Kelvin"
+name_en = "Kelvin"
+symbol = "K"

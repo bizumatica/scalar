@@ -1,0 +1,41 @@
+[header_subtitle]
+other = "Ferramentas de Engenharia & Precisão"
+
+# Labels Genéricas
+[value]
+other = "Valor"
+
+[from]
+other = "De"
+
+[to]
+other = "Para"
+
+[result]
+other = "Resultado"
+
+[calculate]
+other = "Calcular"
+
+[copy]
+other = "Copiar"
+
+# Bases Numéricas
+[base_decimal]
+other = "Decimal"
+
+[base_binary]
+other = "Binário"
+
+[base_hex]
+other = "Hexadecimal"
+
+[base_octal]
+other = "Octal"
+
+# Placeholders Universais
+[placeholder_generic]
+other = "Digite o valor..."
+
+[placeholder_num]
+other = "Ex: 1024"

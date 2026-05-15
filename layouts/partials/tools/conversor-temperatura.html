@@ -1,17 +1,22 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="flex flex-col gap-2">
-        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Celsius (°C)</label>
-        <input type="number" id="temp-celsius" data-unit="C" step="any" placeholder="0" 
-               style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
-    </div>
-    <div class="flex flex-col gap-2">
-        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Fahrenheit (°F)</label>
-        <input type="number" id="temp-fahrenheit" data-unit="F" step="any" placeholder="32" 
-               style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
-    </div>
-    <div class="flex flex-col gap-2">
-        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Kelvin (K)</label>
-        <input type="number" id="temp-kelvin" data-unit="K" step="any" placeholder="273.15" 
-               style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
-    </div>
+    {{ $currentLang := site.Language.Lang }}
+    {{ $data := site.Data.units.temperature }}
+
+    {{ if $data }}
+        {{ range $data }}
+        <div class="flex flex-col gap-2">
+            <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">
+                {{ if eq $currentLang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .symbol }})
+            </label>
+            <input type="number" 
+                   id="temp-{{ .id | lower }}" 
+                   data-unit="{{ .id }}" 
+                   step="any" 
+                   placeholder="0" 
+                   style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+        </div>
+        {{ end }}
+    {{ else }}
+        <p class="text-red-500 col-span-full text-center font-mono text-xs">Erro: [[temperature]] não encontrado em data/units.toml</p>
+    {{ end }}
 </div>
