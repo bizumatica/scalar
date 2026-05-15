@@ -1,7 +1,15 @@
+# Header (Logo Subtitle)
 [header_subtitle]
 other = "Engineering & Precision Tools"
 
-# Labels Genéricas
+# Hero Section (Center of Home Page)
+[hero_title]
+other = "Precision in every bit."
+
+[hero_subtitle]
+other = "Engineering and mathematical accuracy."
+
+# Generic Labels
 [value]
 other = "Value"
 
@@ -20,7 +28,7 @@ other = "Calculate"
 [copy]
 other = "Copy"
 
-# Bases Numéricas
+# Number Bases
 [base_decimal]
 other = "Decimal"
 
@@ -33,7 +41,7 @@ other = "Hexadecimal"
 [base_octal]
 other = "Octal"
 
-# Placeholders Universais
+# Universal Placeholders
 [placeholder_generic]
 other = "Enter value..."
 

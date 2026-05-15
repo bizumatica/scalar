@@ -1,38 +1,38 @@
 {{ define "main" }}
 <div class="container mx-auto px-4">
     <header class="hero-section text-center py-10">
-        <h1 class="hero-title text-4xl font-extrabold text-white">Precisão em cada bit.</h1>
-        <p class="hero-subtitle text-slate-400 mt-2">Engenharia e exatidão matemática.</p>
+        <h1 class="hero-title text-4xl font-extrabold text-white">
+            {{ i18n "hero_title" }}
+        </h1>
+        <p class="hero-subtitle text-slate-400 mt-2">
+            {{ i18n "hero_subtitle" }}
+        </p>
     </header>
 
-<div class="tools-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; padding: 1rem 0;">
-    {{/* Loop dinâmico pelas ferramentas */}}
-    {{ range (where .Site.RegularPages "Section" "ferramentas") }}
-    <a href="{{ .RelPermalink }}" style="text-decoration: none;">
-        <article style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; background: rgba(30, 41, 59, 0.4); border: 1px solid #334155; border-radius: 0.75rem; min-height: 140px; text-align: center; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-            
-            {{/* Ícone */}}
-            <div style="color: #60a5fa; margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: center;">
-                {{ partial "icon.html" (dict "name" (.Params.icon | default "wrench") "class" "w-8 h-8") }}
-            </div>
-            
-            {{/* Título */}}
-            <h3 style="font-size: 1rem; font-weight: 700; color: #f1f5f9; margin: 0; line-height: 1.2;">
-                {{ .Title }}
-            </h3>
-        </article>
-    </a>
-    {{ end }}
+    <div class="tools-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; padding: 1rem 0;">
+        {{/* Loop dinâmico pelas ferramentas */}}
+        {{ range (where .Site.RegularPages "Section" "ferramentas") }}
+        <a href="{{ .RelPermalink }}" style="text-decoration: none;">
+            <article style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; background: rgba(30, 41, 59, 0.4); border: 1px solid #334155; border-radius: 0.75rem; min-height: 140px; text-align: center; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                
+                {{/* Ícone */}}
+                <div style="color: #60a5fa; margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: center;">
+                    {{ partial "icon.html" (dict "name" (.Params.icon | default "wrench") "class" "w-8 h-8") }}
+                </div>
+                
+                {{/* Título (Aqui já funciona automático via .Title do Markdown) */}}
+                <h3 style="font-size: 1rem; font-weight: 700; color: #f1f5f9; margin: 0; line-height: 1.2;">
+                    {{ .Title }}
+                </h3>
+            </article>
+        </a>
+        {{ end }}
 
-    {{/* Card AdSense - Restaurado estilo original (Tracejado e Proporcional) */}}
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; border: 2px dashed #334155; border-radius: 0.75rem; background: rgba(15, 23, 42, 0.2); min-height: 140px; text-align: center; overflow: hidden;">
-         {{/* Chamada ao partial AdSense descomentada.
-            Ao ativar, o AdSense preencherá este espaço tracejado.
-         */}}
-         {{ partial "adsense-unit.html" (dict "context" . "slot" "9324740144") }}
-         
-         <span style="font-size: 0.75rem; color: #475569; font-family: monospace;">Espaço AdSense</span>
+        {{/* Card AdSense */}}
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; border: 2px dashed #334155; border-radius: 0.75rem; background: rgba(15, 23, 42, 0.2); min-height: 140px; text-align: center; overflow: hidden;">
+             {{ partial "adsense-unit.html" (dict "context" . "slot" "9324740144") }}
+             <span style="font-size: 0.75rem; color: #475569; font-family: monospace;">Espaço AdSense</span>
+        </div>
     </div>
-</div>
 </div>
 {{ end }}

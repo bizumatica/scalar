@@ -1,5 +1,13 @@
+# Cabeçalho (Subtítulo do Logo)
 [header_subtitle]
 other = "Ferramentas de Engenharia & Precisão"
+
+# Hero Section (Centro da Página Inicial)
+[hero_title]
+other = "Precisão em cada bit."
+
+[hero_subtitle]
+other = "Engenharia e exatidão matemática."
 
 # Labels Genéricas
 [value]
