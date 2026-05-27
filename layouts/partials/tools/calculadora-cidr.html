@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex/contrib/auto-render.min.js"></script>
+
+<style>
+  /* FORÇA RESPONSIVIDADE ABSOLUTA NO MOBILE */
+  .render-math-block, .katex-display {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap !important;
+    padding: 0.8rem 0 !important;
+    margin: 0.5rem 0 !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .katex-display > .katex {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    text-align: left !important;
+  }
+  .render-math-inline, .render-math-inline .katex, .katex-inline {
+    display: inline-block !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+  }
+  .render-math-block::-webkit-scrollbar, .katex-display::-webkit-scrollbar {
+    height: 5px !important;
+    display: block !important;
+  }
+  .render-math-block::-webkit-scrollbar-thumb, .katex-display::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-radius: 3px !important;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    
+    // Função que desfaz a bagunça que o Markdown do Hugo faz com expoentes e setas
+    function limparHTMLdoHugo(html) {
+      return html
+        .replace(/<sup>(.*?)<\/sup>/gi, '^{$1}') // Conserta o ^6
+        .replace(/<sub>(.*?)<\/sub>/gi, '_{$1}') // Conserta subscritos
+        .replace(/&rightarrow;/g, '\\rightarrow')
+        .replace(/&rarr;/g, '\\rightarrow')
+        .replace(/&amp;/g, '&');
+    }
+
+    function iniciarKaTeX() {
+      // Polling de segurança: só roda quando os scripts CDN terminarem de baixar
+      if (typeof katex === "undefined" || typeof renderMathInElement === "undefined") {
+        setTimeout(iniciarKaTeX, 100);
+        return;
+      }
+
+      // 1. Renderiza nossas tags blindadas (Lendo innerHTML para burlar o Hugo)
+      document.querySelectorAll('.render-math-block, .render-math-inline').forEach(function(el) {
+        if (!el.classList.contains('katex-done')) {
+          var rawHTML = el.innerHTML;
+          var mathLimpo = limparHTMLdoHugo(rawHTML);
+          
+          // Remove qualquer tag residual antes de injetar no KaTeX
+          var tempDiv = document.createElement("div");
+          tempDiv.innerHTML = mathLimpo;
+          var finalMath = tempDiv.textContent || tempDiv.innerText || "";
+          
+          var isDisplay = el.classList.contains('render-math-block');
+
+          katex.render(finalMath.trim(), el, { 
+            displayMode: isDisplay, 
+            throwOnError: false 
+          });
+          el.classList.add('katex-done');
+        }
+      });
+
+      // 2. Varredura no resto do texto (protegido contra colisões)
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        ignoredClasses: ["katex", "katex-display", "render-math-block", "render-math-inline"],
+        ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+        throwOnError: false
+      });
+    }
+
+    iniciarKaTeX();
+  });
+</script>

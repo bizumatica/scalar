@@ -1,0 +1,6 @@
+{{- $content := .Inner | chomp -}}
+{{- if .Get "inline" -}}
+  <span class="hugo-math-inline" style="display: inline-block;">{{ $content | safeHTML }}</span>
+{{- else -}}
+  <div class="hugo-math-block" style="overflow-x: auto; padding: 0.5rem 0;">{{ $content | safeHTML }}</div>
+{{- end -}}
