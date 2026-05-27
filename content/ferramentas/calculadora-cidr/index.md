@@ -24,33 +24,31 @@ A transição do modelo antigo baseado em classes rígidas (Classe A, B e C) par
 
 <details>
 <summary>Cálculos Bitwise e Exceções RFC: Como o motor funciona? (Ver Teoria)</summary>
-<div style="padding-top: 1rem;">
 
 ## A Matemática por Trás do CIDR
 
 Cada endereço IPv4 é uma sequência de 32 bits dividida em quatro octetos. Quando você seleciona um prefixo como o `/24`, o motor do **Scalar** cria uma máscara binária preenchendo os primeiros 24 bits com `1` e os 8 bits restantes com `0`.
 
-<div class="render-math-block">\text{Máscara } /24 = 11111111.11111111.11111111.00000000 \rightarrow 255.255.255.0</div>
+$$\text{Máscara } /24 = 11111111.11111111.11111111.00000000 \rightarrow 255.255.255.0$$
 
 As operações lógicas executadas a nível de hardware e reproduzidas na nossa ferramenta utilizam os operadores **AND** e **NOT**:
 
-* **Endereço de Rede:** Obtido através do bitwise AND entre o IP informado e a máscara: <span class="render-math-inline">\text{Rede} = \text{IP} \ \text{AND} \ \text{Máscara}</span>.
-* **Endereço de Broadcast:** Identificado ao aplicar o bitwise OR com a negação da máscara: <span class="render-math-inline">\text{Broadcast} = \text{Rede} \ \text{OR} \ (\text{NOT} \ \text{Máscara})</span>.
+* **Endereço de Rede:** Obtido através do bitwise AND entre o IP informado e a máscara: $\text{Rede} = \text{IP} \text{ AND } \text{Máscara}$.
+* **Endereço de Broadcast:** Identificado ao aplicar o bitwise OR com a negação da máscara: $\text{Broadcast} = \text{Rede} \text{ OR } (\text{NOT } \text{Máscara})$.
 
 ### A Exceção Crítica da RFC 3021 (Links /31)
 
 Em links ponto-a-ponto entre roteadores principais, o desperdício de dois endereços por sub-rede (Rede e Broadcast) tornava-se insustentável. A especificação **RFC 3021** alterou essa regra para prefixos `/31`, permitindo que ambos os endereços gerados sejam atribuídos diretamente às interfaces. O **Scalar** implementa essa validação automaticamente, removendo a linha de broadcast tradicional e alocando os dois únicos IPs disponíveis como utilizáveis.
 
-</div>
 </details>
 
 ## Como Calcular Intervalos Manualmente?
 
 Para realizar auditorias rápidas em tabelas de roteamento sem uma ferramenta em mãos, utilize o método das potências de base 2:
 
-1. Subtraia o prefixo CIDR de 32 (ex: <span class="render-math-inline">32 - 26 = 6</span> bits de host).
-2. Calcule o tamanho total do bloco calculando <span class="render-math-inline">2^6 = 64</span> endereços totais.
-3. Subtraia 2 para obter os hosts úteis (<span class="render-math-inline">64 - 2 = 62</span>).
-4. Os limites das redes serão múltiplos do tamanho do bloco (0, 64, 128, 192...). <br>
+1. Subtraia o prefixo CIDR de 32 (ex: $32 - 26 = 6$ bits de host).
+2. Calcule o tamanho total do bloco calculando $2^6 = 64$ endereços totais.
+3. Subtraia 2 para obter os hosts úteis ($64 - 2 = 62$).
+4. Os limites das redes serão múltiplos do tamanho do bloco (0, 64, 128, 192...).
 
 O **Scalar** elimina o risco de erros de cálculo booleano em homologações de infraestrutura, gerando mapas limpos e prontos para aplicação em firewalls e roteadores.

@@ -52,4 +52,4 @@ To run quick audits on active routing tables without an online terminal, use the
 3. Deduct 2 to find the usable host count ($64 - 2 = 62$).
 4. Subnet boundaries will always fall on exact multiples of the block size (0, 64, 128, 192...).
 
-**Scalar** automates these complex bit-level calculations, removing human error risks from your system architecture workflows and production deployments.   
+**Scalar** automates these complex bit-level calculations, removing human error risks from your system architecture workflows and production deployments.

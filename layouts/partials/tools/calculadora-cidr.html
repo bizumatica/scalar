@@ -1,9 +1,18 @@
+{{ $isEn := eq .Lang "en" }}
+{{ $labelIp := cond $isEn "Base IP Address" "Endereço IP Base" }}
+{{ $labelCidr := cond $isEn "Subnet Mask / Prefix (CIDR)" "Máscara / Prefixo (CIDR)" }}
+{{ $btnCalc := cond $isEn "Calculate Subnet" "Calcular Sub-rede" }}
+{{ $resMask := cond $isEn "Decimal Subnet Mask" "Máscara Decimais" }}
+{{ $resNet := cond $isEn "Network ID" "ID de Rede" }}
+{{ $resBroad := cond $isEn "Broadcast Address" "Endereço de Broadcast" }}
+{{ $resRange := cond $isEn "Usable IP Range" "Faixa de IPs Úteis" }}
+{{ $resHosts := cond $isEn "Valid Hosts" "Hosts Válidos" }}
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex/contrib/auto-render.min.js"></script>
 
 <style>
-  /* FORÇA RESPONSIVIDADE ABSOLUTA NO MOBILE */
   .render-math-block, .katex-display {
     display: block !important;
     width: 100% !important;
@@ -11,85 +20,170 @@
     overflow-x: auto !important;
     overflow-y: hidden !important;
     white-space: nowrap !important;
-    padding: 0.8rem 0 !important;
-    margin: 0.5rem 0 !important;
+    padding: 0.5rem 0 !important;
     -webkit-overflow-scrolling: touch !important;
   }
-  .katex-display > .katex {
-    display: inline-block !important;
-    white-space: nowrap !important;
-    text-align: left !important;
-  }
-  .render-math-inline, .render-math-inline .katex, .katex-inline {
-    display: inline-block !important;
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    vertical-align: middle !important;
-    white-space: nowrap !important;
-  }
-  .render-math-block::-webkit-scrollbar, .katex-display::-webkit-scrollbar {
-    height: 5px !important;
-    display: block !important;
-  }
-  .render-math-block::-webkit-scrollbar-thumb, .katex-display::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.25) !important;
-    border-radius: 3px !important;
+  .cidr-input:focus, .cidr-select:focus {
+    outline: none !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
   }
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  (function() {
+    function injetarKaTeX() {
+      if (typeof renderMathInElement === "function") {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+          throwOnError: false
+        });
+      }
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", injetarKaTeX);
+    } else {
+      injetarKaTeX();
+    }
+    window.addEventListener("load", injetarKaTeX);
+  })();
+</script>
+
+<div class="cidr-tool-box" style="background: rgba(30, 41, 59, 0.25); border: 1px solid #1e293b; padding: 1.75rem; border-radius: 0.75rem; color: #fff;">
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
     
-    // Função que desfaz a bagunça que o Markdown do Hugo faz com expoentes e setas
-    function limparHTMLdoHugo(html) {
-      return html
-        .replace(/<sup>(.*?)<\/sup>/gi, '^{$1}') // Conserta o ^6
-        .replace(/<sub>(.*?)<\/sub>/gi, '_{$1}') // Conserta subscritos
-        .replace(/&rightarrow;/g, '\\rightarrow')
-        .replace(/&rarr;/g, '\\rightarrow')
-        .replace(/&amp;/g, '&');
+    <div>
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #94a3b8; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">{{ $labelIp }}</label>
+      <input type="text" id="ip-address" class="cidr-input" value="192.168.1.1" placeholder="Ex: 10.0.0.1" 
+             style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 0.5rem; padding: 0.6rem 0.75rem; color: #fff; font-size: 0.9rem; font-family: monospace;">
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #94a3b8; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">{{ $labelCidr }}</label>
+      <select id="cidr-prefix" class="cidr-select" 
+              style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 0.5rem; padding: 0.6rem 0.75rem; color: #fff; font-size: 0.9rem; font-family: monospace; cursor: pointer;">
+      </select>
+    </div>
+
+  </div>
+
+  <button id="btn-calculate" style="width: 100%; background: #2563eb; color: #fff; border: none; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: background 0.2s;">
+    {{ $btnCalc }}
+  </button>
+
+  <div id="cidr-results" style="margin-top: 1.75rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; border-top: 1px dashed #334155; padding-top: 1.5rem;">
+    
+    <div style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
+      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resMask }}</span>
+      <span id="res-mask" style="font-family: monospace; font-size: 1.05rem; font-weight: bold;">-</span>
+    </div>
+
+    <div style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
+      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resNet }}</span>
+      <span id="res-network" style="font-family: monospace; font-size: 1.05rem; font-weight: bold; color: #34d399;">-</span>
+    </div>
+
+    <div id="box-broadcast" style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
+      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resBroad }}</span>
+      <span id="res-broadcast" style="font-family: monospace; font-size: 1.05rem; font-weight: bold; color: #f87171;">-</span>
+    </div>
+
+    <div style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
+      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resRange }}</span>
+      <span id="res-range" style="font-family: monospace; font-size: 0.9rem; font-weight: bold; display: block; margin-top: 0.2rem;">-</span>
+    </div>
+
+    <div style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
+      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resHosts }}</span>
+      <span id="res-hosts" style="font-family: monospace; font-size: 1.05rem; font-weight: bold;">-</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    const selectPrefix = document.getElementById('cidr-prefix');
+    const inputIp = document.getElementById('ip-address');
+    const btnCalc = document.getElementById('btn-calculate');
+
+    // Mapeamento de strings internas do JS baseado no Hugo Context
+    const isEn = {{ $isEn }};
+    const txtAlertInvalid = isEn ? "Please enter a valid IPv4 address (e.g., 192.168.1.1)." : "Por favor, insira um endereço IPv4 válido (ex: 192.168.1.1).";
+    const txtSingleHost = isEn ? "N/A (Single host)" : "N/A (Host único)";
+
+    for (let i = 32; i >= 1; i--) {
+      let opt = document.createElement('option');
+      opt.value = i;
+      opt.innerHTML = `/${i}`;
+      if (i === 24) opt.selected = true;
+      selectPrefix.appendChild(opt);
     }
 
-    function iniciarKaTeX() {
-      // Polling de segurança: só roda quando os scripts CDN terminarem de baixar
-      if (typeof katex === "undefined" || typeof renderMathInElement === "undefined") {
-        setTimeout(iniciarKaTeX, 100);
+    function ipToLong(ip) {
+      return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
+    }
+
+    function longToIp(long) {
+      return [(long >>> 24) & 255, (long >>> 16) & 255, (long >>> 8) & 255, long & 255].join('.');
+    }
+
+    function calcularCidr() {
+      const ipStr = inputIp.value.trim();
+      const prefix = parseInt(selectPrefix.value, 10);
+      
+      const regexIp = /^^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$$/;
+      if (!regexIp.test(ipStr)) {
+        alert(txtAlertInvalid);
         return;
       }
 
-      // 1. Renderiza nossas tags blindadas (Lendo innerHTML para burlar o Hugo)
-      document.querySelectorAll('.render-math-block, .render-math-inline').forEach(function(el) {
-        if (!el.classList.contains('katex-done')) {
-          var rawHTML = el.innerHTML;
-          var mathLimpo = limparHTMLdoHugo(rawHTML);
-          
-          // Remove qualquer tag residual antes de injetar no KaTeX
-          var tempDiv = document.createElement("div");
-          tempDiv.innerHTML = mathLimpo;
-          var finalMath = tempDiv.textContent || tempDiv.innerText || "";
-          
-          var isDisplay = el.classList.contains('render-math-block');
+      const ipLong = ipToLong(ipStr);
+      const maskLong = prefix === 0 ? 0 : (~0 << (32 - prefix)) >>> 0;
+      const networkLong = (ipLong & maskLong) >>> 0;
+      const broadcastLong = (networkLong | (~maskLong)) >>> 0;
 
-          katex.render(finalMath.trim(), el, { 
-            displayMode: isDisplay, 
-            throwOnError: false 
-          });
-          el.classList.add('katex-done');
-        }
-      });
+      const txtMask = document.getElementById('res-mask');
+      const txtNetwork = document.getElementById('res-network');
+      const txtBroadcast = document.getElementById('res-broadcast');
+      const txtRange = document.getElementById('res-range');
+      const txtHosts = document.getElementById('res-hosts');
+      const boxBroadcast = document.getElementById('box-broadcast');
 
-      // 2. Varredura no resto do texto (protegido contra colisões)
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false}
-        ],
-        ignoredClasses: ["katex", "katex-display", "render-math-block", "render-math-inline"],
-        ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
-        throwOnError: false
-      });
+      txtMask.innerText = longToIp(maskLong);
+      txtNetwork.innerText = longToIp(networkLong);
+      txtBroadcast.innerText = longToIp(broadcastLong);
+
+      if (prefix === 32) {
+        boxBroadcast.style.opacity = "0.5";
+        txtBroadcast.innerText = txtSingleHost;
+        txtRange.innerText = `${longToIp(networkLong)}`;
+        txtHosts.innerText = "1";
+      } else if (prefix === 31) {
+        boxBroadcast.style.opacity = "1";
+        txtRange.innerText = `${longToIp(networkLong)} - ${longToIp(broadcastLong)}`;
+        txtHosts.innerText = "2 (RFC 3021)";
+      } else {
+        boxBroadcast.style.opacity = "1";
+        const firstUsable = (networkLong + 1) >>> 0;
+        const lastUsable = (broadcastLong - 1) >>> 0;
+        txtRange.innerText = `${longToIp(firstUsable)} - ${longToIp(lastUsable)}`;
+        
+        const totalHosts = Math.pow(2, 32 - prefix) - 2;
+        txtHosts.innerText = totalHosts.toLocaleString(isEn ? 'en-US' : 'pt-BR');
+      }
     }
 
-    iniciarKaTeX();
-  });
+    btnCalc.addEventListener('click', calcularCidr);
+    inputIp.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') calcularCidr();
+    });
+
+    calcularCidr();
+  })();
 </script>
