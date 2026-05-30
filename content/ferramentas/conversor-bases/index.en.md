@@ -1,12 +1,8 @@
 ---
 title: "Number Base Converter: Binary, Hex, Decimal, and Octal"
 description: "Convert values between Decimal, Binary, Hexadecimal, and Octal in real-time with precision. Understand the logic behind number bases."
-slug: "base-converter"
 date: 2024-05-19
-layout: "single"
-tool_partial: "conversor-bases"
 icon: "binary"
-categories: ["Computing"]
 keywords: ["binary to decimal", "hexadecimal", "base converter", "octal", "base 2 to 10 conversion"]
 ---
 

@@ -1,153 +1,28 @@
 {{ define "main" }}
-{{/* JSON-LD Dinâmico para SEO e Google AdSense */}}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  {{ if .Params.tool_partial }}
-  "@type": "SoftwareApplication",
-  "applicationCategory": "EducationalApplication, UtilitiesApplication",
-  "operatingSystem": "Any",
-  {{ else }}
-  "@type": "WebPage",
-  {{ end }}
-  "name": "{{ .Title }}",
-  "description": "{{ .Description | default .Summary }}",
-  "url": "{{ .Permalink }}",
-  "author": {
-    "@type": "Organization",
-    "name": "Scalar"
-  }
-}
-</script>
+<main class="w-full bg-zinc-950 text-zinc-100 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+  <div class="max-w-3xl mx-auto">
+    
+    <article class="space-y-8">
+      
+      <header class="border-b border-zinc-900 pb-6">
+        <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight mb-2">
+          {{ .Title }}
+        </h1>
+        {{ with .Description }}
+          <p class="text-zinc-500 text-sm font-mono tracking-tight">{{ . }}</p>
+        {{ end }}
+      </header>
 
-<main class="container mx-auto px-4 py-8 max-w-4xl" role="main">
-    <article style="background: rgba(15, 23, 42, 0.4); border: 1px solid #1e293b; border-radius: 1rem; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
-        
-        <header style="padding: 1.5rem 2rem; border-bottom: 1px solid #1e293b; background: rgba(30, 41, 59, 0.2);">
-            <h1 style="font-size: 1.75rem !important; font-weight: 800; color: #fff; margin: 0; letter-spacing: -0.02em;">{{ .Title }}</h1>
-            {{ with .Description }}
-                <p style="color: #94a3b8; margin-top: 0.5rem; font-size: 0.95rem !important; line-height: 1.5;">{{ . }}</p>
-            {{ end }}
-        </header>
-        
-        <div class="p-4 md:p-8"> {{/* Padding responsivo usando Tailwind classes */}}
-            {{/* Seção da Ferramenta Interativa */}}
-            {{ if .Params.tool_partial }}
-                <section style="margin-bottom: 2rem;">
-                    {{ partial (printf "tools/%s.html" .Params.tool_partial) . }}
-                </section>
+      <section class="prose prose-invert max-w-none text-zinc-300 leading-relaxed
+                      prose-headings:text-white prose-headings:font-bold prose-headings:tracking-tight
+                      prose-h2:text-xl prose-h2:border-b prose-h2:border-zinc-900 prose-h2:pb-2 prose-h2:pt-4
+                      prose-a:text-indigo-400 prose-a:no-underline hover:prose-a:underline
+                      prose-strong:text-zinc-100 prose-code:text-emerald-400 prose-code:font-mono">
+        {{ .Content }}
+      </section>
 
-                {{/* Bloco de Anúncio entre a Ferramenta e o Texto */}}
-                <div style="margin: 3rem 0; padding: 1rem 0; border-top: 1px dashed #334155; border-bottom: 1px dashed #334155;">
-                    {{ partial "adsense-tool.html" . }}
-                </div>
-            {{ end }}
-
-            {{/* Seção de Conteúdo Teórico e Markdown */}}
-            <section class="documentacao-tecnica">
-                <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.2rem 0.75rem; border-radius: 9999px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: #60a5fa; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
-                    {{ if .Params.tool_partial }}Documentação e Teoria{{ else }}Informações{{ end }}
-                </div>
-
-                <style>
-                    /* Estilização Geral do Conteúdo Markdown */
-                    .markdown-content h2, .markdown-content h3 {
-                        font-size: 1rem !important;
-                        color: #ffffff !important;
-                        margin-top: 1.25rem !important;
-                        margin-bottom: 0.5rem !important;
-                        font-weight: 700 !important;
-                        display: flex !important;
-                        align-items: center !important;
-                        gap: 8px !important;
-                    }
-                    .markdown-content h2::before { content: ''; width: 3px; height: 14px; background: #2563eb; border-radius: 2px; }
-                    
-                    .markdown-content p { 
-                        font-size: 0.85rem !important;
-                        color: #94a3b8 !important; 
-                        line-height: 1.5 !important; 
-                        margin-bottom: 0.75rem !important; 
-                    }
-                    
-                    .markdown-content ul { 
-                        background: rgba(30, 41, 59, 0.3) !important; 
-                        padding: 0.75rem 1rem 0.75rem 1.75rem !important; 
-                        border-radius: 0.5rem !important; 
-                        border: 1px solid #1e293b !important; 
-                        margin: 0.75rem 0 !important; 
-                        font-size: 0.8rem !important;
-                        color: #94a3b8;
-                    }
-
-                    /* Correção de Tabelas Responsivas */
-                    .markdown-content table {
-                        display: block;
-                        width: 100%;
-                        overflow-x: auto;
-                        -webkit-overflow-scrolling: touch;
-                        border-collapse: collapse;
-                        margin: 1.5rem 0;
-                        font-size: 0.8rem;
-                        color: #94a3b8;
-                    }
-                    .markdown-content th, .markdown-content td {
-                        border: 1px solid #1e293b;
-                        padding: 0.75rem;
-                        text-align: left;
-                        min-width: 100px;
-                    }
-                    .markdown-content th {
-                        background: rgba(30, 41, 59, 0.5);
-                        color: #fff;
-                    }
-
-                    /* Estilização do Acordeão (Details/Summary) */
-                    .markdown-content details {
-                        background: rgba(30, 41, 59, 0.2);
-                        border: 1px solid #334155;
-                        border-radius: 0.75rem;
-                        padding: 1rem;
-                        margin: 1.5rem 0;
-                    }
-
-                    .markdown-content summary {
-                        cursor: pointer;
-                        font-weight: 700;
-                        color: #60a5fa;
-                        font-size: 0.85rem;
-                        outline: none;
-                        display: list-item; /* Essencial para o triângulo nativo */
-                        list-style-type: '▶  '; /* Triângulo com espaço */
-                        transition: color 0.2s;
-                    }
-
-                    .markdown-content details[open] summary {
-                        list-style-type: '▼  '; /* Triângulo para baixo */
-                        color: #fff;
-                        margin-bottom: 1rem;
-                    }
-
-                    /* Remove o marcador padrão do Chrome/Safari para usar o nosso */
-                    .markdown-content summary::-webkit-details-marker {
-                        display: none;
-                    }
-
-                    .documentacao-tecnica { padding-top: 1rem; }
-                </style>
-
-                <div class="markdown-content">
-                    {{ .Content }}
-                </div>
-            </section>
-        </div>
     </article>
-
-    {{/* Carregamento do JS da Ferramenta via Hugo Assets */}}
-    {{ $js := .Resources.GetMatch "solver.js" }}
-    {{ if $js }}
-        {{ $finalJS := $js | resources.Minify | resources.Fingerprint }}
-        <script src="{{ $finalJS.RelPermalink }}" integrity="{{ $finalJS.Data.Integrity }}" defer></script>
-    {{ end }}
+    
+  </div>
 </main>
 {{ end }}

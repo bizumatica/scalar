@@ -2,10 +2,7 @@
 title: "Conversor de Unidades de Comprimento: Métrico e Imperial"
 description: "Converta instantaneamente medidas entre Milímetros, Centímetros, Metros, Quilômetros, Polegadas, Pés e Jardas com precisão técnica."
 date: 2024-05-20
-layout: "single"
-tool_partial: "conversor-comprimento"
 icon: "ruler"
-categories: ["Engenharia"]
 keywords: ["converter metros para polegadas", "mm para cm", "pés para metros", "conversor de medidas", "sistema imperial para métrico"]
 ---
 

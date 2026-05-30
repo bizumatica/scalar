@@ -1,12 +1,8 @@
 ---
 title: "Rule of Three Calculator: Simple and Compound"
-description: "Solve proportion problems with Scalar's Rule of Three Calculator. Support for direct and inverse ratios with logical explanations."
-slug: rule-of-three-calculator
+description: "Solve proportion problems with Scal4r's Rule of Three Calculator. Support for direct and inverse ratios with logical explanations."
 date: 2024-05-20
-layout: "single"
-tool_partial: "regra-de-tres"
 icon: "proportion"
-categories: ["Mathematics"]
 keywords: ["simple rule of three", "compound rule of three", "proportion", "percentage calculation", "basic math"]
 ---
 

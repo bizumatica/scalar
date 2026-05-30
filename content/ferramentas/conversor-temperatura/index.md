@@ -2,10 +2,7 @@
 title: "Conversor de Temperatura: Celsius, Fahrenheit e Kelvin"
 description: "Converta instantaneamente valores entre Celsius, Fahrenheit e Kelvin com precisão termodinâmica. Veja as fórmulas e entenda o Zero Absoluto."
 date: 2024-05-20
-layout: "single"
-tool_partial: "conversor-temperatura"
 icon: "thermometer"
-categories: ["Física"]
 keywords: ["celsius para fahrenheit", "kelvin para celsius", "converter temperatura", "fórmula termodinâmica", "escala absoluta"]
 ---
 

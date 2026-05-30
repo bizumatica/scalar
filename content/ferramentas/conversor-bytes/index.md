@@ -2,10 +2,7 @@
 title: "Conversor de Unidades de Memória (SI vs IEC): Bits, Bytes, MB e MiB"
 description: "Converta entre Bits, Bytes, KB, MB, GB e as unidades de precisão binária KiB, MiB, GiB. Entenda a diferença entre a base 10 e a base 2."
 date: 2024-05-25
-layout: "single"
-tool_partial: "conversor-bytes"
 icon: "database"
-categories: ["Computação"]
 keywords: ["conversor de bytes", "diferença KB e KiB", "converter megabytes para mebibytes", "unidades de armazenamento"]
 ---
 

@@ -2,10 +2,7 @@
 title: "Conversor de Bases Numéricas: Binário, Hexa, Decimal e Octal"
 description: "Converta valores entre Decimal, Binário, Hexadecimal e Octal em tempo real com precisão. Entenda como funciona a lógica das bases numéricas."
 date: 2024-05-19
-layout: "single"
-tool_partial: "conversor-bases"
 icon: "binary"
-categories: ["Computação"]
 keywords: ["binário para decimal", "hexadecimal", "conversor de bases", "octal", "conversão de base 2 para 10"]
 ---
 

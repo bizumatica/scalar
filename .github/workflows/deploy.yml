@@ -1,31 +1,42 @@
+# .github/workflows/deploy.yml
 name: 🚀 Scalar CI/CD
 
 on:
   push:
-    branches: [ main ] # Dispara sempre que houver push na main
+    branches: [ main ] # Dispara automaticamente ao commitar na branch principal
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Traz todo o histórico de tags e datas para o gerador do Hugo
 
-      - name: Setup Hugo
+      - name: 🛠️ Setup Hugo Environment
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: '0.161.0'
-          extended: true
+          extended: true # Mantém suporte nativo para SASS/SCSS se seu CSS precisar
 
-      - name: Build with Precision
-        run: hugo --gc --minify --cleanDestinationDir
+      - name: 💾 Active Hugo Cache
+        uses: actions/cache@v4
+        with:
+          path: /tmp/hugo_cache
+          key: ${{ runner.os }}-hugo-${{ hashFiles('**/hugo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-hugo-
 
-      - name: Publish to Cloudflare Pages
+      - name: ⚡ Build with Precision
+        # O GitHub Actions roda em ambiente limpo, logo a pasta public não existe previamente.
+        # Executamos apenas a Garbage Collection e a Minificação explícita.
+        run: hugo --gc --minify
+
+      - name: ☁️ Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Usamos o comando direto para evitar conflitos de ambiente
+          # Comando direto apontando para a pasta pública gerada na etapa anterior
           command: pages deploy public --project-name=scalar3

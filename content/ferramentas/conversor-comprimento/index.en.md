@@ -1,12 +1,8 @@
 ---
 title: "Length Unit Converter: Metric and Imperial"
 description: "Instantly convert measurements between Millimeters, Centimeters, Meters, Kilometers, Inches, Feet, and Yards with technical precision."
-slug: length-converter
 date: 2024-05-20
-layout: "single"
-tool_partial: "conversor-comprimento"
 icon: "ruler"
-categories: ["Engineering"]
 keywords: ["convert meters to inches", "mm to cm", "feet to meters", "measurement converter", "imperial to metric system"]
 ---
 

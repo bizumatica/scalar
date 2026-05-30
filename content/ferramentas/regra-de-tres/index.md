@@ -1,11 +1,8 @@
 ---
 title: "Calculadora de Regra de Três: Simples e Composta"
-description: "Resolva problemas de proporção com a Calculadora de Regra de Três do Scalar. Suporte para grandezas diretas e inversamente proporcionais com explicação lógica."
+description: "Resolva problemas de proporção com a Calculadora de Regra de Três do Scal4r. Suporte para grandezas diretas e inversamente proporcionais com explicação lógica."
 date: 2024-05-20
-layout: "single"
-tool_partial: "regra-de-tres"
 icon: "proportion"
-categories: ["Matemática"]
 keywords: ["regra de três simples", "regra de três composta", "proporção", "cálculo de porcentagem", "matemática básica"]
 ---
 

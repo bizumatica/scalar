@@ -1,0 +1,191 @@
+{{ define "main" }}
+<style>
+  :host, .tool-page-wrapper {
+    color-scheme: dark !important;
+  }
+
+  .safe-mobile-frame {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* TÍTULO RESPONSIVO - BLINDADO CONTRA QUEBRAS PREMATURAS */
+  .responsive-tool-title {
+    color: #ffffff !important;
+    margin: 0 0 0.5rem 0 !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.25 !important;
+    font-size: clamp(1.3rem, 5.5vw, 1.75rem) !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
+  }
+  
+  /* AREA DO CONTEÚDO TEXTUAL (.Content) */
+  .article-premium-layout {
+    width: 100% !important;
+    color: #a1a1aa !important;
+    font-size: 0.975rem !important;
+    line-height: 1.7 !important;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif !important;
+    border-top: 1px solid #27272a !important;
+    padding-top: 1.5rem !important;
+    margin-top: 2rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* TRATAMENTO DE QUEBRA DE LINHA DO TEXTO DO MARKDOWN */
+  .article-premium-layout p, 
+  .article-premium-layout li {
+    overflow-wrap: break-word !important;
+    word-break: normal !important; /* Impede quebras no meio de palavras curtas */
+    line-height: 1.7 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* CORREÇÃO CRÍTICA PARA TABELAS COMPRIMIDAS (Ex: Tabela de Unidades) */
+  .article-premium-layout table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important; /* Cria scroll horizontal se a tabela for maior que a tela mobile */
+    white-space: nowrap !important; /* Impede colunas de se esmagarem */
+    border-collapse: collapse !important;
+    margin: 1.5rem 0 !important;
+  }
+
+  .article-premium-layout th, 
+  .article-premium-layout td {
+    padding: 10px 14px !important;
+    border-bottom: 1px solid #27272a !important;
+    text-align: left !important;
+  }
+
+  .article-premium-layout th {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    background-color: #18181b !important;
+  }
+
+  /* ESTILIZAÇÃO DO ÚNICO <DETAILS> EXISTENTE (O QUE VEM DE DENTRO DO MARKDOWN) */
+  .article-premium-layout details {
+    width: 100% !important;
+    background-color: transparent !important;
+    margin: 1rem 0 !important;
+  }
+  
+  .article-premium-layout summary {
+    color: #ffffff !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    list-style: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    user-select: none !important;
+    padding: 0.5rem 0 !important;
+  }
+  
+  .article-premium-layout summary::-webkit-details-marker {
+    display: none !important;
+  }
+  .article-premium-layout summary::before {
+    content: "➔" !important;
+    display: inline-block !important;
+    color: #6366f1 !important;
+    transition: transform 0.2s ease !important;
+    font-size: 0.85rem !important;
+  }
+  .article-premium-layout details[open] summary::before {
+    transform: rotate(90deg) !important;
+  }
+
+  .article-premium-layout h2,
+  .article-premium-layout h3 {
+    color: #f4f4f5 !important;
+    font-weight: 700 !important;
+    margin-top: 2rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  .article-premium-layout h2 { font-size: 1.3rem !important; }
+  .article-premium-layout h3 { font-size: 1.15rem !important; }
+</style>
+
+<div class="dark tool-page-wrapper" style="background-color: #09090b; min-height: 100vh; width: 100%;">
+  
+  <main style="background-color: #09090b; padding-top: 1.5rem; padding-bottom: 4rem; width: 100%; box-sizing: border-box;">
+    
+    <div class="safe-mobile-frame" style="max-w: 960px;">
+      
+      <div style="border: 1px solid #27272a; border-radius: 1rem; padding: 16px; background-color: transparent; display: flex; flex-direction: column; gap: 2rem; box-sizing: border-box;">
+        
+        <header style="width: 100%; border-bottom: 1px solid #27272a; padding-bottom: 1.5rem; box-sizing: border-box;">
+          <h1 class="responsive-tool-title">
+            {{ .Title }}
+          </h1>
+          {{ with .Description }}
+            <p style="color: #71717a; font-size: 0.95rem; line-height: 1.6; margin: 0;">{{ . }}</p>
+          {{ end }}
+        </header>
+
+        {{ if templates.Exists "partials/adsense-tool.html" }}
+          <div style="width: 100%; overflow: hidden; border-radius: 0.75rem; background-color: rgba(24, 24, 27, 0.4); border: 1px solid #27272a; padding: 0.5rem; text-align: center; box-sizing: border-box;">
+            {{ partial "adsense-tool.html" . }}
+          </div>
+        {{ end }}
+
+        <section style="position: relative; width: 100%; box-sizing: border-box;">
+           
+           <div style="position: absolute; top: -14px; left: 14px; background-color: #09090b; border: 1px solid #6366f1; padding: 4px 14px; border-radius: 9999px; display: flex; align-items: center; gap: 8px; z-index: 10; box-shadow: 0 0 12px rgba(99, 102, 241, 0.25);">
+             <span style="width: 6px; height: 6px; background-color: #6366f1; border-radius: 50%; box-shadow: 0 0 8px #6366f1;"></span>
+             <span style="font-size: 10px; font-family: ui-monospace, monospace; color: #ffffff; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; white-space: nowrap;">
+               Engine Interativa
+             </span>
+           </div>
+
+           <div class="tool-core-interface" 
+                style="width: 100%; background-color: transparent; border: 1px solid #27272a; border-radius: 0.75rem; padding: 16px; overflow: hidden; color: #ffffff; box-sizing: border-box;">
+             
+             {{ $toolName := .File.ContentBaseName }}
+             {{ $toolPartial := printf "ferramentas/%s.html" $toolName }}
+             
+             {{ if templates.Exists (printf "partials/%s" $toolPartial) }}
+               {{ partial $toolPartial . }}
+             {{ else }}
+               {{ $legacyPartial := printf "tools/%s.html" $toolName }}
+               {{ if templates.Exists (printf "partials/%s" $legacyPartial) }}
+                 {{ partial $legacyPartial . }}
+               {{ else }}
+                 <div style="padding: 2.5rem 0; border: 1px dashed #27272a; border-radius: 0.5rem; text-align: center;">
+                   <p style="font-family: monospace; color: #52525b; font-size: 0.85rem; margin: 0;">Aguardando componentes visuais ({{ $toolPartial }})...</p>
+                 </div>
+               {{ end }}
+             {{ end }}
+           </div>
+        </section>
+
+        {{ if templates.Exists "partials/adsense-unit.html" }}
+          <div style="width: 100%; overflow: hidden; border-radius: 0.75rem; background-color: rgba(24, 24, 27, 0.4); border: 1px solid #27272a; padding: 0.5rem; text-align: center; box-sizing: border-box;">
+            {{ partial "adsense-unit.html" (dict "context" . "slot" "9324740144") }}
+          </div>
+        {{ end }}
+
+        <article class="article-premium-layout" style="width: 100%; box-sizing: border-box; overflow: hidden;">
+          {{ .Content }}
+        </article>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+{{ $solver := .Resources.GetMatch "solver.js" }}
+{{ with $solver }}
+  {{ $secureJS := . | resources.Minify | resources.Fingerprint "sha256" }}
+  <script src="{{ $secureJS.RelPermalink }}" defer integrity="{{ $secureJS.Data.Integrity }}"></script>
+{{ end }}
+{{ end }}

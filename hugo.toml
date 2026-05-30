@@ -1,30 +1,54 @@
+# ==============================================================================
+# SCAL4R ARCHITECTURE CONFIGURATION - PRODUCTION 2026
+# Otimizado para Alta Performance Hugo v0.160+ / v0.161+
+# ==============================================================================
+
 baseURL = 'https://scal4r.com/'
 defaultContentLanguage = 'pt-br'
-# Mantém o PT-BR na raiz (scal4r.com/) e EN no subdiretório (scal4r.com/en/)
+
+# Garante que o PT-BR fique na raiz (scal4r.com/) e o EN no subdiretório (/en/)
 defaultContentLanguageInSubdir = false
+
+# ELIMINAÇÃO DE TAXONOMIAS FANTASMAS (Sintaxe atualizada anti-Thin Content)
+# Impede o Hugo de criar páginas vazias para tags e categorias sem artigos reais
+disableKinds = ["taxonomy"]
+
+# ==============================================================================
+# IDIOMAS & LOCALIZAÇÃO (Sincronização Atômica de Rotas Multilinguais)
+# ==============================================================================
 
 [languages]
   [languages.pt-br]
-    languageCode = 'pt-br'
-    languageName = 'Português'
-    contentDir = 'content' # Hugo buscará index.pt-br.md aqui
+    locale = 'pt-br'       # Atualizado de languageCode (Hugo v0.158+)
+    label = 'Português'    # Atualizado de languageName (Hugo v0.158+)
+    contentDir = 'content' # Hugo lerá index.md nesta pasta como PT-BR
     weight = 1
-    title = 'Scalar | Ferramentas de Precisão'
+    title = 'Scal4r | Ferramentas de Precisão'
+    
     [languages.pt-br.params]
-      description = "Scalar: Ferramentas de Precisão para Engenharia e Computação."
+      description = "Scal4r: Ferramentas de Precisão para Engenharia e Computação."
+    
     [languages.pt-br.permalinks]
-      ferramentas = '/ferramentas/:slug/'
+      # :contentbasename amarra a URL exatamente ao nome da pasta física (Substituiu :filename)
+      ferramentas = '/ferramentas/:contentbasename/'
 
   [languages.en]
-    languageCode = 'en-us'
-    languageName = 'English'
-    contentDir = 'content' # Hugo buscará index.en.md aqui
+    locale = 'en'          # Atualizado de languageCode (Hugo v0.158+)
+    label = 'English'      # Atualizado de languageName (Hugo v0.158+)
+    contentDir = 'content' # Hugo lerá index.en.md nesta mesma pasta como EN
     weight = 2
-    title = 'Scalar | Precision Tools'
+    title = 'Scal4r | Precision Tools'
+    
     [languages.en.params]
-      description = "Scalar: High-precision engineering and computing utility tools."
+      description = "Scal4r: High-precision engineering and computing utility tools."
+    
     [languages.en.permalinks]
-      ferramentas = '/tools/:slug/' # URL amigável em inglês
+      # Traduz a rota pública para /tools/ mantendo o mapeamento interno da seção pai
+      ferramentas = '/tools/:contentbasename/'
+
+# ==============================================================================
+# CONFIGURAÇÕES DE SISTEMA E DESEMPENHO LOCAL
+# ==============================================================================
 
 [params]
   adsense_id = "ca-pub-3733806324330520"
@@ -34,16 +58,23 @@ defaultContentLanguageInSubdir = false
   [build.buildStats]
     enableResourceIndices = true
 
+# MINIFICAÇÃO NATIVA (Processamento otimizado para poupar RAM durante o build)
 [minify]
   disableHTML = false
   disableJS = false
   disableCSS = false
   minifyOutput = true
 
+# CONFIGURAÇÃO DE RASTREABILIDADE (SEO Sênior)
 [sitemap]
   changefreq = "weekly"
-  priority = 0.5
+  priority = 0.8             # Prioridade alta para indexação de páginas utilitárias
   filename = "sitemap.xml"
+
+# ==============================================================================
+# PIPELINE DE OUTPUTS & GERAÇÃO AUTOMÁTICA DO ADS.TXT
+# Força o Hugo a pôr o ads.txt estático e limpo sem necessidade de scripts
+# ==============================================================================
 
 [outputs]
   home = ["HTML", "RSS", "AdsTxt"]
@@ -54,7 +85,8 @@ defaultContentLanguageInSubdir = false
   isPlainText = true
   notAlternative = true
 
+# CORE DE RENDERIZAÇÃO (Suporte a Math/LaTeX e Injeção Segura de Scripts)
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
-      unsafe = true # Para inserir HTML/Scripts nos .md
+      unsafe = true # Permite renderizar as tags de script solver.js embutidas no DOM

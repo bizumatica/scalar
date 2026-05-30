@@ -1,12 +1,8 @@
 ---
 title: "IPv4 CIDR Subnet Calculator"
 description: "Calculate IPv4 subnets, network masks, broadcast addresses, and usable IPs in real-time. Plan your network infrastructure with precision."
-slug: "cidr-calculator"
 date: 2026-05-26
-layout: "single"
-tool_partial: "calculadora-cidr"
 icon: "network"
-categories: ["Computing"]
 math: true
 keywords: ["cidr calculator", "ipv4 subnet", "network mask", "calculate ip", "network infrastructure", "broadcast address"]
 ---

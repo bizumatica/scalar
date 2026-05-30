@@ -2,10 +2,7 @@
 title: "Calculadora de MDC e MMC: Máximo Divisor Comum e Mínimo Múltiplo Comum"
 description: "Calcule o MDC e o MMC entre números instantaneamente. Entenda a decomposição em fatores primos e o Algoritmo de Euclides com exemplos."
 date: 2024-05-20
-layout: "single"
-tool_partial: "mdc-mmc"
 icon: "calculator"
-categories: ["Matemática"]
 keywords: ["MDC", "MMC", "máximo divisor comum", "mínimo múltiplo comum", "cálculo de frações", "fatores primos"]
 ---
 

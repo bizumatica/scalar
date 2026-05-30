@@ -1,12 +1,8 @@
 ---
 title: "Temperature Converter: Celsius, Fahrenheit, and Kelvin"
 description: "Instantly convert values between Celsius, Fahrenheit, and Kelvin with thermodynamic precision. View formulas and understand Absolute Zero."
-slug: temperature-converter
 date: 2024-05-20
-layout: "single"
-tool_partial: "conversor-temperatura"
 icon: "thermometer"
-categories: ["Physics"]
 keywords: ["celsius to fahrenheit", "kelvin to celsius", "convert temperature", "thermodynamic formula", "absolute scale"]
 ---
 

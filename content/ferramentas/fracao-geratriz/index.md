@@ -2,10 +2,7 @@
 title: "Conversor de Fração Geratriz: Decimal para Fração Passo a Passo"
 description: "Transforme números decimais e dízimas periódicas em frações irredutíveis. Entenda o método para encontrar a geratriz com exemplos práticos."
 date: 2024-05-20
-layout: "single"
-tool_partial: "fracao-geratriz"
 icon: "fracao"
-categories: ["Matemática"]
 keywords: ["fração geratriz", "converter decimal em fração", "geratriz de dízima periódica", "fração irredutível", "algoritmo de euclides"]
 ---
 

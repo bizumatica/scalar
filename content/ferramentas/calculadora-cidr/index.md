@@ -2,10 +2,7 @@
 title: "Calculadora de Sub-rede IPv4 (CIDR)"
 description: "Calcule sub-redes IPv4, máscaras de rede, endereços de broadcast e IPs úteis em tempo real. Planeje sua infraestrutura com precisão e performance."
 date: 2026-05-26
-layout: "single"
-tool_partial: "calculadora-cidr"
 icon: "network"
-categories: ["Computação"]
 math: true
 keywords: ["calculadora cidr", "sub-rede ipv4", "máscara de rede", "calcular ip", "infraestrutura de rede", "broadcast ip"]
 ---

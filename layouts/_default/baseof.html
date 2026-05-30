@@ -1,39 +1,45 @@
 <!DOCTYPE html>
-<html lang="{{ .Lang }}">
+<html lang="{{ .Lang }}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 
-    {{/* SEO i18n */}}
     {{ if .IsTranslated }}
         {{ range .AllTranslations }}
-        <link rel="alternate" hreflang="{{ .Lang }}" href="{{ .Permalink }}">
+            <link rel="alternate" hreflang="{{ .Lang }}" href="{{ .Permalink }}">
         {{ end }}
     {{ end }}
 
-    {{ $style := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint }}
+    {{ $style := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint "sha256" }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" media="screen">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
-    {{/* AdSense dinâmico via Params */}}
-    {{ with .Site.Params.adsense_id }}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ . }}" crossorigin="anonymous"></script>
+    {{ if or (.IsHome) (eq .Section "ferramentas") }}
+        {{ with .Site.Params.adsense_id }}
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ . }}" crossorigin="anonymous"></script>
+        {{ end }}
     {{ end }}
 </head>
-<body class="bg-slate-950 text-slate-200 min-h-screen flex flex-col">
-    {{ partial "header.html" . }}
+
+<body class="bg-zinc-950 text-zinc-200 min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white antialiased">
+    
+    {{ if templates.Exists "partials/header.html" }}
+        {{ partial "header.html" . }}
+    {{ end }}
 
     <main class="flex-grow">
         {{ block "main" . }}{{ end }} 
     </main>
 
-    {{ partial "footer.html" . }}
+    {{ if templates.Exists "partials/footer.html" }}
+        {{ partial "footer.html" . }}
+    {{ end }}
 
-    {{/* Lucide Icons */}}
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

@@ -1,12 +1,8 @@
 ---
 title: "GCD and LCM Calculator: Greatest Common Divisor and Least Common Multiple"
 description: "Calculate the GCD and LCM of numbers instantly. Understand prime factorization and the Euclidean Algorithm with examples."
-slug: gcd-lcm-calculator
 date: 2024-05-20
-layout: "single"
-tool_partial: "mdc-mmc"
 icon: "calculator"
-categories: ["Mathematics"]
 keywords: ["GCD", "LCM", "greatest common divisor", "least common multiple", "fraction calculation", "prime factors"]
 ---
 

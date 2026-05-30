@@ -1,12 +1,8 @@
 ---
 title: "Generating Fraction Converter: Decimal to Fraction Step-by-Step"
 description: "Transform decimal numbers and repeating decimals into irreducible fractions. Understand the method to find the generating fraction with practical examples."
-slug: decimal-to-fraction-calculator
 date: 2024-05-20
-layout: "single"
-tool_partial: "fracao-geratriz"
 icon: "fracao"
-categories: ["Mathematics"]
 keywords: ["generating fraction", "convert decimal to fraction", "repeating decimal fraction", "irreducible fraction", "Euclidean algorithm"]
 ---
 
