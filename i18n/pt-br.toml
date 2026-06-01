@@ -47,3 +47,33 @@ other = "Digite o valor..."
 
 [placeholder_num]
 other = "Ex: 1024"
+
+[trig_instruction]
+other = "Insira exatamente 3 valores (obrigatório incluir pelo menos um lado) para calcular os dados restantes do triângulo:"
+
+[trig_side]
+other = "Lado"
+
+[trig_angle]
+other = "Ângulo"
+
+[trig_opposite]
+other = "Oposto"
+
+[trig_btn_calc]
+other = "Calcular Elementos do Triângulo"
+
+[trig_btn_clear]
+other = "Limpar"
+
+[trig_results]
+other = "Resultados Calculados:"
+
+[trig_perimeter]
+other = "Perímetro:"
+
+[trig_area]
+other = "Área:"
+
+[trig_method]
+other = "Método e Resolução Passo a Passo:"

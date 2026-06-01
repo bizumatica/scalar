@@ -2,10 +2,10 @@
 {{ $slotId := .Params.slot | default "7449557766" }} 
 
 {{ if and (not hugo.IsServer) $adsenseId }}
-<div class="ads-container" style="margin: 2rem 0; display: flex; justify-content: center; align-items: center; min-height: 100px;">
+<div class="ads-container w-full flex justify-center items-center my-8 min-h-[0px] transition-all duration-300">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adsenseId }}" crossorigin="anonymous"></script>
     <ins class="adsbygoogle"
-         style="display:block"
+         style="display:block; width:100%;"
          data-ad-client="{{ $adsenseId }}"
          data-ad-slot="{{ $slotId }}"
          data-ad-format="auto"
@@ -15,9 +15,18 @@
     </script>
 </div>
 {{ else }}
-<div style="margin: 2rem 0; padding: 2rem; border: 2px dashed #334155; border-radius: 12px; text-align: center; background-color: rgba(30, 41, 59, 0.05);">
-    <span style="font-size: 0.75rem; font-family: monospace; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">
-        {{ if not site.Params.adsense_id }}Configurar adsense_id no hugo.toml{{ else }}Espaço AdSense (Ambiente de Desenvolvimento){{ end }}
+<div class="my-8 p-6 border-2 border-dashed border-slate-800 rounded-xl text-center bg-slate-900/40 backdrop-blur-sm">
+    <span class="text-xs font-mono text-slate-500 uppercase tracking-widest block">
+        {{ if not site.Params.adsense_id }}
+            ⚠️ Configurar adsense_id no hugo.toml
+        {{ else }}
+            ⚡ Espaço AdSense (Ambiente de Desenvolvimento)
+        {{ end }}
     </span>
+    {{ if site.Params.adsense_id }}
+    <span class="text-[10px] font-mono text-slate-600 block mt-1">
+        Slot: {{ $slotId }}
+    </span>
+    {{ end }}
 </div>
 {{ end }}

@@ -47,3 +47,33 @@ other = "Enter value..."
 
 [placeholder_num]
 other = "e.g., 1024"
+
+[trig_instruction]
+other = "Enter exactly 3 values (it is mandatory to include at least one side) to calculate the remaining data of the triangle:"
+
+[trig_side]
+other = "Side"
+
+[trig_angle]
+other = "Angle"
+
+[trig_opposite]
+other = "Opposite"
+
+[trig_btn_calc]
+other = "Calculate Triangle Elements"
+
+[trig_btn_clear]
+other = "Clear"
+
+[trig_results]
+other = "Calculated Results:"
+
+[trig_perimeter]
+other = "Perimeter:"
+
+[trig_area]
+other = "Area:"
+
+[trig_method]
+other = "Method and Step-by-Step Resolution:"

@@ -1,9 +1,12 @@
-# .github/workflows/deploy.yml
 name: 🚀 Scalar CI/CD
 
 on:
   push:
-    branches: [ main ] # Dispara automaticamente ao commitar na branch principal
+    branches: [ main ]
+
+# Define variáveis de ambiente globais para unificar o comportamento do Hugo
+env:
+  HUGO_CACHEDIR: ${{ github.workspace }}/.hugo_cache
 
 jobs:
   deploy:
@@ -12,25 +15,23 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Traz todo o histórico de tags e datas para o gerador do Hugo
+          fetch-depth: 0
 
       - name: 🛠️ Setup Hugo Environment
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: '0.161.0'
-          extended: true # Mantém suporte nativo para SASS/SCSS se seu CSS precisar
+          extended: true
 
       - name: 💾 Active Hugo Cache
         uses: actions/cache@v4
         with:
-          path: /tmp/hugo_cache
-          key: ${{ runner.os }}-hugo-${{ hashFiles('**/hugo.toml') }}
+          path: ${{ env.HUGO_CACHEDIR }}
+          key: ${{ runner.os }}-hugo-${{ hashFiles('**/hugo.toml', '**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-hugo-
 
       - name: ⚡ Build with Precision
-        # O GitHub Actions roda em ambiente limpo, logo a pasta public não existe previamente.
-        # Executamos apenas a Garbage Collection e a Minificação explícita.
         run: hugo --gc --minify
 
       - name: ☁️ Publish to Cloudflare Pages
@@ -38,5 +39,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Comando direto apontando para a pasta pública gerada na etapa anterior
+          # Utiliza a sintaxe padrão e limpa do Wrangler v3 para o Pages
           command: pages deploy public --project-name=scalar3
