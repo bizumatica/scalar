@@ -311,7 +311,32 @@ button:active {
 }
 
 /* ==========================================================================
-   8. RESPONSIVIDADE COMPLETA
+   8. OTIMIZAÇÃO DO GOOGLE ADSENSE (ANTI-BLANK & ANTI-FLASH)
+   ========================================================================== */
+/* Força a tag ins a sumir instantaneamente se o AdSense não servir nenhum anúncio */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+    display: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Neutraliza o fundo branco padrão das tags injetadas e previne estouros de layout */
+ins.adsbygoogle {
+    background: transparent !important;
+    overflow: hidden !important;
+}
+
+/* Remove flashes brancos dos frames de entrega de mídia do Google */
+iframe[id^="aswift_"],
+iframe[name^="aswift_"],
+ins.adsbygoogle iframe {
+    background: transparent !important;
+    color-scheme: dark !important; /* Avisa o motor de renderização que o container é escuro */
+}
+
+/* ==========================================================================
+   9. RESPONSIVIDADE COMPLETA
    ========================================================================== */
 .line-clamp-3 {
     display: -webkit-box;
