@@ -4,6 +4,7 @@ description: "Transform decimal numbers and repeating decimals into irreducible 
 date: 2024-05-20
 icon: "fracao"
 keywords: ["generating fraction", "convert decimal to fraction", "repeating decimal fraction", "irreducible fraction", "Euclidean algorithm"]
+slug: "generating-fraction"
 ---
 
 A **generating fraction** is the exact fractional representation of a decimal number. At **Scalar**, our tool does not just convert the value; it applies simplification algorithms to always deliver the fraction in its irreducible form.

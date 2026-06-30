@@ -5,6 +5,7 @@ date: 2026-05-26
 icon: "network"
 math: true
 keywords: ["calculadora cidr", "sub-rede ipv4", "máscara de rede", "calcular ip", "infraestrutura de rede", "broadcast ip"]
+slug: "calculadora-cidr"
 ---
 
 O planejamento de topologias de rede e a segmentação de endereços IP são fundamentais para garantir a segurança, o isolamento e a eficiência do roteamento em infraestruturas locais e em nuvem (como AWS VPCs e Google Cloud Subnets). No **Scalar**, nossa calculadora realiza o parsing binário instantâneo de prefixos CIDR (*Classless Inter-Domain Routing*), traduzindo máscaras complexas em intervalos endereçáveis exatos.

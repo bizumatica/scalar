@@ -1,0 +1,100 @@
+# ==============================================================================
+# SCAL4R LOCALIZATION DICTIONARY - DEUTSCH (DE) 2026
+# ==============================================================================
+
+# Cabeçalho (Subtítulo do Logo)
+[header_subtitle]
+other = "Mathematische Präzision. Software-Engineering."
+
+# Hero Section (Centro da Página Inicial)
+[hero_title]
+other = "Exaktheit in jedem Bit."
+
+[hero_subtitle]
+other = "Rechner · Konverter · Technologie."
+
+# Labels Genéricas
+[value]
+other = "Wert"
+
+[from]
+other = "Von"
+
+[to]
+other = "Nach"
+
+[result]
+other = "Ergebnis"
+
+[calculate]
+other = "Berechnen"
+
+[copy]
+other = "Kopieren"
+
+# Bases Numéricas
+[base_decimal]
+other = "Dezimal"
+
+[base_binary]
+other = "Binär"
+
+[base_hex]
+other = "Hexadezimal"
+
+[base_octal]
+other = "Oktal"
+
+# Placeholders Universais
+[placeholder_generic]
+other = "Wert eingeben..."
+
+[placeholder_num]
+other = "z.B. 1024"
+
+# Trigonometria
+[trig_instruction]
+other = "Geben Sie genau 3 Werte ein (mindestens eine Seite ist erforderlich), um die verbleibenden Daten des Dreiecks zu berechnen:"
+
+[trig_side]
+other = "Seite"
+
+[trig_angle]
+other = "Winkel"
+
+[trig_opposite]
+other = "Gegenüberliegend"
+
+[trig_btn_calc]
+other = "Dreieckselemente berechnen"
+
+[trig_btn_clear]
+other = "Leeren"
+
+[trig_results]
+other = "Berechnete Ergebnisse:"
+
+[trig_perimeter]
+other = "Umfang:"
+
+[trig_area]
+other = "Fläche:"
+
+[trig_method]
+other = "Methode und Schritt-für-Schritt-Lösung:"
+
+# --- NOVA FUNCIONALIDADE: PLANEJADOR DE SUB-REDE VPC ---
+[vpc_label_cidr]
+other = "Haupt-CIDR-Block (z.B. 10.0.0.0/16)"
+
+[vpc_btn_split]
+other = "Block binär aufteilen"
+
+[vpc_subnet_public]
+other = "Subnetz A (Öffentlich)"
+
+[vpc_subnet_private]
+other = "Subnetz B (Privat)"
+
+[vpc_usable_hosts]
+other = "Verfügbare Hosts"

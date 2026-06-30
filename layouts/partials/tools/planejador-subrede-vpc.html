@@ -1,0 +1,121 @@
+<div class="tool-container w-full max-w-5xl mx-auto p-1">
+    
+    <div id="vpc-error" class="hidden p-4 mb-6 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 border border-red-200 font-medium" role="alert"
+         data-err-format="{{ T "vpc_err_format" | default "Invalid IP address format (Use X.X.X.X)." }}"
+         data-err-range="{{ T "vpc_err_range" | default "Each octet must be between 0 and 255." }}"
+         data-err-small="{{ T "vpc_err_small" | default "The parent prefix must be /30 or smaller to allow binary splitting." }}">
+    </div>
+
+    <div class="tool-settings grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        
+        <div class="flex flex-col gap-1.5">
+            <label for="vpc-cidr-ip" class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                {{ T "vpc_label_ip" | default "Base IP Address:" }}
+            </label>
+            <input type="text" id="vpc-cidr-ip" class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 font-mono bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700" value="10.0.0.0" placeholder="10.0.0.0" autocomplete="off" spellcheck="false">
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+            <label for="vpc-cidr-mask" class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                {{ T "vpc_label_mask" | default "Parent CIDR Mask:" }}
+            </label>
+            <select id="vpc-cidr-mask" class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 font-mono">
+                {{ range seq 0 30 }}
+                <option value="{{ . }}" {{ if eq . 16 }}selected{{ end }}>/{{ . }}</option>
+                {{ end }}
+            </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5 sm:col-span-2 md:col-span-1">
+            <label for="vpc-provider" class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                {{ T "vpc_label_provider" | default "Cloud Provider:" }}
+            </label>
+            <select id="vpc-provider" class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700">
+                <option value="standard" selected>{{ T "vpc_prov_standard" | default "Standard RFC (Network / Broadcast)" }}</option>
+                <option value="aws">Amazon Web Services (AWS - 5 IPs)</option>
+                <option value="gcp">Google Cloud Platform (GCP - 4 IPs)</option>
+                <option value="azure">Microsoft Azure (5 IPs)</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="vpc-output" class="tool-results grid grid-cols-1 md:grid-cols-2 gap-6 transition-opacity duration-200">
+        
+        <div class="border rounded-xl p-5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div>
+                <h3 class="text-base font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-gray-100">
+                    <span class="bg-blue-600 text-white text-xs font-black px-2 py-0.5 rounded">A</span>
+                    <span class="truncate">{{ T "vpc_subnet_a" | default "Subnet A (Public / Lower Half)" }}</span>
+                </h3>
+                
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_net" | default "Network:" }}</span>
+                        <span class="font-mono font-bold text-gray-900 dark:text-gray-100 text-right break-all">
+                            <span id="suba-network">-</span>/<span id="suba-prefix">-</span>
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_mask" | default "Subnet Mask:" }}</span>
+                        <span id="suba-mask" class="font-mono text-gray-700 dark:text-gray-300 text-right break-all">-</span>
+                    </div>
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_first" | default "First Usable IP:" }}</span>
+                        <span id="suba-first" class="font-mono font-semibold text-green-600 dark:text-green-400 text-right break-all">-</span>
+                    </div>
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_last" | default "Last Usable IP:" }}</span>
+                        <span id="suba-last" class="font-mono font-semibold text-green-600 dark:text-green-400 text-right break-all">-</span>
+                    </div>
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_bcast" | default "Broadcast:" }}</span>
+                        <span id="suba-broadcast" class="font-mono text-gray-700 dark:text-gray-300 text-right break-all">-</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center gap-4 pt-4 mt-2 border-t-2 border-dashed border-gray-200 dark:border-gray-800">
+                <span class="font-semibold text-gray-800 dark:text-gray-200">{{ T "vpc_res_hosts" | default "Usable Hosts:" }}</span>
+                <span id="suba-hosts" class="text-lg font-black text-blue-600 dark:text-blue-400 text-right">-</span>
+            </div>
+        </div>
+
+        <div class="border rounded-xl p-5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div>
+                <h3 class="text-base font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-gray-100">
+                    <span class="bg-purple-600 text-white text-xs font-black px-2 py-0.5 rounded">B</span>
+                    <span class="truncate">{{ T "vpc_subnet_b" | default "Subnet B (Private / Upper Half)" }}</span>
+                </h3>
+                
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_net" | default "Network:" }}</span>
+                        <span class="font-mono font-bold text-gray-900 dark:text-gray-100 text-right break-all">
+                            <span id="subb-network">-</span>/<span id="subb-prefix">-</span>
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_mask" | default "Subnet Mask:" }}</span>
+                        <span id="subb-mask" class="font-mono text-gray-700 dark:text-gray-300 text-right break-all">-</span>
+                    </div>
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_first" | default "First Usable IP:" }}</span>
+                        <span id="subb-first" class="font-mono font-semibold text-green-600 dark:text-green-400 text-right break-all">-</span>
+                    </div>
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_last" | default "Last Usable IP:" }}</span>
+                        <span id="subb-last" class="font-mono font-semibold text-green-600 dark:text-green-400 text-right break-all">-</span>
+                    </div>
+                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_bcast" | default "Broadcast:" }}</span>
+                        <span id="subb-broadcast" class="font-mono text-gray-700 dark:text-gray-300 text-right break-all">-</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center gap-4 pt-4 mt-2 border-t-2 border-dashed border-gray-200 dark:border-gray-800">
+                <span class="font-semibold text-gray-800 dark:text-gray-200">{{ T "vpc_res_hosts" | default "Usable Hosts:" }}</span>
+                <span id="subb-hosts" class="text-lg font-black text-purple-600 dark:text-purple-400 text-right">-</span>
+            </div>
+        </div>
+
+    </div>
+</div>

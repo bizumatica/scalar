@@ -4,6 +4,7 @@ description: "Converta instantaneamente medidas entre Milímetros, Centímetros,
 date: 2024-05-20
 icon: "ruler"
 keywords: ["converter metros para polegadas", "mm para cm", "pés para metros", "conversor de medidas", "sistema imperial para métrico"]
+slug: "conversor-comprimento"
 ---
 
 A conversão precisa de medidas é um requisito fundamental em projetos de engenharia, arquitetura e modelagem técnica. No **Scalar**, nossa ferramenta foi calibrada para oferecer suporte às unidades mais utilizadas globalmente, garantindo agilidade no cálculo de dimensões.

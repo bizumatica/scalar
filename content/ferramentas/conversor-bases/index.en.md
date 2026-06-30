@@ -4,6 +4,7 @@ description: "Convert values between Decimal, Binary, Hexadecimal, and Octal in 
 date: 2024-05-19
 icon: "binary"
 keywords: ["binary to decimal", "hexadecimal", "base converter", "octal", "base 2 to 10 conversion"]
+slug: "base-converter"
 ---
 
 Number system conversion is the foundation of modern computing and digital electronics. At **Scalar**, we designed this converter to provide instant precision for engineers and programmers.

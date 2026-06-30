@@ -4,6 +4,7 @@ description: "Transforme números decimais e dízimas periódicas em frações i
 date: 2024-05-20
 icon: "fracao"
 keywords: ["fração geratriz", "converter decimal em fração", "geratriz de dízima periódica", "fração irredutível", "algoritmo de euclides"]
+slug: "fracao-geratriz"
 ---
 
 A **fração geratriz** é a representação fracionária exata de um número decimal. No **Scalar**, nossa ferramenta não apenas converte o valor, mas aplica algoritmos de simplificação para entregar sempre a fração em seu estado irredutível.

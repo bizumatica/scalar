@@ -4,6 +4,7 @@ description: "Resolva problemas de proporção com a Calculadora de Regra de Tr�
 date: 2024-05-20
 icon: "proportion"
 keywords: ["regra de três simples", "regra de três composta", "proporção", "cálculo de porcentagem", "matemática básica"]
+slug: "regra-de-tres"
 ---
 
 A Regra de Três é uma técnica matemática para encontrar um valor desconhecido a partir de proporções conhecidas. No **Scalar**, você pode resolver desde cálculos rápidos de mercado até problemas complexos de engenharia com múltiplas variáveis.

@@ -1,3 +1,7 @@
+# ==============================================================================
+# SCAL4R LOCALIZATION DICTIONARY - PORTUGUÊS (PT-BR) 2026
+# ==============================================================================
+
 # Cabeçalho (Subtítulo do Logo)
 [header_subtitle]
 other = "Precisão matemática. Engenharia de software."
@@ -48,6 +52,7 @@ other = "Digite o valor..."
 [placeholder_num]
 other = "Ex: 1024"
 
+# Trigonometria
 [trig_instruction]
 other = "Insira exatamente 3 valores (obrigatório incluir pelo menos um lado) para calcular os dados restantes do triângulo:"
 
@@ -77,3 +82,19 @@ other = "Área:"
 
 [trig_method]
 other = "Método e Resolução Passo a Passo:"
+
+# --- NOVA FUNCIONALIDADE: PLANEJADOR DE SUB-REDE VPC ---
+[vpc_label_cidr]
+other = "Bloco CIDR Principal (Ex: 10.0.0.0/16)"
+
+[vpc_btn_split]
+other = "Dividir Bloco Binariamente"
+
+[vpc_subnet_public]
+other = "Subnet A (Pública)"
+
+[vpc_subnet_private]
+other = "Subnet B (Privada)"
+
+[vpc_usable_hosts]
+other = "Hosts Disponíveis"

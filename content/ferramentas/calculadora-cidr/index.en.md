@@ -5,6 +5,7 @@ date: 2026-05-26
 icon: "network"
 math: true
 keywords: ["cidr calculator", "ipv4 subnet", "network mask", "calculate ip", "network infrastructure", "broadcast address"]
+slug: "cidr-calculator"
 ---
 
 Network topology planning and IP address segmentation are essential pillars for ensuring security, routing efficiency, and isolation across on-premises and cloud infrastructures (such as AWS VPCs or Google Cloud Subnets). At **Scalar**, our calculator provides instant binary parsing of CIDR (*Classless Inter-Domain Routing*) prefixes, translating complex masks into exact, addressable IP ranges.

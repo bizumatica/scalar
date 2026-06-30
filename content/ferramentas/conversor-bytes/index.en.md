@@ -4,6 +4,7 @@ description: "Convert between Bits, Bytes, KB, MB, GB, and binary precision unit
 date: 2024-05-25
 icon: "database"
 keywords: ["bytes converter", "difference between KB and KiB", "convert megabytes to mebibytes", "storage units"]
+slug: "bytes-converter"
 ---
 
 In computer engineering, ambiguity in data measurement can lead to calculation errors and confusion in technical specifications. At **Scalar**, our tool performs precise conversions between the two global measurement standards.

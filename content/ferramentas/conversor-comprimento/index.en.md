@@ -4,6 +4,7 @@ description: "Instantly convert measurements between Millimeters, Centimeters, M
 date: 2024-05-20
 icon: "ruler"
 keywords: ["convert meters to inches", "mm to cm", "feet to meters", "measurement converter", "imperial to metric system"]
+slug: "length-converter"
 ---
 
 Accurate measurement conversion is a fundamental requirement in engineering, architecture, and technical modeling projects. At **Scalar**, our tool has been calibrated to support the most widely used units globally, ensuring speed in dimension calculations.

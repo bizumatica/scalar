@@ -4,6 +4,7 @@ description: "Solve proportion problems with Scal4r's Rule of Three Calculator. 
 date: 2024-05-20
 icon: "proportion"
 keywords: ["simple rule of three", "compound rule of three", "proportion", "percentage calculation", "basic math"]
+slug: "rule-of-three"
 ---
 
 The Rule of Three is a mathematical technique used to find an unknown value based on known proportions. At **Scalar**, you can solve everything from quick market calculations to complex engineering problems involving multiple variables.

@@ -5,6 +5,7 @@ date: 2026-05-30
 categories: ["matemática", "engenharia"]
 layout: "single"
 icon: "compass"
+slug: "calculadora-lei-senos-cossenos"
 ---
 
 Esta ferramenta interativa analisa as propriedades geométricas de triângulos quaisquer (acutângulos ou obtusângulos) a partir de três componentes conhecidos. O motor matemático valida a existência do triângulo através da desigualdade triangular e determina de forma dinâmica a aplicação dos teoremas trigonométricos adequados para encontrar os lados e ângulos desconhecidos.

@@ -12,23 +12,43 @@
         </div>
 
         {{ if .IsTranslated }}
-        <nav class="flex gap-2 items-center">
+        <nav class="grid grid-cols-2 gap-x-3 gap-y-1.5 items-center justify-items-center" 
+             style="display: grid !important; grid-template-columns: repeat(2, minmax(0, max-content)) !important; gap: 6px 12px !important;">
             {{ range .AllTranslations }}
+            
             <a href="{{ .Permalink }}" 
                class="lang-btn {{ if eq .Language.Lang $.Language.Lang }}active{{ end }}"
-               title="{{ .Language.LanguageName }}">
+               title="{{ .Language.Label }}"
+               style="display: inline-flex !important; flex-direction: row !important; align-items: center !important; justify-content: center !important; gap: 6px !important; width: auto !important; min-width: 65px !important; box-sizing: border-box !important;">
                 
                 {{ if eq .Language.Lang "pt-br" }}
-                <svg class="flag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                <svg class="flag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" style="display: block !important; flex-shrink: 0 !important;">
                     <g fill-rule="evenodd" stroke-width="1pt"><path fill="#009b3a" d="M0 0h640v480H0z"/><path fill="#fedf00" d="M320 40L40 240l280 200 280-200Z"/><circle cx="320" cy="240" r="105" fill="#002776"/><path fill="#fff" d="M225 245c0-40 40-75 95-75 25 0 55 10 75 25-5-30-40-55-85-55-55 0-100 35-100 75v30Z"/></g>
                 </svg>
-                <span>PT</span>
+                <span style="display: inline !important;">PT</span>
+
+                {{ else if eq .Language.Lang "de" }}
+                <svg class="flag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" style="display: block !important; flex-shrink: 0 !important;">
+                    <path fill="#000" d="M0 0h640v160H0z"/>
+                    <path fill="#d00" d="M0 160h640v160H0z"/>
+                    <path fill="#ffce00" d="M0 320h640v160H0z"/>
+                </svg>
+                <span style="display: inline !important;">DE</span>
+
+                {{ else if eq .Language.Lang "ja" }}
+                <svg class="flag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" style="display: block !important; flex-shrink: 0 !important;">
+                    <path fill="#fff" d="M0 0h640v480H0z"/>
+                    <circle cx="320" cy="240" r="144" fill="#bc002d"/>
+                </svg>
+                <span style="display: inline !important;">JA</span>
+
                 {{ else }}
-                <svg class="flag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                <svg class="flag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" style="display: block !important; flex-shrink: 0 !important;">
                     <path fill="#012169" d="M0 0h640v480H0z"/><path fill="#fff" d="m75 0 245 180L565 0h75v55L400 240l240 185v55h-75L320 300 75 480H0v-55l240-185L0 55V0h75z"/><path fill="#C8102E" d="m425 300 215 180h-40L385 300h40zm-210 0L0 480h40l175-180h-40zM0 0l215 180h-40L0 55V0zm425 0 215 180V125L465 0h-40z"/><path fill="#fff" d="M240 0v480h160V0H240zM0 160v160h640V160H0z"/><path fill="#C8102E" d="M280 0v480h80V0h-80zM0 200v80h640v-80H0z"/>
                 </svg>
-                <span>EN</span>
+                <span style="display: inline !important;">EN</span>
                 {{ end }}
+
             </a>
             {{ end }}
         </nav>

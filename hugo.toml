@@ -1,16 +1,16 @@
 # ==============================================================================
 # SCAL4R ARCHITECTURE CONFIGURATION - PRODUCTION 2026
 # Otimizado para Alta Performance Hugo v0.160+ / v0.161+
+# Opção B: Single Content Directory com Roteamento Dinâmico via Front Matter
 # ==============================================================================
 
 baseURL = 'https://scal4r.com/'
 defaultContentLanguage = 'pt-br'
 
-# Garante que o PT-BR fique na raiz (scal4r.com/) e o EN no subdiretório (/en/)
+# Garante que o PT-BR fique na raiz (scal4r.com/) e as demais línguas nos subdiretórios (/en/, /de/, /ja/)
 defaultContentLanguageInSubdir = false
 
 # ELIMINAÇÃO DE TAXONOMIAS FANTASMAS (Sintaxe atualizada anti-Thin Content)
-# Impede o Hugo de criar páginas vazias para tags e categorias sem artigos reais
 disableKinds = ["taxonomy"]
 
 # ==============================================================================
@@ -18,10 +18,11 @@ disableKinds = ["taxonomy"]
 # ==============================================================================
 
 [languages]
+  # --- PORTUGUÊS (RAIZ) ---
   [languages.pt-br]
-    locale = 'pt-br'       # Atualizado de languageCode (Hugo v0.158+)
-    label = 'Português'    # Atualizado de languageName (Hugo v0.158+)
-    contentDir = 'content' # Hugo lerá index.md nesta pasta como PT-BR
+    locale = 'pt-br'       
+    label = 'Português'    
+    contentDir = 'content' 
     weight = 1
     title = 'Scal4r | Ferramentas de Precisão'
     
@@ -29,13 +30,14 @@ disableKinds = ["taxonomy"]
       description = "Scal4r: Ferramentas de Precisão para Engenharia e Computação."
     
     [languages.pt-br.permalinks]
-      # :contentbasename amarra a URL exatamente ao nome da pasta física (Substituiu :filename)
-      ferramentas = '/ferramentas/:contentbasename/'
+      # Alinhado com o motor de slugs nativos do Hugo
+      ferramentas = '/ferramentas/:slug/'
 
+  # --- INGLÊS ---
   [languages.en]
-    locale = 'en'          # Atualizado de languageCode (Hugo v0.158+)
-    label = 'English'      # Atualizado de languageName (Hugo v0.158+)
-    contentDir = 'content' # Hugo lerá index.en.md nesta mesma pasta como EN
+    locale = 'en'          
+    label = 'English'      
+    contentDir = 'content' 
     weight = 2
     title = 'Scal4r | Precision Tools'
     
@@ -43,8 +45,38 @@ disableKinds = ["taxonomy"]
       description = "Scal4r: High-precision engineering and computing utility tools."
     
     [languages.en.permalinks]
-      # Traduz a rota pública para /tools/ mantendo o mapeamento interno da seção pai
-      ferramentas = '/tools/:contentbasename/'
+      # Altera a seção raiz para /tools/ e lê a propriedade slug do index.en.md
+      ferramentas = '/tools/:slug/'
+
+  # --- ALEMÃO (TIER 1 DACH REGION) ---
+  [languages.de]
+    locale = 'de'          
+    label = 'Deutsch'      
+    contentDir = 'content' 
+    weight = 3
+    title = 'Scal4r | Präzisionswerkzeuge'
+    
+    [languages.de.params]
+      description = "Scal4r: Hochpräzise Werkzeuge für Ingenieurwesen und Informatik."
+    
+    [languages.de.permalinks]
+      # Altera a seção raiz para /werkzeuge/ e lê a propriedade slug do index.de.md
+      ferramentas = '/werkzeuge/:slug/'
+
+  # --- JAPONÊS (TIER 1 APAC REGION) ---
+  [languages.ja]
+    locale = 'ja'          
+    label = '日本語'      
+    contentDir = 'content' 
+    weight = 4
+    title = 'Scal4r | 精密ツール'
+    
+    [languages.ja.params]
+      description = "Scal4r: 工学およびコンピューティング向けの精密ユーティリティツール。"
+    
+    [languages.ja.permalinks]
+      # Mantém /tools/ para o mercado japonês, lendo a propriedade slug do index.ja.md
+      ferramentas = '/tools/:slug/'
 
 # ==============================================================================
 # CONFIGURAÇÕES DE SISTEMA E DESEMPENHO LOCAL
@@ -68,25 +100,24 @@ disableKinds = ["taxonomy"]
 # CONFIGURAÇÃO DE RASTREABILIDADE (SEO Sênior)
 [sitemap]
   changefreq = "weekly"
-  priority = 0.8             # Prioridade alta para indexação de páginas utilitárias
+  priority = 0.8             
   filename = "sitemap.xml"
 
 # ==============================================================================
 # PIPELINE DE OUTPUTS & GERAÇÃO AUTOMÁTICA DO ADS.TXT
-# Força o Hugo a pôr o ads.txt estático e limpo sem necessidade de scripts
 # ==============================================================================
 
-[outputs]
-  home = ["HTML", "RSS", "AdsTxt"]
-
-[outputFormats.AdsTxt]
-  baseName = "ads"
-  mediaType = "text/plain"
-  isPlainText = true
-  notAlternative = true
+# [outputs]
+#  home = ["HTML", "RSS", "AdsTxt"]
+#
+# [outputFormats.AdsTxt]
+  # baseName = "ads"
+  # mediaType = "text/plain"
+  # isPlainText = true
+  # notAlternative = true
 
 # CORE DE RENDERIZAÇÃO (Suporte a Math/LaTeX e Injeção Segura de Scripts)
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
-      unsafe = true # Permite renderizar as tags de script solver.js embutidas no DOM
+      unsafe = true

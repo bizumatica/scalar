@@ -4,6 +4,7 @@ description: "Calcule o MDC e o MMC entre números instantaneamente. Entenda a d
 date: 2024-05-20
 icon: "calculator"
 keywords: ["MDC", "MMC", "máximo divisor comum", "mínimo múltiplo comum", "cálculo de frações", "fatores primos"]
+slug: "mdc-mmc"
 ---
 
 O cálculo do **MDC** e do **MMC** é um requisito fundamental na aritmética, sendo essencial para a simplificação de frações, resolução de problemas de lógica e sincronização de eventos periódicos. 

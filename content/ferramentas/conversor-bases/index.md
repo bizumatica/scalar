@@ -4,6 +4,7 @@ description: "Converta valores entre Decimal, Binário, Hexadecimal e Octal em t
 date: 2024-05-19
 icon: "binary"
 keywords: ["binário para decimal", "hexadecimal", "conversor de bases", "octal", "conversão de base 2 para 10"]
+slug: "conversor-bases"
 ---
 
 A conversão entre sistemas numéricos é a base da computação moderna e da eletrônica digital. No **Scalar**, projetamos este conversor para oferecer precisão instantânea para engenheiros e programadores.

@@ -4,6 +4,7 @@ description: "Instantly convert values between Celsius, Fahrenheit, and Kelvin w
 date: 2024-05-20
 icon: "thermometer"
 keywords: ["celsius to fahrenheit", "kelvin to celsius", "convert temperature", "thermodynamic formula", "absolute scale"]
+slug: "temperature-converter"
 ---
 
 Thermetric scale conversion is essential in industrial processes, meteorology, and experimental physics. At **Scalar**, our tool uses exact conversion constants to ensure precise results across all scales.

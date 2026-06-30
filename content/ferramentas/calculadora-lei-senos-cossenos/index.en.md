@@ -5,6 +5,7 @@ date: 2026-05-30
 categories: ["mathematics", "engineering"]
 layout: "single"
 icon: "compass"
+slug: "law-of-sines-cosines-calculator"
 ---
 
 This interactive tool analyzes the geometric properties of oblique triangles (acute or obtuse) based on any three known components. The mathematical engine validates the triangle's existence through the triangle inequality theorem and dynamically determines the correct trigonometric laws required to find missing sides and angles.

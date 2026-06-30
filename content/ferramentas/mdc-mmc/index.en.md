@@ -4,6 +4,7 @@ description: "Calculate the GCD and LCM of numbers instantly. Understand prime f
 date: 2024-05-20
 icon: "calculator"
 keywords: ["GCD", "LCM", "greatest common divisor", "least common multiple", "fraction calculation", "prime factors"]
+slug: "gcd-lcm"
 ---
 
 Calculating the **GCD** and **LCM** is a fundamental requirement in arithmetic, essential for simplifying fractions, solving logic problems, and synchronizing periodic events.

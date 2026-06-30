@@ -1,3 +1,7 @@
+# ==============================================================================
+# SCAL4R LOCALIZATION DICTIONARY - ENGLISH (EN) 2026
+# ==============================================================================
+
 # Header (Logo Subtitle)
 [header_subtitle]
 other = "Mathematical precision. Software engineering."
@@ -48,6 +52,7 @@ other = "Enter value..."
 [placeholder_num]
 other = "e.g., 1024"
 
+# Trigonometry
 [trig_instruction]
 other = "Enter exactly 3 values (it is mandatory to include at least one side) to calculate the remaining data of the triangle:"
 
@@ -77,3 +82,19 @@ other = "Area:"
 
 [trig_method]
 other = "Method and Step-by-Step Resolution:"
+
+# --- NEW FEATURE: VPC SUBNET PLANNER ---
+[vpc_label_cidr]
+other = "Primary CIDR Block (e.g., 10.0.0.0/16)"
+
+[vpc_btn_split]
+other = "Split Block Binarily"
+
+[vpc_subnet_public]
+other = "Subnet A (Public)"
+
+[vpc_subnet_private]
+other = "Subnet B (Private)"
+
+[vpc_usable_hosts]
+other = "Usable Hosts"

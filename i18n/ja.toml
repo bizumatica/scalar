@@ -1,0 +1,101 @@
+# ==============================================================================
+# SCAL4R LOCALIZATION DICTIONARY - JAPANESE (JA) 2026
+# ==============================================================================
+
+# Cabeçalho (Subtítulo do Logo)
+[header_subtitle]
+other = "数学的精度。ソフトウェアエンジニアリング。"
+
+# Hero Section (Centro da Página Inicial)
+[hero_title]
+other = "すべてのビットに正確さを。"
+
+# Google Adsense gosta de descrições limpas e semânticas
+[hero_subtitle]
+other = "計算ツール · 変換ツール · テクノロジー。"
+
+# Labels Genéricas
+[value]
+other = "値"
+
+[from]
+other = "変換元"
+
+[to]
+other = "変換先"
+
+[result]
+other = "計算結果"
+
+[calculate]
+other = "計算する"
+
+[copy]
+other = "コピー"
+
+# Bases Numéricas (Mantendo padrão técnico misto Katakana/Inglês)
+[base_decimal]
+other = "10進数 (Decimal)"
+
+[base_binary]
+other = "2進数 (Binary)"
+
+[base_hex]
+other = "16進数 (Hexadecimal)"
+
+[base_octal]
+other = "8進数 (Octal)"
+
+# Placeholders Universais
+[placeholder_generic]
+other = "値を入力してください..."
+
+[placeholder_num]
+other = "例: 1024"
+
+# Trigonometria (Terminologia formal de Geometria/Cálculo)
+[trig_instruction]
+other = "三角形の残りのデータを計算するには、正確に3つの値を入力してください（少なくとも1つの辺を含める必要があります）:"
+
+[trig_side]
+other = "辺 (Side)"
+
+[trig_angle]
+other = "角 (Angle)"
+
+[trig_opposite]
+other = "対辺 (Opposite)"
+
+[trig_btn_calc]
+other = "三角形の要素を計算"
+
+[trig_btn_clear]
+other = "クリア"
+
+[trig_results]
+other = "計算結果一覧:"
+
+[trig_perimeter]
+other = "周囲の長さ (Perimeter):"
+
+[trig_area]
+other = "面積 (Area):"
+
+[trig_method]
+other = "計算手順と解説 (ステップバイステップ):"
+
+# --- NOVA FUNCIONALIDADE: PLANEJADOR DE SUB-REDE VPC ---
+[vpc_label_cidr]
+other = "プライマリ CIDR ブロック (例: 10.0.0.0/16)"
+
+[vpc_btn_split]
+other = "ブロックを2進数で分割"
+
+[vpc_subnet_public]
+other = "サブネット A (パブリック)"
+
+[vpc_subnet_private]
+other = "サブネット B (プライベート)"
+
+[vpc_usable_hosts]
+other = "利用可能なホスト数"

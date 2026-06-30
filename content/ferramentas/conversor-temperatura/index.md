@@ -4,6 +4,7 @@ description: "Converta instantaneamente valores entre Celsius, Fahrenheit e Kelv
 date: 2024-05-20
 icon: "thermometer"
 keywords: ["celsius para fahrenheit", "kelvin para celsius", "converter temperatura", "fórmula termodinâmica", "escala absoluta"]
+slug: "conversor-temperatura"
 ---
 
 A conversão de escalas termométricas é fundamental em processos industriais, meteorologia e física experimental. No **Scalar**, nossa ferramenta utiliza as constantes exatas de conversão para garantir resultados precisos em todas as escalas.
