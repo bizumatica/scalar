@@ -1,50 +1,94 @@
-<div class="tool-card" style="background: rgba(15, 23, 42, 0.5); border: 1px solid #334155; padding: 1.5rem; border-radius: 1rem;">
-    {{ $currentLang := site.Language.Lang }}
+{{/* 1. Ponte de tradução Hugo -> JS (Garante que o solver.js leia as strings locais no carregamento) */}}
+{{ $currentLang := site.Language.Lang }}
+<div id="i18n-labels" 
+     style="display: none;"
+     data-lang="{{ $currentLang }}"
+     data-error-pt="{{ i18n "error_invalid_num" | default "Número inválido." }}" 
+     data-error-en="{{ i18n "error_invalid_num" | default "Invalid number." }}" 
+     data-error-de="{{ i18n "error_invalid_num" | default "Ungültige Nummer." }}" 
+     data-error-ja="{{ i18n "error_invalid_num" | default "無効な数値です。" }}">
+</div>
+
+{{/* 2. Card Estrutural da Ferramenta Matemática */}}
+<div class="tool-card" style="background: rgba(15, 23, 42, 0.5); border: 1px solid #334155; padding: 1.5rem; border-radius: 1rem; box-sizing: border-box; width: 100%;">
     
-    <div class="input-group">
+    <div class="input-group" style="box-sizing: border-box;">
         <label for="input-decimal" class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">
-            {{ if eq $currentLang "pt-br" }}Insira o decimal (Ex: 0.75 ou 0.333...){{ else }}Enter decimal (Ex: 0.75 or 0.333...){{ end }}
+            {{ if eq $currentLang "pt" }}
+                Insira o decimal (Ex: 0.75 ou 0.333...)
+            {{ else if eq $currentLang "de" }}
+                Dezimalzahl eingeben (z. B. 0.75 oder 0.333...)
+            {{ else if eq $currentLang "ja" }}
+                小数を入力（例：0.75 または 0.333...）
+            {{ else }}
+                Enter decimal (Ex: 0.75 or 0.333...)
+            {{ end }}
         </label>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <input type="text" id="input-decimal" placeholder="0.333" 
-                   style="flex: 2; min-width: 200px; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+        
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; box-sizing: border-box;">
+            <input type="text" id="input-decimal" placeholder="0.333..." 
+                   style="flex: 2; min-width: 200px; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; box-sizing: border-box;">
             
             <button id="btn-resolver" 
-                    style="flex: 1; min-width: 120px; background: #3b82f6; color: #fff; font-weight: bold; border: none; border-radius: 0.5rem; cursor: pointer; transition: opacity 0.2s; padding: 0.75rem;"
+                    style="flex: 1; min-width: 120px; background: #3b82f6; color: #fff; font-weight: bold; border: none; border-radius: 0.5rem; cursor: pointer; transition: opacity 0.2s; padding: 0.75rem; box-sizing: border-box;"
                     onmouseover="this.style.opacity='0.9'" 
                     onmouseout="this.style.opacity='1'">
-                {{ if eq $currentLang "pt-br" }}Calcular{{ else }}Calculate{{ end }}
+                {{ if eq $currentLang "pt" }}
+                    Calcular
+                {{ else if eq $currentLang "de" }}
+                    Berechnen
+                {{ else if eq $currentLang "ja" }}
+                    計算する
+                {{ else }}
+                    Calculate
+                {{ end }}
             </button>
         </div>
     </div>
 
-    <div id="display-resultado" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem;">
-        {{/* Resultado Principal */}}
-        <div id="resultado-fracao" style="background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 0.75rem; text-align: center;">
+    <div id="display-resultado" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem; box-sizing: border-box;">
+        
+        {{/* Resultado Principal: Fração Renderizada */}}
+        <div id="resultado-fracao" style="background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 0.75rem; text-align: center; box-sizing: border-box;">
             <span class="text-xs text-blue-400 font-bold uppercase block mb-2">
-                {{ if eq $currentLang "pt-br" }}Fração Irredutível{{ else }}Irreducible Fraction{{ end }}
+                {{ if eq $currentLang "pt" }}
+                    Fração Irredutível
+                {{ else if eq $currentLang "de" }}
+                    Unkürzbarer Bruch
+                {{ else if eq $currentLang "ja" }}
+                    既約分数
+                {{ else }}
+                    Irreducible Fraction
+                {{ end }}
             </span>
-            <div id="fracao-final" style="font-size: 2.5rem; font-family: 'Courier New', monospace; color: #fff; font-weight: 800;">—</div>
+            <div id="fracao-final" style="font-size: 2.5rem; font-family: 'Courier New', monospace; color: #fff; font-weight: 800; display: flex; justify-content: center; align-items: center; min-height: 90px;">—</div>
         </div>
 
-        {{/* Lógica Passo a Passo */}}
-        <div id="passo-a-passo" style="background: rgba(15, 23, 42, 0.3); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 0.75rem;">
+        {{/* Painel de Lógica Passo a Passo */}}
+        <div id="passo-a-passo" style="background: rgba(15, 23, 42, 0.3); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 0.75rem; box-sizing: border-box;">
             <span class="text-xs text-emerald-400 font-bold uppercase block mb-2">
-                {{ if eq $currentLang "pt-br" }}Lógica Aplicada{{ else }}Applied Logic{{ end }}
+                {{ if eq $currentLang "pt" }}
+                    Lógica Aplicada
+                {{ else if eq $currentLang "de" }}
+                    Angewandte Logik
+                {{ else if eq $currentLang "ja" }}
+                    計算手順・ロジック
+                {{ else }}
+                    Applied Logic
+                {{ end }}
             </span>
-            <div id="logica-detalhe" style="font-size: 0.9rem; color: #94a3b8; font-family: monospace; line-height: 1.6;">
-                {{ if eq $currentLang "pt-br" }}Aguardando entrada...{{ else }}Waiting for input...{{ end }}
+            <div id="logica-detalhe" style="font-size: 0.9rem; color: #94a3b8; font-family: monospace; line-height: 1.6; box-sizing: border-box;">
+                {{ if eq $currentLang "pt" }}
+                    Aguardando entrada...
+                {{ else if eq $currentLang "de" }}
+                    Warte auf Eingabe...
+                {{ else if eq $currentLang "ja" }}
+                    数値を入力してください...
+                {{ else }}
+                    Waiting for input...
+                {{ end }}
             </div>
         </div>
+        
     </div>
-</div>
-
-{{/* Atributos de dados para o JS ler as traduções */}}
-<div id="i18n-labels" 
-     data-lang="{{ $currentLang }}"
-     data-waiting-pt="Aguardando entrada..." 
-     data-waiting-en="Waiting for input..."
-     data-error-pt="Entrada inválida"
-     data-error-en="Invalid input"
-     style="display: none;">
 </div>

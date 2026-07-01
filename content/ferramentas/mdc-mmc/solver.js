@@ -1,69 +1,84 @@
-/**
- * Scalar Engine: MDC & MMC
- * Implementação com BigInt para precisão absoluta em números grandes.
- */
+(function () {
+  'use strict';
 
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const inputA = document.getElementById('inputA');
     const inputB = document.getElementById('inputB');
     const displayMDC = document.getElementById('resultMDC');
     const displayMMC = document.getElementById('resultMMC');
 
+    // Aborta silenciosamente caso os elementos não estejam renderizados na página atual do Hugo
+    if (!inputA || !inputB || !displayMDC || !displayMMC) return;
+
+    // 🌍 Captura dinâmica do idioma e mapeamento de localizações regionais
+    const currentLang = document.documentElement.lang || 'pt';
+    const localeMap = { 'en': 'en-US', 'de': 'de-DE', 'ja': 'ja-JP', 'pt': 'pt-BR' };
+    const currentLocale = localeMap[currentLang] || 'pt-BR';
+
+    // Formatador robusto compatível com BigInt via Intl API
+    const formatter = new Intl.NumberFormat(currentLocale);
+
     /**
-     * Algoritmo de Euclides Iterativo (mais seguro contra estouro de pilha que recursão)
+     * Algoritmo de Euclides Iterativo (Seguro contra estouros de pilha)
      */
     function calcularMDC(a, b) {
-        a = a < 0n ? -a : a;
-        b = b < 0n ? -b : b;
-        while (b > 0n) {
-            a %= b;
-            [a, b] = [b, a];
-        }
-        return a;
+      a = a < 0n ? -a : a;
+      b = b < 0n ? -b : b;
+      while (b > 0n) {
+        a %= b;
+        [a, b] = [b, a];
+      }
+      return a;
     }
 
     function calcular() {
-        const valA = inputA.value.trim();
-        const valB = inputB.value.trim();
+      // Limpeza de caracteres não numéricos antes de processar no BigInt
+      // Remove qualquer tentativa de digitação de pontos, vírgulas ou letras
+      let valA = inputA.value.replace(/[^0-9-]/g, '').trim();
+      let valB = inputB.value.replace(/[^0-9-]/g, '').trim();
 
-        // Se campos vazios, limpa o display
-        if (!valA || !valB) {
-            displayMDC.textContent = "--";
-            displayMMC.textContent = "--";
-            return;
+      // Sincroniza o valor higienizado de volta para a caixa de input visual do usuário
+      inputA.value = valA;
+      inputB.value = valB;
+
+      // Se algum campo estiver vazio, retorna os placeholders originais de espera
+      if (!valA || !valB || valA === "-" || valB === "-") {
+        displayMDC.textContent = "--";
+        displayMMC.textContent = "--";
+        return;
+      }
+
+      try {
+        const a = BigInt(valA);
+        const b = BigInt(valB);
+
+        if (a === 0n && b === 0n) {
+          displayMDC.textContent = "0";
+          displayMMC.textContent = "0";
+          return;
         }
 
-        try {
-            // Convertemos para BigInt para suportar números gigantes
-            const a = BigInt(valA);
-            const b = BigInt(valB);
+        const mdc = calcularMDC(a, b);
+        
+        // Operação puramente baseada em BigInt
+        // MMC = (|a * b|) / MDC
+        const mmc = (a * b) / mdc;
+        const mmcAbs = mmc < 0n ? -mmc : mmc;
 
-            if (a === 0n && b === 0n) {
-                displayMDC.textContent = "0";
-                displayMMC.textContent = "0";
-                return;
-            }
+        // Renderização com formatação de milhar regionalizada
+        displayMDC.textContent = formatter.format(mdc);
+        displayMMC.textContent = formatter.format(mmcAbs);
 
-            const mdc = calcularMDC(a, b);
-            
-            // MMC = (|a * b|) / MDC
-            // Usamos divisão de BigInt para manter precisão total
-            const mmc = (a * b) / mdc;
-            const mmcAbs = mmc < 0n ? -mmc : mmc;
-
-            // Exibição formatada (ex: 1.250 em PT-BR ou 1,250 em EN)
-            displayMDC.textContent = mdc.toLocaleString();
-            displayMMC.textContent = mmcAbs.toLocaleString();
-
-        } catch (e) {
-            // Caso o usuário digite algo que não seja número inteiro
-            displayMDC.textContent = "??";
-            displayMMC.textContent = "??";
-        }
+      } catch (e) {
+        // Fallback resiliente para strings inválidas de colagem ou estouros
+        displayMDC.textContent = "??";
+        displayMMC.textContent = "??";
+      }
     }
 
-    // Listeners para cálculo em tempo real
+    // Configura listeners de tempo real em ambos os campos numéricos
     [inputA, inputB].forEach(el => {
-        el.addEventListener('input', calcular);
+      el.addEventListener('input', calcular);
     });
-});
+  });
+})();

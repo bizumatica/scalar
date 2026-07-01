@@ -5,26 +5,35 @@
 
     {{ if $data }}
         {{ range $data }}
-        <div class="flex flex-col gap-1">
-            {{/* 2. Label dinâmica: usa name_pt para português e name_en para os demais */}}
-            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-tighter">
-                {{ if eq $currentLang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})
+        <div class="flex flex-col gap-1" style="box-sizing: border-box;">
+            
+            {{/* 2. Label dinâmica estendida para suportar os 4 idiomas nativamente */}}
+            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-tighter" style="margin-bottom: 2px; display: block;">
+                {{ if eq $currentLang "pt" }}
+                    {{ .name_pt }}
+                {{ else if eq $currentLang "de" }}
+                    {{ .name_de | default .name_en }}
+                {{ else if eq $currentLang "ja" }}
+                    {{ .name_ja | default .name_en }}
+                {{ else }}
+                    {{ .name_en }}
+                {{ end }} ({{ .id }})
             </label>
             
-            {{/* 3. Input configurado para o solver.js */}}
-            <input type="number" 
-                   id="unit-{{ .id }}" 
+            {{/* 3. Input híbrido otimizado para a validação regional do solver.js */}}
+            <input type="text" 
+                   id="len-{{ .id }}" 
                    data-unit="{{ .id }}" 
+                   inputmode="decimal"
                    placeholder="0"
-                   step="any"
-                   style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.5rem; border-radius: 0.4rem; font-family: monospace; font-size: 0.9rem; outline: none; width: 100%;">
+                   style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.5rem; border-radius: 0.4rem; font-family: monospace; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box;">
         </div>
         {{ end }}
     {{ else }}
         {{/* 4. Fallback visual para debug caso o TOML falhe */}}
-        <div class="col-span-full p-4 border border-red-900/50 bg-red-900/20 rounded-lg">
-            <p class="text-red-400 font-mono text-xs text-center">
-                [ERROR] data/units.toml: [[length]] section not found.
+        <div class="col-span-full p-4 border border-red-900/50 bg-red-900/20 rounded-lg" style="width: 100%; box-sizing: border-box;">
+            <p class="text-red-400 font-mono text-xs text-center" style="margin: 0;">
+                [ERROR] data/units.toml: [[length]] section not found or failed to load.
             </p>
         </div>
     {{ end }}

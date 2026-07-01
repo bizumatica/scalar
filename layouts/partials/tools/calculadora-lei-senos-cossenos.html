@@ -1,57 +1,57 @@
 <div class="trig-tool-container" style="font-family: sans-serif; display: flex; flex-direction: column; gap: 1.5rem;">
   
   <p style="margin: 0; font-size: 0.95rem; color: #a1a1aa; line-height: 1.5;">
-    {{ T "trig_instruction" }}
+    {{ T "trig_instruction" | default "Insira exatamente 3 valores conhecidos (sendo pelo menos um lado) para calcular os demais componentes do triângulo." }}
   </p>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
     <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" }} a</label>
-      <input type="number" id="trig-a" step="any" placeholder="Ex: 5" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" | default "Lado" }} a</label>
+      <input type="number" id="trig-a" step="any" placeholder="5" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
     </div>
     <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" }} b</label>
-      <input type="number" id="trig-b" step="any" placeholder="Ex: 7" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" | default "Lado" }} b</label>
+      <input type="number" id="trig-b" step="any" placeholder="7" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
     </div>
     <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" }} c</label>
-      <input type="number" id="trig-c" step="any" placeholder="Ex: 9" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" | default "Lado" }} c</label>
+      <input type="number" id="trig-c" step="any" placeholder="9" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
     </div>
     
     <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#34d399; font-weight:700; margin-bottom:4px;">{{ T "trig_angle" }} A (°)</label>
-      <input type="number" id="trig-A" step="any" placeholder="{{ T "trig_opposite" }} a" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+      <label style="display:block; font-size:0.8rem; color:#34d399; font-weight:700; margin-bottom:4px;">{{ T "trig_angle" | default "Ângulo" }} A (°)</label>
+      <input type="number" id="trig-A" step="any" placeholder="{{ T "trig_opposite_a" | default "Oposto a a" }}" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
     </div>
     <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#34d399; font-weight:700; margin-bottom:4px;">{{ T "trig_angle" }} B (°)</label>
-      <input type="number" id="trig-B" step="any" placeholder="{{ T "trig_opposite" }} b" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+      <label style="display:block; font-size:0.8rem; color:#34d399; font-weight:700; margin-bottom:4px;">{{ T "trig_angle" | default "Ângulo" }} B (°)</label>
+      <input type="number" id="trig-B" step="any" placeholder="{{ T "trig_opposite_b" | default "Oposto a b" }}" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
     </div>
     <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-weight:700; font-size:0.8rem; color:#34d399; margin-bottom:4px;">{{ T "trig_angle" }} C (°)</label>
-      <input type="number" id="trig-C" step="any" placeholder="{{ T "trig_opposite" }} c" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+      <label style="display:block; font-weight:700; font-size:0.8rem; color:#34d399; margin-bottom:4px;">{{ T "trig_angle" | default "Ângulo" }} C (°)</label>
+      <input type="number" id="trig-C" step="any" placeholder="{{ T "trig_opposite_c" | default "Oposto a c" }}" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
     </div>
   </div>
 
   <div style="display: flex; gap: 10px;">
     <button onclick="resolverTriangulo()" style="flex: 1; background: #6366f1; border: none; color: white; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem;">
-      {{ T "trig_btn_calc" }}
+      {{ T "trig_btn_calc" | default "Calcular" }}
     </button>
     <button onclick="limparCamposTrig()" style="background: #18181b; border: 1px solid #27272a; color: #a1a1aa; padding: 10px 16px; border-radius: 6px; cursor: pointer;">
-      {{ T "trig_btn_clear" }}
+      {{ T "trig_btn_clear" | default "Limpar" }}
     </button>
   </div>
 
   <div id="trig-resultado-box" style="display: none; border-top: 1px dashed #27272a; padding-top: 1.5rem; flex-direction: column; gap: 1rem;">
-    <h4 style="margin: 0; color: #fff; font-size: 1.1rem;">{{ T "trig_results" }}</h4>
+    <h4 style="margin: 0; color: #fff; font-size: 1.1rem;">{{ T "trig_results" | default "Propriedades Calculadas" }}</h4>
     
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
-      <div style="color: #a1a1aa;">{{ T "trig_perimeter" }} <span id="res-perimetro" style="color:#fff; font-weight:bold;"></span></div>
-      <div style="color: #a1a1aa;">{{ T "trig_area" }} <span id="res-area" style="color:#fff; font-weight:bold;"></span></div>
+      <div style="color: #a1a1aa;">{{ T "trig_perimeter" | default "Perímetro:" }} <span id="res-perimetro" style="color:#fff; font-weight:bold;">-</span></div>
+      <div style="color: #a1a1aa;">{{ T "trig_area" | default "Área:" }} <span id="res-area" style="color:#fff; font-weight:bold;">-</span></div>
     </div>
 
     <div style="background: #18181b; border: 1px solid #27272a; padding: 12px; border-radius: 6px; box-sizing: border-box;">
-      <span style="font-size: 0.75rem; color: #6366f1; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 4px;">{{ T "trig_method" }}</span>
-      <div id="trig-passo-a-passo" style="font-size: 0.85rem; color: #e4e4e7; line-height: 1.6; white-space: pre-line;"></div>
+      <span style="font-size: 0.75rem; color: #6366f1; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 4px;">{{ T "trig_method" | default "Teorema & Resolução" }}</span>
+      <div id="trig-passo-a-passo" style="font-size: 0.85rem; color: #e4e4e7; line-height: 1.6; white-space: pre-line; font-family: monospace;"></div>
     </div>
   </div>
 

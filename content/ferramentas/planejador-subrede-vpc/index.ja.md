@@ -5,6 +5,7 @@ date: 2026-06-30
 categories: ["インフラ", "エンジニアリング"]
 layout: "single"
 icon: "subnet_stack"
+math: "true"
 slug: "cidr-subnet-calculator"
 ---
 

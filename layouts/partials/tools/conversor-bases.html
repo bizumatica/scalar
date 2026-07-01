@@ -1,31 +1,41 @@
 <div class="tool-card">
-    <div class="comparison-grid">
-        {{/* Decimal */}}
-        <div class="input-group">
-            <label><i data-lucide="hash"></i> {{ i18n "base_decimal" }} (Base 10)</label>
-            <input type="number" id="base-dec" placeholder="{{ i18n "placeholder_dec" }}" 
-                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+    <div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
+        
+        {{/* Decimal (Base 10) */}}
+        <div class="input-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; items-center: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 600; color: #94a3b8;">
+                <i data-lucide="hash"></i> {{ i18n "base_decimal" | default "Decimal" }} (Base 10)
+            </label>
+            <input type="text" id="base-dec" inputmode="numeric" placeholder="{{ i18n "placeholder_dec" | default "Ex: 42" }}" 
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; box-sizing: border-box;">
         </div>
 
-        {{/* Binário */}}
-        <div class="input-group">
-            <label><i data-lucide="binary"></i> {{ i18n "base_binary" }} (Base 2)</label>
-            <input type="text" id="base-bin" placeholder="{{ i18n "placeholder_bin" }}" 
-                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+        {{/* Binário (Base 2) */}}
+        <div class="input-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; items-center: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 600; color: #94a3b8;">
+                <i data-lucide="binary"></i> {{ i18n "base_binary" | default "Binário" }} (Base 2)
+            </label>
+            <input type="text" id="base-bin" inputmode="numeric" placeholder="{{ i18n "placeholder_bin" | default "Ex: 101010" }}" 
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; box-sizing: border-box;">
         </div>
 
-        {{/* Hexadecimal */}}
-        <div class="input-group">
-            <label><i data-lucide="terminal"></i> {{ i18n "base_hex" }} (Base 16)</label>
-            <input type="text" id="base-hex" placeholder="{{ i18n "placeholder_hex" }}" 
-                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+        {{/* Hexadecimal (Base 16) */}}
+        <div class="input-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; items-center: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 600; color: #94a3b8;">
+                <i data-lucide="terminal"></i> {{ i18n "base_hex" | default "Hexadecimal" }} (Base 16)
+            </label>
+            <input type="text" id="base-hex" placeholder="{{ i18n "placeholder_hex" | default "Ex: 2A" }}" 
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; box-sizing: border-box;">
         </div>
 
-        {{/* Octal */}}
-        <div class="input-group">
-            <label><i data-lucide="cpu"></i> {{ i18n "base_octal" }} (Base 8)</label>
-            <input type="text" id="base-oct" placeholder="{{ i18n "placeholder_oct" }}" 
-                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+        {{/* Octal (Base 8) */}}
+        <div class="input-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; items-center: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 600; color: #94a3b8;">
+                <i data-lucide="cpu"></i> {{ i18n "base_octal" | default "Octal" }} (Base 8)
+            </label>
+            <input type="text" id="base-oct" inputmode="numeric" placeholder="{{ i18n "placeholder_oct" | default "Ex: 52" }}" 
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; box-sizing: border-box;">
         </div>
+
     </div>
 </div>

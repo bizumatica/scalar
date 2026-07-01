@@ -1,12 +1,15 @@
 {{ $isEn := eq .Lang "en" }}
-{{ $labelIp := cond $isEn "Base IP Address" "Endereço IP Base" }}
-{{ $labelCidr := cond $isEn "Subnet Mask / Prefix (CIDR)" "Máscara / Prefixo (CIDR)" }}
-{{ $btnCalc := cond $isEn "Calculate Subnet" "Calcular Sub-rede" }}
-{{ $resMask := cond $isEn "Decimal Subnet Mask" "Máscara Decimais" }}
-{{ $resNet := cond $isEn "Network ID" "ID de Rede" }}
-{{ $resBroad := cond $isEn "Broadcast Address" "Endereço de Broadcast" }}
-{{ $resRange := cond $isEn "Usable IP Range" "Faixa de IPs Úteis" }}
-{{ $resHosts := cond $isEn "Valid Hosts" "Hosts Válidos" }}
+{{ $isDe := eq .Lang "de" }}
+{{ $isJa := eq .Lang "ja" }}
+
+{{ $labelIp := cond $isEn "Base IP Address" (cond $isDe "Basis-IP-Adresse" (cond $isJa "ベースIPアドレス" "Endereço IP Base")) }}
+{{ $labelCidr := cond $isEn "Subnet Mask / Prefix (CIDR)" (cond $isDe "Subnetzmaske / Präfix (CIDR)" (cond $isJa "サブネットマスク / プレフィックス (CIDR)" "Máscara / Prefixo (CIDR)")) }}
+{{ $btnCalc := cond $isEn "Calculate Subnet" (cond $isDe "Subnetz berechnen" (cond $isJa "サブネットを計算" "Calcular Sub-rede")) }}
+{{ $resMask := cond $isEn "Decimal Subnet Mask" (cond $isDe "Dezimal-Subnetzmaske" (cond $isJa "10進数サブネットマスク" "Máscara Decimais")) }}
+{{ $resNet := cond $isEn "Network ID" (cond $isDe "Netzwerk-ID" (cond $isJa "ネットワークID" "ID de Rede")) }}
+{{ $resBroad := cond $isEn "Broadcast Address" (cond $isDe "Broadcast-Adresse" (cond $isJa "ブロードキャストアドレス" "Endereço de Broadcast")) }}
+{{ $resRange := cond $isEn "Usable IP Range" (cond $isDe "Nutzbarer IP-Bereich" (cond $isJa "利用可能なIPアドレス範囲" "Faixa de IPs Úteis")) }}
+{{ $resHosts := cond $isEn "Valid Hosts" (cond $isDe "Gültige Hosts" (cond $isJa "有効なホスト数" "Hosts Válidos")) }}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -112,10 +115,27 @@
     const inputIp = document.getElementById('ip-address');
     const btnCalc = document.getElementById('btn-calculate');
 
-    // Mapeamento de strings internas do JS baseado no Hugo Context
-    const isEn = {{ $isEn }};
-    const txtAlertInvalid = isEn ? "Please enter a valid IPv4 address (e.g., 192.168.1.1)." : "Por favor, insira um endereço IPv4 válido (ex: 192.168.1.1).";
-    const txtSingleHost = isEn ? "N/A (Single host)" : "N/A (Host único)";
+    // Injeção de variáveis de localidade vindas do Hugo
+    const currentLang = {{ .Lang }};
+    
+    // Mapeamento dinâmico dos alertas e fallbacks no ecossistema JS
+    let txtAlertInvalid = "Por favor, insira um endereço IPv4 válido (ex: 192.168.1.1).";
+    let txtSingleHost = "N/A (Host único)";
+    let langLocale = 'pt-BR';
+
+    if (currentLang === "en") {
+      txtAlertInvalid = "Please enter a valid IPv4 address (e.g., 192.168.1.1).";
+      txtSingleHost = "N/A (Single host)";
+      langLocale = 'en-US';
+    } else if (currentLang === "de") {
+      txtAlertInvalid = "Bitte geben Sie eine gültige IPv4-Adresse ein (z. B. 192.168.1.1).";
+      txtSingleHost = "N/V (Einzelner Host)";
+      langLocale = 'de-DE';
+    } else if (currentLang === "ja") {
+      txtAlertInvalid = "有効なIPv4アドレスを入力してください (例: 192.168.1.1)。";
+      txtSingleHost = "該当なし (単一ホスト)";
+      langLocale = 'ja-JP';
+    }
 
     for (let i = 32; i >= 1; i--) {
       let opt = document.createElement('option');
@@ -137,7 +157,7 @@
       const ipStr = inputIp.value.trim();
       const prefix = parseInt(selectPrefix.value, 10);
       
-      const regexIp = /^^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$$/;
+      const regexIp = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
       if (!regexIp.test(ipStr)) {
         alert(txtAlertInvalid);
         return;
@@ -167,7 +187,7 @@
       } else if (prefix === 31) {
         boxBroadcast.style.opacity = "1";
         txtRange.innerText = `${longToIp(networkLong)} - ${longToIp(broadcastLong)}`;
-        txtHosts.innerText = "2 (RFC 3021)";
+        txtHosts.innerText = prefix === 31 && currentLang === "ja" ? "2 (RFC 3021適用)" : "2 (RFC 3021)";
       } else {
         boxBroadcast.style.opacity = "1";
         const firstUsable = (networkLong + 1) >>> 0;
@@ -175,7 +195,7 @@
         txtRange.innerText = `${longToIp(firstUsable)} - ${longToIp(lastUsable)}`;
         
         const totalHosts = Math.pow(2, 32 - prefix) - 2;
-        txtHosts.innerText = totalHosts.toLocaleString(isEn ? 'en-US' : 'pt-BR');
+        txtHosts.innerText = totalHosts.toLocaleString(langLocale);
       }
     }
 

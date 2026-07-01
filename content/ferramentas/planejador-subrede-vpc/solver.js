@@ -27,6 +27,20 @@
 
   if (!ipInput || !maskSelect || !providerSelect || !elNetA || !elPrefixA) return;
 
+  // 🌍 Internacionalização baseada no idioma renderizado pelo Hugo
+  const currentLang = document.documentElement.lang || 'pt-BR';
+  const localeMap = { 'en': 'en-US', 'de': 'de-DE', 'ja': 'ja-JP', 'pt': 'pt-BR' };
+  const currentLocale = localeMap[currentLang] || 'pt-BR';
+
+  // Fallbacks de texto para campos vazios/inválidos por idioma
+  const naTexts = {
+    'pt-BR': "N/A",
+    'en-US': "N/A",
+    'de-DE': "N/V",
+    'ja-JP': "該当なし"
+  };
+  const txtNA = naTexts[currentLocale] || "N/A";
+
   function ipToLong(ip) {
     return ip.split('.').reduce((acc, octet) => (acc * 256) + parseInt(octet, 10), 0) >>> 0;
   }
@@ -101,28 +115,29 @@
     } else if (provider === 'gcp') {
       reservedIPs = 4;
       offsetFirst = 1;
-      offsetLast = 2;
+      offsetLast = 2; // Desloca omitindo o penúltimo IP reservado pelo Google
     }
 
     let usableHosts = childBlockSize - reservedIPs;
     if (usableHosts < 0) usableHosts = 0;
 
-    const formattedHosts = usableHosts.toLocaleString();
+    // Formatação regionalizada de milhares baseada no Hugo Context remoto
+    const formattedHosts = usableHosts.toLocaleString(currentLocale);
 
-    // Renderização Limpa (Apenas valores puros)
+    // Renderização Limpa e Localizada
     elNetA.textContent = longToIp(netALong);
     elPrefixA.textContent = childPrefix;
     elMaskA.textContent = longToIp(childMaskLong);
-    elFirstA.textContent = usableHosts > 0 ? longToIp(netALong + offsetFirst) : "N/A";
-    elLastA.textContent = usableHosts > 0 ? longToIp(broadcastALong - offsetLast) : "N/A";
+    elFirstA.textContent = usableHosts > 0 ? longToIp(netALong + offsetFirst) : txtNA;
+    elLastA.textContent = usableHosts > 0 ? longToIp(broadcastALong - offsetLast) : txtNA;
     elBroadcastA.textContent = longToIp(broadcastALong);
     elHostsA.textContent = formattedHosts;
 
     elNetB.textContent = longToIp(netBLong);
     elPrefixB.textContent = childPrefix;
     elMaskB.textContent = longToIp(childMaskLong);
-    elFirstB.textContent = usableHosts > 0 ? longToIp(netBLong + offsetFirst) : "N/A";
-    elLastB.textContent = usableHosts > 0 ? longToIp(broadcastBLong - offsetLast) : "N/A";
+    elFirstB.textContent = usableHosts > 0 ? longToIp(netBLong + offsetFirst) : txtNA;
+    elLastB.textContent = usableHosts > 0 ? longToIp(broadcastBLong - offsetLast) : txtNA;
     elBroadcastB.textContent = longToIp(broadcastBLong);
     elHostsB.textContent = formattedHosts;
   }

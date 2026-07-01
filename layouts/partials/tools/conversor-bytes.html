@@ -5,32 +5,41 @@
         <div class="col-span-1 md:col-span-2">
             <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">{{ i18n "value" | default "Valor" }}</label>
             <input type="number" id="mem-input-value" placeholder="{{ i18n "placeholder_num" | default "Ex: 1024" }}" 
-                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none;">
+                   style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; box-sizing: border-box;">
         </div>
 
         {{/* Unidade de Origem */}}
         <div>
             <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">{{ i18n "from" | default "De" }}</label>
-            <select id="mem-from-unit" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; cursor: pointer;">
+            <select id="mem-from-unit" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; cursor: pointer; box-sizing: border-box;">
                 {{ if site.Data.units.memory }}
                     {{ $items := site.Data.units.memory }}
+                    
                     <optgroup label="SI (Base 10)" style="background: #0f172a;">
                         {{ range where $items "group" "SI (Base 10)" }}
-                            <option value="{{ .id }}">{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                            <option value="{{ .id }}">
+                                {{ if eq site.Language.Lang "pt" }}{{ .name_pt }}{{ else if eq site.Language.Lang "de" }}{{ .name_de | default .name_en }}{{ else if eq site.Language.Lang "ja" }}{{ .name_ja | default .name_en }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})
+                            </option>
                         {{ end }}
                     </optgroup>
+
                     <optgroup label="IEC (Base 2)" style="background: #0f172a;">
                         {{ range where $items "group" "IEC (Base 2)" }}
-                            <option value="{{ .id }}">{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                            <option value="{{ .id }}">
+                                {{ if eq site.Language.Lang "pt" }}{{ .name_pt }}{{ else if eq site.Language.Lang "de" }}{{ .name_de | default .name_en }}{{ else if eq site.Language.Lang "ja" }}{{ .name_ja | default .name_en }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})
+                            </option>
                         {{ end }}
                     </optgroup>
-                    <optgroup label="Outros" style="background: #0f172a;">
+
+                    <optgroup label="{{ i18n "others" | default "Outros / Others" }}" style="background: #0f172a;">
                         {{ range where $items "group" "Outros / Others" }}
-                            <option value="{{ .id }}">{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                            <option value="{{ .id }}">
+                                {{ if eq site.Language.Lang "pt" }}{{ .name_pt }}{{ else if eq site.Language.Lang "de" }}{{ .name_de | default .name_en }}{{ else if eq site.Language.Lang "ja" }}{{ .name_ja | default .name_en }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})
+                            </option>
                         {{ end }}
                     </optgroup>
                 {{ else }}
-                    <option disabled>ERRO: data/units.toml não lido</option>
+                    <option disabled>ERRO: data/units.toml não carregado</option>
                 {{ end }}
             </select>
         </div>
@@ -38,17 +47,23 @@
         {{/* Unidade de Destino */}}
         <div>
             <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">{{ i18n "to" | default "Para" }}</label>
-            <select id="mem-to-unit" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; cursor: pointer;">
+            <select id="mem-to-unit" style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; cursor: pointer; box-sizing: border-box;">
                 {{ if site.Data.units.memory }}
                     {{ $items := site.Data.units.memory }}
+                    
                     <optgroup label="SI (Base 10)" style="background: #0f172a;">
                         {{ range where $items "group" "SI (Base 10)" }}
-                            <option value="{{ .id }}" {{ if eq .id "MB" }}selected{{ end }}>{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                            <option value="{{ .id }}" {{ if eq .id "MB" }}selected{{ end }}>
+                                {{ if eq site.Language.Lang "pt" }}{{ .name_pt }}{{ else if eq site.Language.Lang "de" }}{{ .name_de | default .name_en }}{{ else if eq site.Language.Lang "ja" }}{{ .name_ja | default .name_en }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})
+                            </option>
                         {{ end }}
                     </optgroup>
+
                     <optgroup label="IEC (Base 2)" style="background: #0f172a;">
-                        {{ range where $items "items" "group" "IEC (Base 2)" }}
-                            <option value="{{ .id }}">{{ if eq site.Language.Lang "pt-br" }}{{ .name_pt }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})</option>
+                        {{ range where $items "group" "IEC (Base 2)" }}
+                            <option value="{{ .id }}" {{ if eq .id "MiB" }}selected{{ end }}>
+                                {{ if eq site.Language.Lang "pt" }}{{ .name_pt }}{{ else if eq site.Language.Lang "de" }}{{ .name_de | default .name_en }}{{ else if eq site.Language.Lang "ja" }}{{ .name_ja | default .name_en }}{{ else }}{{ .name_en }}{{ end }} ({{ .id }})
+                            </option>
                         {{ end }}
                     </optgroup>
                 {{ end }}
@@ -56,13 +71,27 @@
         </div>
     </div>
 
-    {{/* Resultado */}}
+    {{/* Painel de Exibição do Resultado */}}
     <div class="result-wrapper" style="margin-top: 1.5rem;">
         <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 block">{{ i18n "result" | default "Resultado" }}</label>
-        <div id="result-container" style="width: 100%; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; border-radius: 0.75rem;">
+        <div id="result-container" style="width: 100%; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; border-radius: 0.75rem; box-sizing: border-box;">
             <span id="mem-result" style="font-size: 1.25rem; font-weight: 800; color: #fff; font-family: tabular-nums;">0</span>
-            <span id="mem-result-unit" style="font-size: 0.85rem; color: #60a5fa; font-weight: bold; text-transform: uppercase;"></span>
+            <span id="mem-result-unit" style="font-size: 0.85rem; color: #60a5fa; font-weight: bold; text-transform: uppercase; font-family: monospace;">MB</span>
         </div>
         <div id="mem-result-full" style="font-size: 0.75rem; color: #94a3b8; font-family: monospace; margin-top: 0.5rem; padding-left: 0.5rem;"></div>
     </div>
 </div>
+
+<script>
+  // ⚡ Sincronizador de Badge de Unidade de Destino
+  document.addEventListener('DOMContentLoaded', () => {
+    const toUnitSelect = document.getElementById('mem-to-unit');
+    const resultUnitBadge = document.getElementById('mem-result-unit');
+    if (toUnitSelect && resultUnitBadge) {
+      const updateBadge = () => { resultUnitBadge.textContent = toUnitSelect.value; };
+      toUnitSelect.addEventListener('change', updateBadge);
+      toUnitSelect.addEventListener('input', updateBadge);
+      updateBadge(); // Trigger inicial
+    }
+  });
+</script>
