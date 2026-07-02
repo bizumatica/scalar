@@ -32,6 +32,7 @@ disableKinds = ["taxonomy"]
     [languages.pt-br.permalinks]
       # Alinhado com o motor de slugs nativos do Hugo
       ferramentas = '/ferramentas/:slug/'
+      page = '/:slug/' # 👈 Garante o mapeamento de slugs para páginas raiz em PT
 
   # --- INGLÊS ---
   [languages.en]
@@ -45,8 +46,8 @@ disableKinds = ["taxonomy"]
       description = "Scal4r: High-precision engineering and computing utility tools."
     
     [languages.en.permalinks]
-      # Altera a seção raiz para /tools/ e lê a propriedade slug do index.en.md
       ferramentas = '/tools/:slug/'
+      page = '/:slug/' # 👈 Força o Hugo a ler o slug (ex: slug: "about" vira /en/about/)
 
   # --- ALEMÃO (TIER 1 DACH REGION) ---
   [languages.de]
@@ -60,8 +61,8 @@ disableKinds = ["taxonomy"]
       description = "Scal4r: Hochpräzise Werkzeuge für Ingenieurwesen und Informatik."
     
     [languages.de.permalinks]
-      # Altera a seção raiz para /werkzeuge/ e lê a propriedade slug do index.de.md
       ferramentas = '/werkzeuge/:slug/'
+      page = '/:slug/' # 👈 CORREÇÃO CRÍTICA: Força o Hugo a ler o slug (ex: slug: "kontakt" vira /de/kontakt/)
 
   # --- JAPONÊS (TIER 1 APAC REGION) ---
   [languages.ja]
@@ -75,8 +76,8 @@ disableKinds = ["taxonomy"]
       description = "Scal4r: 工学およびコンピューティング向けの精密ユーティリティツール。"
     
     [languages.ja.permalinks]
-      # Mantém /tools/ para o mercado japonês, lendo a propriedade slug do index.ja.md
       ferramentas = '/tools/:slug/'
+      page = '/:slug/' # 👈 Força o Hugo a ler o slug no mercado japonês
 
 # ==============================================================================
 # CONFIGURAÇÕES DE SISTEMA E DESEMPENHO LOCAL

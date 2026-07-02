@@ -1,11 +1,13 @@
 <footer style="margin-top: 5rem; padding: 3rem 0; border-top: 1px solid var(--border); text-align: center; background-color: var(--bg-soft);">
     <div class="container">
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+        
+        {{/* Bloco de Direitos Autorais e Créditos com Suporte i18n */}}
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">
             &copy; {{ now.Format "2006" }} <strong>Scalar</strong>. <br>
-            Desenvolvido com precisão por Julio Prata.
+            {{ i18n "footer_developed_by" | default "Desenvolvido com precisão por Julio Prata." }}
         </p>
 
-        {{/* Links Sociais com o Partial de Ícones */}}
+        {{/* Links Sociais com o Partial de Ícones (Permanecem estáveis globalmente) */}}
         <nav style="display: flex; justify-content: center; gap: 30px; margin-bottom: 2rem;">
             <a href="https://github.com/bizumatica" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
                 {{ partial "icon.html" (dict "name" "github" "class" "w-6 h-6") }}
@@ -18,13 +20,47 @@
             </a>
         </nav>
 
-        {{/* Navegação Institucional (Crítico para AdSense) */}}
-        <nav style="font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: center; gap: 20px;">
-            <a href="/sobre" style="color: var(--accent); text-decoration: none; font-weight: 500;">Sobre</a>
+        {{/* Navegação Institucional Internacionalizada (Corrigida para extrair slugs dinâmicos) */}}
+        <nav style="font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: center; gap: 20px; align-items: center;">
+            
+            {{/* Link dinâmico para Sobre / About */}}
+            {{ with site.GetPage "/sobre" }}
+                <a href="{{ .RelPermalink }}" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+                    {{ i18n "footer_about" | default "Sobre" }}
+                </a>
+            {{ else }}
+                <a href="{{ "sobre" | relLangURL }}" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+                    {{ i18n "footer_about" | default "Sobre" }}
+                </a>
+            {{ end }}
+            
             <span style="color: var(--border);">|</span>
-            <a href="/contato" style="color: var(--accent); text-decoration: none; font-weight: 500;">Contato</a>
+            
+            {{/* Link dinâmico para Contato / Contact */}}
+            {{ with site.GetPage "/contato" }}
+                <a href="{{ .RelPermalink }}" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+                    {{ i18n "footer_contact" | default "Contato" }}
+                </a>
+            {{ else }}
+                <a href="{{ "contato" | relLangURL }}" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+                    {{ i18n "footer_contact" | default "Contato" }}
+                </a>
+            {{ end }}
+            
             <span style="color: var(--border);">|</span>
-            <a href="/privacidade" style="color: var(--accent); text-decoration: none; font-weight: 500;">Política de Privacidade</a>
+            
+            {{/* Link dinâmico para Privacidade / Privacy */}}
+            {{ with site.GetPage "/privacidade" }}
+                <a href="{{ .RelPermalink }}" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+                    {{ i18n "footer_privacy" | default "Política de Privacidade" }}
+                </a>
+            {{ else }}
+                <a href="{{ "privacidade" | relLangURL }}" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+                    {{ i18n "footer_privacy" | default "Política de Privacidade" }}
+                </a>
+            {{ end }}
+            
         </nav>
+        
     </div>
 </footer>

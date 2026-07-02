@@ -1,8 +1,10 @@
 ---
 title: "Contato"
 description: "Entre em contato com a equipe do Scalar para sugestões, parcerias ou suporte técnico."
+slug: "contato"
 date: 2024-05-20
 layout: "single"
+translationKey: "contact-page"
 ---
 
 Dúvidas, sugestões de novas ferramentas ou relatos de bugs? Estamos à disposição para ouvir o seu feedback e melhorar a precisão do **Scalar**.

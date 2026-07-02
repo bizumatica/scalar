@@ -98,3 +98,18 @@ other = "Subnet B (Privada)"
 
 [vpc_usable_hosts]
 other = "Hosts Disponíveis"
+
+[footer_copyright]
+other = "© 2026 Scalar."
+
+[footer_developed_by]
+other = "Desenvolvido com precisão por Julio Prata."
+
+[footer_about]
+other = "Sobre"
+
+[footer_contact]
+other = "Contato"
+
+[footer_privacy]
+other = "Política de Privacidade"

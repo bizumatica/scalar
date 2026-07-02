@@ -99,3 +99,18 @@ other = "サブネット B (プライベート)"
 
 [vpc_usable_hosts]
 other = "利用可能なホスト数"
+
+[footer_copyright]
+other = "© 2026 Scalar."
+
+[footer_developed_by]
+other = "Julio Prata によって精密に開発されました。"
+
+[footer_about]
+other = "運営概要"
+
+[footer_contact]
+other = "お問い合わせ"
+
+[footer_privacy]
+other = "プライバシーポリシー"

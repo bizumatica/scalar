@@ -1,8 +1,10 @@
 ---
 title: "Sobre o Projeto Scalar"
+slug: "sobre"
 description: "Conheça a engenharia por trás do Scalar: foco em precisão matemática, performance extrema e design industrial."
 date: 2024-05-20
 layout: "single"
+translationKey: "about-page"
 ---
 
 O **Scalar** é uma plataforma minimalista de ferramentas utilitárias projetada para engenheiros, programadores e entusiastas da matemática que exigem exatidão sem as distrações da web moderna. 
