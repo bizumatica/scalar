@@ -16,7 +16,7 @@ Todas as ferramentas de cálculo (Conversores de Bases, Frações e Unidades) s�
 Utilizamos o Google AdSense para exibir anúncios. O Google utiliza cookies para veicular anúncios com base em visitas anteriores dos usuários. Você pode desativar anúncios personalizados visitando as [Configurações de Anúncios do Google](https://www.google.com/settings/ads).
 
 ### 3. Links Externos
-Nosso site contém links para perfis profissionais (GitHub, LinkedIn) og o portfólio do autor. Não nos responsabilizamos pelas práticas de privacidade desses sites externos.
+Nosso site contém links para perfis profissionais (GitHub, LinkedIn) e o portfólio do autor. Não nos responsabilizamos pelas práticas de privacidade desses sites externos.
 
 ### 4. Contato
 Para dúvidas sobre esta política ou solicitações técnicas, entre em contato através do e-mail: **julio@bizumatica.com.br**.
