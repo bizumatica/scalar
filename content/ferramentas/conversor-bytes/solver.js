@@ -1,92 +1,121 @@
+/**
+ * Scalar - Engine Reativa do Conversor de Bytes / Memória
+ * Padrão: Multi-Input Grid Propagation
+ */
 (function () {
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const inputValue = document.getElementById('mem-input-value');
-    const fromUnit = document.getElementById('mem-from-unit');
-    const toUnit = document.getElementById('mem-to-unit');
-    const resultDisplay = document.getElementById('mem-result');
-    const resultFullDisplay = document.getElementById('mem-result-full');
+    // 1. Mapeamento de Fatores de Conversão (Normalizado para Bytes = 1)
+    const UNITS = {
+      'bit': 0.125,
+      'b': 1,
+      // SI (Base 10 - Decimais)
+      'kb': 1e3,
+      'mb': 1e6,
+      'gb': 1e9,
+      'tb': 1e12,
+      'pb': 1e15,
+      // IEC (Base 2 - Binários)
+      'kib': 1024,
+      'mib': 1024 ** 2,
+      'gib': 1024 ** 3,
+      'tib': 1024 ** 4,
+      'pib': 1024 ** 5
+    };
 
-    // Abortar silenciosamente se a ferramenta não pertencer à página atual do Hugo
-    if (!inputValue || !fromUnit || !toUnit || !resultDisplay || !resultFullDisplay) return;
+    // 2. Captura de todos os inputs do grid pertencentes a este conversor
+    const inputs = Array.from(document.querySelectorAll('input[id^="byte-"]'));
 
-    // 🌍 Captura de Idioma Dinâmica
+    // Aborta se a ferramenta não estiver presente na página
+    if (inputs.length === 0) return;
+
+    // Detecta Locale para formatação decimal legível
     const currentLang = document.documentElement.lang || 'pt-BR';
-    const localeMap = { 'en': 'en-US', 'de': 'de-DE', 'ja': 'ja-JP', 'pt': 'pt-BR' };
-    const currentLocale = localeMap[currentLang] || 'pt-BR';
-
-    // Rótulo internacionalizado para a unidade fundamental de referência
-    const unitLabelMap = {
-      'en-US': 'Bytes',
-      'de-DE': 'Bytes',
-      'ja-JP': 'バイト (Bytes)',
-      'pt-BR': 'Bytes'
+    const localeMap = { 
+      'en': 'en-US', 
+      'de': 'de-DE', 
+      'ja': 'ja-JP', 
+      'es': 'es-ES', 
+      'fr': 'fr-FR', 
+      'pt': 'pt-BR', 
+      'pt-br': 'pt-BR' 
     };
-    const bytesLabel = unitLabelMap[currentLocale] || 'Bytes';
+    const currentLocale = localeMap[currentLang.toLowerCase()] || 'pt-BR';
 
-    // Definição precisa dos multiplicadores (Normalizado para Bytes)
-    const Units = {
-      'bit': 0.125, // 1 bit = 1/8 byte
-      'B': 1,
-      // SI (Base 10)
-      'KB': 1000,
-      'MB': 1000 ** 2,
-      'GB': 1000 ** 3,
-      'TB': 1000 ** 4,
-      // IEC (Base 2)
-      'KiB': 1024,
-      'MiB': 1024 ** 2,
-      'GiB': 1024 ** 3,
-      'TiB': 1024 ** 4
-    };
+    let isCalculating = false;
 
-    function formatNumber(num) {
+    /**
+     * Formata números para exibição limpa sem poluir a precisão
+     */
+    function formatValue(num) {
       if (num === 0) return '0';
       
-      // Se for um valor decimal extremamente pequeno ou massivo, usa notação científica
-      if (num < 0.001 || num > 1e15) {
+      // Notação científica para valores extremos
+      if (Math.abs(num) < 1e-6 || Math.abs(num) >= 1e15) {
         return num.toExponential(4);
       }
 
-      // Evita problemas de arredondamento flutuante do JS limitando a 6 casas
-      return parseFloat(num.toFixed(6)).toLocaleString(currentLocale, {
-        maximumFractionDigits: 6
+      // Trunca dízimas flutuantes do JS mantendo até 8 casas sem zeros à direita desnecessários
+      const cleanNum = parseFloat(num.toFixed(8));
+      return cleanNum.toLocaleString(currentLocale, {
+        maximumFractionDigits: 8
       });
     }
 
-    function calculate() {
-      const value = parseFloat(inputValue.value);
-      
-      if (isNaN(value) || value === 0) {
-        resultDisplay.textContent = '0';
-        resultFullDisplay.textContent = '';
+    /**
+     * Propaga a conversão a partir do campo modificado
+     */
+    function processConversion(sourceInput) {
+      if (isCalculating) return;
+      isCalculating = true;
+
+      const unitId = sourceInput.getAttribute('data-unit') || sourceInput.id.replace('byte-', '');
+      const rawValue = sourceInput.value.replace(',', '.').trim();
+
+      // Se o campo for limpo, reseta todos os outros
+      if (rawValue === '') {
+        inputs.forEach(input => {
+          if (input !== sourceInput) input.value = '';
+        });
+        isCalculating = false;
         return;
       }
 
-      const fromMultiplier = Units[fromUnit.value];
-      const toMultiplier = Units[toUnit.value];
+      const numericValue = parseFloat(rawValue);
 
-      // 1. Normaliza para a unidade fundamental (Bytes)
-      const bytes = value * fromMultiplier;
+      // Tratamento para entradas inválidas
+      if (isNaN(numericValue)) {
+        inputs.forEach(input => {
+          if (input !== sourceInput) input.value = '';
+        });
+        isCalculating = false;
+        return;
+      }
 
-      // 2. Converte para a unidade de destino
-      const result = bytes / toMultiplier;
-
-      // 3. Exibe o resultado principal formatado localmente
-      resultDisplay.textContent = formatNumber(result);
+      // Fator da unidade de origem
+      const sourceFactor = UNITS[unitId.toLowerCase()] || 1;
       
-      // 4. Exibe a linha de referência secundária respeitando o Locale e o sufixo traduzido
-      resultFullDisplay.textContent = `= ${bytes.toLocaleString(currentLocale, { maximumFractionDigits: 4 })} ${bytesLabel}`;
+      // 1. Converter Entrada -> Bytes
+      const baseBytes = numericValue * sourceFactor;
+
+      // 2. Propagar Bytes -> Todas as outras unidades
+      inputs.forEach(targetInput => {
+        if (targetInput === sourceInput) return; // Não altera o campo que o usuário está digitando
+
+        const targetUnitId = (targetInput.getAttribute('data-unit') || targetInput.id.replace('byte-', '')).toLowerCase();
+        const targetFactor = UNITS[targetUnitId] || 1;
+
+        const convertedValue = baseBytes / targetFactor;
+        targetInput.value = formatValue(convertedValue);
+      });
+
+      isCalculating = false;
     }
 
-    // Registro unificado de Listeners nos nós de entrada
-    [inputValue, fromUnit, toUnit].forEach(el => {
-      el.addEventListener('input', calculate);
-      // Suporte complementar para navegadores que escutam 'change' em tags <select>
-      if (el.tagName === 'SELECT') {
-        el.addEventListener('change', calculate);
-      }
+    // 3. Registrar Event Listeners em tempo real em cada Input do Grid
+    inputs.forEach(input => {
+      input.addEventListener('input', () => processConversion(input));
     });
   });
 })();

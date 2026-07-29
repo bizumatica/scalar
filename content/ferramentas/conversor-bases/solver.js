@@ -1,70 +1,141 @@
+/**
+ * Scalar Engine - Conversor de Bases Numéricas Multi-Base (2 a 36)
+ * Suporte a inteiros extensos via BigInt para precisão em Engenharia/AdTech
+ */
 (function () {
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const inputs = {
-      dec: document.getElementById('base-dec'),
-      bin: document.getElementById('base-bin'),
-      hex: document.getElementById('base-hex'),
-      oct: document.getElementById('base-oct')
-    };
+    const container = document.getElementById('base-converter-container');
+    if (!container) return;
 
-    // Garante que o script só rode se os inputs existirem na página atual do Hugo
-    if (!inputs.dec || !inputs.bin || !inputs.hex || !inputs.oct) return;
+    const inputDec = document.getElementById('base-dec');
+    const inputBin = document.getElementById('base-bin');
+    const inputHex = document.getElementById('base-hex');
+    const inputOct = document.getElementById('base-oct');
+    const inputCustom = document.getElementById('base-custom-num');
+    const selectCustomBase = document.getElementById('base-custom-sel');
+    const btnClear = document.getElementById('base-btn-clear');
 
-    // Regras de filtragem Regex para impedir caracteres corrompidos em cada base
-    const validators = {
-      10: /[^0-9]/g,          // Decimal: apenas dígitos de 0 a 9
-      2:  /[^0-1]/g,          // Binário: apenas 0 e 1
-      16: /[^0-9a-fA-F]/g,    // Hexadecimal: 0-9 e A-F (independente de caixa)
-      8:  /[^0-7]/g           // Octal: apenas dígitos de 0 a 7
-    };
+    // Tabela completa de numeração até a Base 36
+    const ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyz';
 
-    function convert(rawValue, fromBase) {
-      // 1. Se o campo estiver vazio, limpa imediatamente todas as outras bases
-      if (rawValue === "") {
-        Object.values(inputs).forEach(input => input.value = "");
+    /**
+     * Sanitiza a string removendo caracteres que não pertencem à base.
+     */
+    function sanitizeForBase(str, base) {
+      if (!str) return '';
+      const allowedDigits = ALPHABET.slice(0, base);
+      const regex = new RegExp(`[^${allowedDigits}]`, 'gi');
+      return str.replace(regex, '');
+    }
+
+    /**
+     * Converte uma string genérica em uma dada base para BigInt sem estouro IEEE 754.
+     */
+    function parseToBigInt(str, base) {
+      if (!str) return null;
+      const clean = str.toLowerCase();
+      
+      try {
+        let result = 0n;
+        const b = BigInt(base);
+        for (let i = 0; i < clean.length; i++) {
+          const char = clean[i];
+          const digitValue = BigInt(ALPHABET.indexOf(char));
+          if (digitValue < 0n || digitValue >= b) return null;
+          result = result * b + digitValue;
+        }
+        return result;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /**
+     * Converte um valor BigInt para uma string em qualquer base (2 a 36).
+     */
+    function bigIntToString(bigintVal, base) {
+      if (bigintVal === null || bigintVal === undefined) return '';
+      if (bigintVal === 0n) return '0';
+
+      let num = bigintVal;
+      let result = '';
+      const b = BigInt(base);
+
+      while (num > 0n) {
+        const remainder = Number(num % b);
+        result = ALPHABET[remainder] + result;
+        num = num / b;
+      }
+
+      return result;
+    }
+
+    /**
+     * Atualiza dinamicamente todos os inputs exceto aquele que disparou o evento.
+     */
+    function updateAllFields(sourceInput, base) {
+      const rawValue = sourceInput.value.trim();
+      const sanitized = sanitizeForBase(rawValue, base);
+      
+      // Ajusta o valor se houver caracteres inválidos digitados
+      if (sourceInput.value !== sanitized) {
+        sourceInput.value = sanitized;
+      }
+
+      if (!sanitized) {
+        clearAllInputs();
         return;
       }
 
-      // 2. Sanitiza o input: remove caracteres que não pertencem à base selecionada
-      let sanitizedValue = rawValue.replace(validators[fromBase], '');
+      const decimalValue = parseToBigInt(sanitized, base);
 
-      // Se após a limpeza o valor ficar vazio, redefine os campos e para
-      if (sanitizedValue === "") {
-        inputs[getBaseKey(fromBase)].value = "";
-        return;
+      if (decimalValue === null) return;
+
+      // Sincronização e formatação dos campos remanescentes
+      if (sourceInput !== inputDec) inputDec.value = bigIntToString(decimalValue, 10);
+      if (sourceInput !== inputBin) inputBin.value = bigIntToString(decimalValue, 2);
+      if (sourceInput !== inputHex) inputHex.value = bigIntToString(decimalValue, 16).toUpperCase();
+      if (sourceInput !== inputOct) inputOct.value = bigIntToString(decimalValue, 8);
+      
+      const customBase = parseInt(selectCustomBase.value, 10);
+      if (sourceInput !== inputCustom) {
+        const resCustom = bigIntToString(decimalValue, customBase);
+        inputCustom.value = customBase > 10 ? resCustom.toUpperCase() : resCustom;
       }
-
-      // 3. Atualiza o valor do próprio campo ativo caso o usuário tenha digitado um caractere inválido
-      if (fromBase === 16) {
-        sanitizedValue = sanitizedValue.toUpperCase();
-      }
-      inputs[getBaseKey(fromBase)].value = sanitizedValue;
-
-      // 4. Executa o parse matemático seguro
-      const parsed = parseInt(sanitizedValue, fromBase);
-      if (isNaN(parsed)) return;
-
-      // 5. Atualiza as bases remanescentes em tempo real
-      if (fromBase !== 10) inputs.dec.value = parsed.toString(10);
-      if (fromBase !== 2)  inputs.bin.value = parsed.toString(2);
-      if (fromBase !== 16) inputs.hex.value = parsed.toString(16).toUpperCase();
-      if (fromBase !== 8)  inputs.oct.value = parsed.toString(8);
     }
 
-    // Função auxiliar para mapear a base numérica de volta para a chave do objeto
-    function getBaseKey(base) {
-      if (base === 10) return 'dec';
-      if (base === 2)  return 'bin';
-      if (base === 16) return 'hex';
-      if (base === 8)  return 'oct';
+    function clearAllInputs() {
+      if (inputDec) inputDec.value = '';
+      if (inputBin) inputBin.value = '';
+      if (inputHex) inputHex.value = '';
+      if (inputOct) inputOct.value = '';
+      if (inputCustom) inputCustom.value = '';
     }
 
-    // Listeners capturando o evento input para comportamento instantâneo
-    inputs.dec.addEventListener('input', (e) => convert(e.target.value, 10));
-    inputs.bin.addEventListener('input', (e) => convert(e.target.value, 2));
-    inputs.hex.addEventListener('input', (e) => convert(e.target.value, 16));
-    inputs.oct.addEventListener('input', (e) => convert(e.target.value, 8));
+    // Registra os escutadores de evento reativos
+    if (inputDec) inputDec.addEventListener('input', () => updateAllFields(inputDec, 10));
+    if (inputBin) inputBin.addEventListener('input', () => updateAllFields(inputBin, 2));
+    if (inputHex) inputHex.addEventListener('input', () => updateAllFields(inputHex, 16));
+    if (inputOct) inputOct.addEventListener('input', () => updateAllFields(inputOct, 8));
+    
+    if (inputCustom && selectCustomBase) {
+      inputCustom.addEventListener('input', () => {
+        updateAllFields(inputCustom, parseInt(selectCustomBase.value, 10));
+      });
+
+      selectCustomBase.addEventListener('change', () => {
+        if (inputDec && inputDec.value) {
+          updateAllFields(inputDec, 10);
+        } else if (inputCustom && inputCustom.value) {
+          updateAllFields(inputCustom, parseInt(selectCustomBase.value, 10));
+        }
+      });
+    }
+
+    if (btnClear) {
+      btnClear.addEventListener('click', clearAllInputs);
+    }
   });
 })();

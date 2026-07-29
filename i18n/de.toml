@@ -1,109 +1,353 @@
 # ==============================================================================
-# SCAL4R LOCALIZATION DICTIONARY - DEUTSCH (DE) 2026
+# DICIONÁRIO MESTRE DE INTERNACIONALIZAÇÃO (i18n / de.toml)
+# BUFFER CENTRALIZADO DA PLATAFORMA - 10 FERRAMENTAS / 92 CHAVES
 # ==============================================================================
 
-# Cabeçalho (Subtítulo do Logo)
-[header_subtitle]
-other = "Mathematische Präzision. Software-Engineering."
+# ------------------------------------------------------------------------------
+# 1. TOOL: CALCULADORA CIDR
+# ------------------------------------------------------------------------------
+[cidr_title]
+other = "CIDR-Rechner"
 
-# Hero Section (Centro da Página Inicial)
-[hero_title]
-other = "Exaktheit in jedem Bit."
+[cidr_label_ip]
+other = "IP-Adresse:"
 
-[hero_subtitle]
-other = "Rechner · Konverter · Technologie."
+[cidr_label_mask]
+other = "Subnetzmaske (CIDR):"
 
-# Labels Genéricas
-[value]
-other = "Wert"
+[cidr_res_network]
+other = "Netzwerkadresse"
 
-[from]
-other = "Von"
+[cidr_res_broadcast]
+other = "Broadcast-Adresse"
 
-[to]
-other = "Nach"
+[cidr_res_first_ip]
+other = "Erste nutzbare IP"
 
-[result]
-other = "Ergebnis"
+[cidr_res_last_ip]
+other = "Letzte nutzbare IP"
 
-[calculate]
-other = "Berechnen"
+[cidr_res_total_hosts]
+other = "Gesamtzahl der Hosts"
 
-[copy]
-other = "Kopieren"
+[cidr_res_usable_hosts]
+other = "Nutzbare Hosts"
 
-# Bases Numéricas
-[base_decimal]
-other = "Dezimal"
 
-[base_binary]
-other = "Binär"
+# ------------------------------------------------------------------------------
+# 2. TOOL: CALCULADORA LEI DOS SENOS E COSSENOS
+# ------------------------------------------------------------------------------
+[lsc_title]
+other = "Sinussatz- und Kosinussatz-Rechner"
 
-[base_hex]
-other = "Hexadezimal"
+[lsc_label_side_a]
+other = "Seite a:"
 
-[base_octal]
-other = "Oktal"
+[lsc_label_side_b]
+other = "Seite b:"
 
-# Placeholders Universais
-[placeholder_generic]
-other = "Wert eingeben..."
+[lsc_label_side_c]
+other = "Seite c:"
 
-[placeholder_num]
-other = "z.B. 1024"
+[lsc_label_angle_a]
+other = "Winkel A (°):"
 
-# Trigonometria
-[trig_instruction]
-other = "Geben Sie genau 3 Werte ein (mindestens eine Seite ist erforderlich), um die verbleibenden Daten des Dreiecks zu berechnen:"
+[lsc_label_angle_b]
+other = "Winkel B (°):"
 
-[trig_side]
-other = "Seite"
+[lsc_label_angle_c]
+other = "Winkel C (°):"
 
-[trig_angle]
-other = "Winkel"
+[lsc_btn_calc]
+other = "Dreieck berechnen"
 
-[trig_opposite]
-other = "Gegenüberliegend"
+[lsc_res_type]
+other = "Dreiecksklassifizierung"
 
-[trig_btn_calc]
-other = "Dreieckselemente berechnen"
+[lsc_res_area]
+other = "Gesamtfläche"
 
-[trig_btn_clear]
-other = "Leeren"
+[lsc_res_perimeter]
+other = "Umfang"
 
-[trig_results]
-other = "Berechnete Ergebnisse:"
 
-[trig_perimeter]
-other = "Umfang:"
+# ------------------------------------------------------------------------------
+# 3. TOOL: CONVERSOR DE BASES NUMÉRICAS
+# ------------------------------------------------------------------------------
+[base_title]
+other = "Zahlensystem-Umrechner"
 
-[trig_area]
-other = "Fläche:"
+[base_input_val]
+other = "Eingabewert:"
 
-[trig_method]
-other = "Methode und Schritt-für-Schritt-Lösung:"
+[base_select_from]
+other = "Von (Quellbasis):"
 
-# --- NOVA FUNCIONALIDADE: PLANEJADOR DE SUB-REDE VPC ---
-[vpc_label_cidr]
-other = "Haupt-CIDR-Block (z.B. 10.0.0.0/16)"
+[base_select_to]
+other = "Nach (Zielbasis):"
 
-[vpc_btn_split]
-other = "Block binär aufteilen"
+[base_opt_bin]
+other = "Binär (Basis 2)"
 
-[vpc_subnet_public]
-other = "Subnetz A (Öffentlich)"
+[base_opt_oct]
+other = "Oktal (Basis 8)"
 
-[vpc_subnet_private]
-other = "Subnetz B (Privat)"
+[base_opt_dec]
+other = "Dezimal (Basis 10)"
 
-[vpc_usable_hosts]
-other = "Verfügbare Hosts"
+[base_opt_hex]
+other = "Hexadezimal (Basis 16)"
 
-[footer_copyright]
-other = "© 2026 Scalar."
+[base_res_converted]
+other = "Umgerechnetes Ergebnis"
 
-[footer_developed_by]
-other = "Mit Präzision entwickelt von Julio Prata."
+
+# ------------------------------------------------------------------------------
+# 4. TOOL: CONVERSOR DE BYTES E ARMAZENAMENTO
+# ------------------------------------------------------------------------------
+[bytes_title]
+other = "Byte- und Speicherplatz-Umrechner"
+
+[bytes_label_value]
+other = "Größe / Wert:"
+
+[bytes_label_unit]
+other = "Maßeinheit:"
+
+[bytes_unit_b]
+other = "Byte (B)"
+
+[bytes_unit_kb]
+other = "Kilobyte (KB)"
+
+[bytes_unit_mb]
+other = "Megabyte (MB)"
+
+[bytes_unit_gb]
+other = "Gigabyte (GB)"
+
+[bytes_unit_tb]
+other = "Terabyte (TB)"
+
+[bytes_res_binary]
+other = "Binärstandard (IEC - KiB/MiB/GiB)"
+
+[bytes_res_decimal]
+other = "Dezimalstandard (SI - KB/MB/GB)"
+
+
+# ------------------------------------------------------------------------------
+# 5. TOOL: CONVERSOR DE COMPRIMENTO
+# ------------------------------------------------------------------------------
+[len_title]
+other = "Längeneinheiten-Umrechner"
+
+[len_label_val]
+other = "Länge:"
+
+[len_label_from]
+other = "Quelleinheit:"
+
+[len_label_to]
+other = "Zieleinheit:"
+
+[len_unit_m]
+other = "Meter (m)"
+
+[len_unit_km]
+other = "Kilometer (km)"
+
+[len_unit_cm]
+other = "Zentimeter (cm)"
+
+[len_unit_mm]
+other = "Millimeter (mm)"
+
+[len_unit_inch]
+other = "Zoll (in)"
+
+[len_unit_ft]
+other = "Fuß (ft)"
+
+[len_unit_yd]
+other = "Yards (yd)"
+
+[len_unit_mi]
+other = "Meilen (mi)"
+
+
+# ------------------------------------------------------------------------------
+# 6. TOOL: CONVERSOR DE TEMPERATURA
+# ------------------------------------------------------------------------------
+[temp_title]
+other = "Temperatureinheiten-Umrechner"
+
+[temp_label_val]
+other = "Grad / Temperatur:"
+
+[temp_label_from]
+other = "Von:"
+
+[temp_label_to]
+other = "Nach:"
+
+[temp_unit_c]
+other = "Grad Celsius (°C)"
+
+[temp_unit_f]
+other = "Grad Fahrenheit (°F)"
+
+[temp_unit_k]
+other = "Kelvin (K)"
+
+[temp_res_result]
+other = "Umgerechnete Temperatur"
+
+
+# ------------------------------------------------------------------------------
+# 7. TOOL: FRAÇÃO GERATRIZ
+# ------------------------------------------------------------------------------
+[fg_title]
+other = "Dezimalbruch in Bruch Umrechner"
+
+[fg_label_decimal]
+other = "Dezimalzahl / Periodischer Bruch:"
+
+[fg_placeholder]
+other = "z. B.: 0.333... oder 1.25"
+
+[fg_btn_calc]
+other = "In Bruch umwandeln"
+
+[fg_res_fraction]
+other = "Unkürzbarer Bruch"
+
+[fg_res_type]
+other = "Art der Dezimalzahl"
+
+
+# ------------------------------------------------------------------------------
+# 8. TOOL: MDC E MMC (MÁXIMO DIVISOR COMUM E MÍNIMO MÚLTIPLO COMUM)
+# ------------------------------------------------------------------------------
+[mmc_title]
+other = "ggT- und kgV-Rechner"
+
+[mmc_label_numbers]
+other = "Zahlen eingeben (durch Komma oder Leerzeichen getrennt):"
+
+[mmc_placeholder]
+other = "z. B.: 12, 18, 24"
+
+[mmc_btn_calc]
+other = "ggT und kgV berechnen"
+
+[mmc_res_mdc]
+other = "ggT (Größter gemeinsamer Teiler)"
+
+[mmc_res_mmc]
+other = "kgV (Kleinstes gemeinsames Vielfaches)"
+
+[mmc_res_factors]
+other = "Primfaktorzerlegung"
+
+
+# ------------------------------------------------------------------------------
+# 9. TOOL: PLANEJADOR DE SUB-REDE VPC
+# ------------------------------------------------------------------------------
+[vpc_err_format]
+other = "Ungültiges IP-Aadressformat (Verwenden Sie X.X.X.X)."
+
+[vpc_err_range]
+other = "Jedes Oktett der IP muss zwischen 0 und 255 liegen."
+
+[vpc_err_small]
+other = "Präfix muss /30 oder kleiner sein, um die Aufteilung in Subnetze zu ermöglichen."
+
+[vpc_label_ip]
+other = "Basis-IP-Adresse:"
+
+[vpc_label_mask]
+other = "Übergeordnete CIDR-Maske:"
+
+[vpc_label_provider]
+other = "Cloud-Anbieter:"
+
+[vpc_prov_standard]
+other = "RFC-Standard (2 reservierte IPs)"
+
+[vpc_subnet_a]
+other = "Subnetz A (Öffentlich / Untere Hälfte)"
+
+[vpc_subnet_b]
+other = "Subnetz B (Privat / Obere Hälfte)"
+
+[vpc_res_net]
+other = "Netzwerkadresse:"
+
+[vpc_res_mask]
+other = "Subnetzmaske:"
+
+[vpc_res_first]
+other = "Erste nutzbare IP:"
+
+[vpc_res_last]
+other = "Letzte nutzbare IP:"
+
+[vpc_res_bcast]
+other = "Broadcast-Adresse:"
+
+[vpc_res_hosts]
+other = "Nutzbare Hosts:"
+
+
+# ------------------------------------------------------------------------------
+# 10. TOOL: CALCULADORA DE REGRA DE TRÊS
+# ------------------------------------------------------------------------------
+[r3_mode_simple]
+other = "Einfacher Dreisatz (2 Größen)"
+
+[r3_mode_compound]
+other = "Zusammengesetzter Dreisatz (3 Größen)"
+
+[r3_label_val_a1]
+other = "Größe A (1)"
+
+[r3_label_val_a2]
+other = "Verhält sich zu... (2)"
+
+[r3_label_relation_a]
+other = "Verhältnis A → X"
+
+[r3_opt_direct]
+other = "PROPORTIONAL"
+
+[r3_opt_inverse]
+other = "ANTIPROPORTIONAL"
+
+[r3_label_val_b1]
+other = "Größe B (1)"
+
+[r3_label_result_x]
+other = "Ergebnis Unbekannte (X)"
+
+[r3_label_val_c1]
+other = "Größe C (1)"
+
+[r3_label_val_c2]
+other = "Verhält sich zu... (2)"
+
+[r3_label_relation_c]
+other = "Verhältnis C → X"
+
+
+# ------------------------------------------------------------------------------
+# A. PARTIALS: HEADER E FOOTER
+# ------------------------------------------------------------------------------
+[header_tagline]
+other = "MATHEMATISCHE PRÄZISION. SOFTWARE-ENGINEERING."
+
+[footer_tagline]
+other = "Präzise entwickelt von Julio Prata."
 
 [footer_about]
 other = "Über uns"
@@ -112,4 +356,4 @@ other = "Über uns"
 other = "Kontakt"
 
 [footer_privacy]
-other = "Datenschutzerklärung"
+other = "Datenschutz-Bestimmungen"

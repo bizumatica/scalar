@@ -1,94 +1,142 @@
+/**
+ * Scalar Engine - Conversor Termodinâmico Reativo
+ * Suporte a Celsius, Fahrenheit, Kelvin, Rankine e Réaumur.
+ * Algoritmo de normalização de Ponto Central baseado no Zero Absoluto (Kelvin).
+ */
 (function () {
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const tempInputs = document.querySelectorAll('input[data-unit]');
+    const container = document.getElementById('temp-converter-container');
+    if (!container) return;
 
-    if (tempInputs.length === 0) return;
+    const inputs = Array.from(container.querySelectorAll('input[data-unit]'));
+    const btnClear = document.getElementById('temp-btn-clear');
 
-    // 🌍 Captura de Idioma Dinâmica para o motor de internacionalização de números
-    const currentLang = document.documentElement.lang || 'pt-BR';
-    const localeMap = { 'en': 'en-US', 'de': 'de-DE', 'ja': 'ja-JP', 'pt': 'pt-BR' };
-    const currentLocale = localeMap[currentLang] || 'pt-BR';
+    if (inputs.length === 0) return;
 
-    function calculate(originUnit, value) {
-      // Se o valor for vazio, limpa todos os outros campos remanescentes na tela
-      if (value === "" || value === null || isNaN(value)) {
-        tempInputs.forEach(input => {
-          if (input.dataset.unit !== originUnit) {
-            input.value = "";
-          }
+    /**
+     * Normaliza uma string de entrada numérica permitindo sinal negativo no início e um único ponto decimal.
+     */
+    function sanitizeInput(val) {
+      if (!val) return '';
+      
+      // Substitui vírgula por ponto para suportar teclados pt-BR / de-DE
+      let clean = val.replace(',', '.').replace(/[^0-9.-]/g, '');
+
+      // Trata múltiplos sinais negativos
+      const isNegative = clean.startsWith('-');
+      clean = clean.replace(/-/g, '');
+      if (isNegative) clean = '-' + clean;
+
+      // Mantém apenas o primeiro ponto decimal
+      const parts = clean.split('.');
+      if (parts.length > 2) {
+        clean = parts[0] + '.' + parts.slice(1).join('');
+      }
+
+      return clean;
+    }
+
+    /**
+     * Converte o valor de qualquer unidade de origem para a escala pivot (Kelvin).
+     */
+    function toKelvin(val, unit) {
+      switch (unit) {
+        case 'celsius':
+          return val + 273.15;
+        case 'fahrenheit':
+          return (val - 32) * (5 / 9) + 273.15;
+        case 'kelvin':
+          return val;
+        case 'rankine':
+          return val * (5 / 9);
+        case 'reaumur':
+          return val * 1.25 + 273.15;
+        default:
+          return null;
+      }
+    }
+
+    /**
+     * Converte o valor central em Kelvin para a unidade de destino.
+     */
+    function fromKelvin(kelvin, targetUnit) {
+      switch (targetUnit) {
+        case 'celsius':
+          return kelvin - 273.15;
+        case 'fahrenheit':
+          return (kelvin - 273.15) * (9 / 5) + 32;
+        case 'kelvin':
+          return kelvin;
+        case 'rankine':
+          return kelvin * 1.8;
+        case 'reaumur':
+          return (kelvin - 273.15) * 0.8;
+        default:
+          return null;
+      }
+    }
+
+    /**
+     * Formata o valor numérico eliminando dízimas de ponto flutuante sem corromper a digitação.
+     */
+    function formatValue(val) {
+      if (val === null || isNaN(val)) return '';
+      // Arredonda para no máximo 4 casas decimais e remove zeros desnecessários
+      return parseFloat(val.toFixed(4)).toString();
+    }
+
+    /**
+     * Recalcula e sincroniza todas as caixas de texto adjacentes.
+     */
+    function processConversion(activeInput) {
+      const originUnit = activeInput.dataset.unit;
+      const rawValue = activeInput.value;
+      const sanitized = sanitizeInput(rawValue);
+
+      // Corrige a caixa atual se o usuário digitou um caractere inválido
+      if (activeInput.value !== sanitized) {
+        activeInput.value = sanitized;
+      }
+
+      // Se o campo estiver vazio ou for apenas o sinal "-", limpa os demais campos
+      if (sanitized === '' || sanitized === '-') {
+        inputs.forEach(input => {
+          if (input !== activeInput) input.value = '';
         });
         return;
       }
 
-      // 1. Normaliza qualquer entrada para a unidade Pivô (Celsius)
-      let celsius;
-      switch (originUnit) {
-        case 'C': celsius = value; break;
-        case 'F': celsius = (value - 32) * 5 / 9; break;
-        case 'K': celsius = value - 273.15; break;
-      }
+      const numValue = parseFloat(sanitized);
+      if (isNaN(numValue)) return;
 
-      // 2. Transmite e converte o valor para as outras escalas
-      tempInputs.forEach(input => {
-        const targetUnit = input.dataset.unit;
+      const kelvinValue = toKelvin(numValue, originUnit);
 
-        // SÓ atualiza as caixas adjacentes (evita sobrescrever o cursor ativo do usuário)
-        if (targetUnit !== originUnit && document.activeElement !== input) {
-          let result;
-          if (targetUnit === 'C') result = celsius;
-          else if (targetUnit === 'F') result = (celsius * 9 / 5) + 32;
-          else if (targetUnit === 'K') result = celsius + 273.15;
+      // Impede o cálculo se o valor estiver abaixo do Zero Absoluto (0 K)
+      if (kelvinValue === null || kelvinValue < 0) return;
 
-          // Tratamento para remover dízimas periódicas de ponto flutuante do JS
-          const roundedResult = parseFloat(result.toFixed(4));
-
-          // 3. Formatação inteligente baseada na cultura local (, ou .)
-          if (Number.isInteger(roundedResult)) {
-            input.value = roundedResult;
-          } else {
-            input.value = roundedResult.toLocaleString(currentLocale, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 4,
-              useGrouping: false // Impede pontos de milhares (Ex: 1.200) dentro do input
-            });
-          }
+      // Sincroniza os demais campos
+      inputs.forEach(input => {
+        if (input !== activeInput) {
+          const targetUnit = input.dataset.unit;
+          const converted = fromKelvin(kelvinValue, targetUnit);
+          input.value = formatValue(converted);
         }
       });
     }
 
-    tempInputs.forEach(input => {
-      input.addEventListener('input', (e) => {
-        let rawValue = e.target.value;
+    function clearAll() {
+      inputs.forEach(input => input.value = '');
+    }
 
-        // 1. Se o usuário estiver no meio da digitação de um número negativo ou vazio, mantém o fluxo livre
-        if (rawValue === "" || rawValue === "-") {
-          calculate(input.dataset.unit, "");
-          return; 
-        }
-
-        // 2. Sanitização cross-platform para móbile (Remove tudo que não for dígito, ponto, vírgula ou sinal de menos)
-        // Isso descarta o keydown problemático e impede colagens de texto inválidas
-        let sanitizedValue = rawValue.replace(/[^0-9.,-]/g, '');
-        
-        // Se houver mais de um sinal de menos por erro de digitação, preserva apenas o primeiro
-        if ((sanitizedValue.match(/-/g) || []).length > 1) {
-          sanitizedValue = '-' + sanitizedValue.replace(/-/g, '');
-        }
-
-        // Atualiza a visualização do próprio input com o filtro aplicado
-        e.target.value = sanitizedValue;
-
-        // 3. Normalização gramatical para o parseFloat rodar de forma idêntica globalmente
-        let normalizedVal = sanitizedValue.replace(',', '.');
-        let parsed = parseFloat(normalizedVal);
-
-        // 4. Executa os cálculos termodinâmicos em tempo real
-        if (!isNaN(parsed)) {
-          calculate(input.dataset.unit, parsed);
-        }
-      });
+    // Registra os escutadores reativos nos campos de entrada
+    inputs.forEach(input => {
+      input.addEventListener('input', () => processConversion(input));
     });
+
+    if (btnClear) {
+      btnClear.addEventListener('click', clearAll);
+    }
   });
 })();

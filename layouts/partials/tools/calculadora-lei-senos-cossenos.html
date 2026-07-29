@@ -1,58 +1,80 @@
-<div class="trig-tool-container" style="font-family: sans-serif; display: flex; flex-direction: column; gap: 1.5rem;">
-  
-  <p style="margin: 0; font-size: 0.95rem; color: #a1a1aa; line-height: 1.5;">
-    {{ T "trig_instruction" | default "Insira exatamente 3 valores conhecidos (sendo pelo menos um lado) para calcular os demais componentes do triângulo." }}
+{{ $lang := lower site.Language.Lang }}
+
+<div id="trig-tool-container" data-lang="{{ $lang }}" class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+  <p class="m-0 text-sm text-slate-400 leading-relaxed">
+    {{ i18n "tool_trig_instruction" | default "Insira exatamente 3 valores conhecidos (sendo pelo menos um lado) para calcular os demais componentes do triângulo." }}
   </p>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
-    <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" | default "Lado" }} a</label>
-      <input type="number" id="trig-a" step="any" placeholder="5" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    <!-- Lados -->
+    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
+      <label for="trig-a" class="block text-xs font-bold text-indigo-400 mb-1 tracking-wider uppercase">
+        {{ i18n "side" | default "Lado" }} a
+      </label>
+      <input type="text" id="trig-a" inputmode="decimal" autocomplete="off" placeholder="5" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
     </div>
-    <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" | default "Lado" }} b</label>
-      <input type="number" id="trig-b" step="any" placeholder="7" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
+      <label for="trig-b" class="block text-xs font-bold text-indigo-400 mb-1 tracking-wider uppercase">
+        {{ i18n "side" | default "Lado" }} b
+      </label>
+      <input type="text" id="trig-b" inputmode="decimal" autocomplete="off" placeholder="7" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
     </div>
-    <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#818cf8; font-weight:700; margin-bottom:4px;">{{ T "trig_side" | default "Lado" }} c</label>
-      <input type="number" id="trig-c" step="any" placeholder="9" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
+      <label for="trig-c" class="block text-xs font-bold text-indigo-400 mb-1 tracking-wider uppercase">
+        {{ i18n "side" | default "Lado" }} c
+      </label>
+      <input type="text" id="trig-c" inputmode="decimal" autocomplete="off" placeholder="9" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
     </div>
-    
-    <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#34d399; font-weight:700; margin-bottom:4px;">{{ T "trig_angle" | default "Ângulo" }} A (°)</label>
-      <input type="number" id="trig-A" step="any" placeholder="{{ T "trig_opposite_a" | default "Oposto a a" }}" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+
+    <!-- Ângulos -->
+    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
+      <label for="trig-A" class="block text-xs font-bold text-emerald-400 mb-1 tracking-wider uppercase">
+        {{ i18n "angle" | default "Ângulo" }} A (°)
+      </label>
+      <input type="text" id="trig-A" inputmode="decimal" autocomplete="off" placeholder="{{ i18n "tool_trig_opp_a" | default "Oposto a a" }}" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
     </div>
-    <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-size:0.8rem; color:#34d399; font-weight:700; margin-bottom:4px;">{{ T "trig_angle" | default "Ângulo" }} B (°)</label>
-      <input type="number" id="trig-B" step="any" placeholder="{{ T "trig_opposite_b" | default "Oposto a b" }}" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
+      <label for="trig-B" class="block text-xs font-bold text-emerald-400 mb-1 tracking-wider uppercase">
+        {{ i18n "angle" | default "Ângulo" }} B (°)
+      </label>
+      <input type="text" id="trig-B" inputmode="decimal" autocomplete="off" placeholder="{{ i18n "tool_trig_opp_b" | default "Oposto a b" }}" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
     </div>
-    <div style="background: rgba(24,24,27,0.5); padding: 10px; border: 1px solid #27272a; border-radius: 6px;">
-      <label style="display:block; font-weight:700; font-size:0.8rem; color:#34d399; margin-bottom:4px;">{{ T "trig_angle" | default "Ângulo" }} C (°)</label>
-      <input type="number" id="trig-C" step="any" placeholder="{{ T "trig_opposite_c" | default "Oposto a c" }}" style="width:100%; background:#09090b; border:1px solid #27272a; padding:6px; color:#fff; border-radius:4px; box-sizing:border-box;">
+    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
+      <label for="trig-C" class="block text-xs font-bold text-emerald-400 mb-1 tracking-wider uppercase">
+        {{ i18n "angle" | default "Ângulo" }} C (°)
+      </label>
+      <input type="text" id="trig-C" inputmode="decimal" autocomplete="off" placeholder="{{ i18n "tool_trig_opp_c" | default "Oposto a c" }}" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
     </div>
   </div>
 
-  <div style="display: flex; gap: 10px;">
-    <button onclick="resolverTriangulo()" style="flex: 1; background: #6366f1; border: none; color: white; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem;">
-      {{ T "trig_btn_calc" | default "Calcular" }}
+  <div class="flex gap-3">
+    <button id="trig-btn-calc" type="button" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer">
+      {{ i18n "btn_calculate" | default "Calcular" }}
     </button>
-    <button onclick="limparCamposTrig()" style="background: #18181b; border: 1px solid #27272a; color: #a1a1aa; padding: 10px 16px; border-radius: 6px; cursor: pointer;">
-      {{ T "trig_btn_clear" | default "Limpar" }}
+    <button id="trig-btn-clear" type="button" class="bg-slate-950 hover:bg-slate-800 text-slate-400 border border-slate-800 font-semibold py-2.5 px-5 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer">
+      {{ i18n "btn_clear" | default "Limpar" }}
     </button>
   </div>
 
-  <div id="trig-resultado-box" style="display: none; border-top: 1px dashed #27272a; padding-top: 1.5rem; flex-direction: column; gap: 1rem;">
-    <h4 style="margin: 0; color: #fff; font-size: 1.1rem;">{{ T "trig_results" | default "Propriedades Calculadas" }}</h4>
+  <div id="trig-error-box" class="hidden p-3 bg-rose-950/40 border border-rose-800/60 rounded-lg text-rose-300 text-xs font-mono"></div>
+
+  <div id="trig-resultado-box" class="hidden border-t border-dashed border-slate-800 pt-6 flex-col gap-4">
+    <h4 class="m-0 text-white font-bold text-base">{{ i18n "tool_trig_results_title" | default "Propriedades Calculadas" }}</h4>
     
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
-      <div style="color: #a1a1aa;">{{ T "trig_perimeter" | default "Perímetro:" }} <span id="res-perimetro" style="color:#fff; font-weight:bold;">-</span></div>
-      <div style="color: #a1a1aa;">{{ T "trig_area" | default "Área:" }} <span id="res-area" style="color:#fff; font-weight:bold;">-</span></div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+      <div class="bg-slate-950/40 p-3 rounded-lg border border-slate-800/80 text-slate-400">
+        {{ i18n "tool_trig_perimeter" | default "Perímetro:" }} <span id="res-perimetro" class="text-white font-mono font-bold ml-1">-</span>
+      </div>
+      <div class="bg-slate-950/40 p-3 rounded-lg border border-slate-800/80 text-slate-400">
+        {{ i18n "tool_trig_area" | default "Área:" }} <span id="res-area" class="text-white font-mono font-bold ml-1">-</span>
+      </div>
     </div>
 
-    <div style="background: #18181b; border: 1px solid #27272a; padding: 12px; border-radius: 6px; box-sizing: border-box;">
-      <span style="font-size: 0.75rem; color: #6366f1; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 4px;">{{ T "trig_method" | default "Teorema & Resolução" }}</span>
-      <div id="trig-passo-a-passo" style="font-size: 0.85rem; color: #e4e4e7; line-height: 1.6; white-space: pre-line; font-family: monospace;"></div>
+    <div class="bg-slate-950 p-4 border border-slate-800 rounded-lg">
+      <span class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-widest block mb-2">
+        {{ i18n "tool_trig_method" | default "Passo a Passo da Resolução" }}
+      </span>
+      <div id="trig-passo-a-passo" class="text-xs text-slate-300 font-mono leading-relaxed whitespace-pre-line"></div>
     </div>
   </div>
-
 </div>

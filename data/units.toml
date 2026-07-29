@@ -1,123 +1,254 @@
-# Unidades de Memória - Scalar Data File
+# Unidades de Medida Multilíngues - Scalar Data File
+
+# ==========================================
+# UNIDADES DE MEMÓRIA
+# ==========================================
 
 # --- BASE 10 (SI) ---
 [[memory]]
   id = "bit"
-  name_pt = "Bits"
-  name_en = "Bits"
-  group = "Outros / Others"
+  symbol = "b"
+  group = "SI (Base 10)"
+  [memory.name]
+    pt-br = "Bits"
+    en    = "Bits"
+    de    = "Bits"
+    ja    = "ビット"
+    es    = "Bits"
+    fr    = "Bits"
 
 [[memory]]
   id = "B"
-  name_pt = "Bytes"
-  name_en = "Bytes"
+  symbol = "B"
   group = "SI (Base 10)"
+  [memory.name]
+    pt-br = "Bytes"
+    en    = "Bytes"
+    de    = "Bytes"
+    ja    = "バイト"
+    es    = "Bytes"
+    fr    = "Octets"
 
 [[memory]]
   id = "KB"
-  name_pt = "Kilobytes"
-  name_en = "Kilobytes"
+  symbol = "KB"
   group = "SI (Base 10)"
+  [memory.name]
+    pt-br = "Kilobytes"
+    en    = "Kilobytes"
+    de    = "Kilobytes"
+    ja    = "キロバイト"
+    es    = "Kilobytes"
+    fr    = "Kilo-octets"
 
 [[memory]]
   id = "MB"
-  name_pt = "Megabytes"
-  name_en = "Megabytes"
+  symbol = "MB"
   group = "SI (Base 10)"
+  [memory.name]
+    pt-br = "Megabytes"
+    en    = "Megabytes"
+    de    = "Megabytes"
+    ja    = "メガバイト"
+    es    = "Megabytes"
+    fr    = "Méga-octets"
 
 [[memory]]
   id = "GB"
-  name_pt = "Gigabytes"
-  name_en = "Gigabytes"
+  symbol = "GB"
   group = "SI (Base 10)"
+  [memory.name]
+    pt-br = "Gigabytes"
+    en    = "Gigabytes"
+    de    = "Gigabytes"
+    ja    = "ギガバイト"
+    es    = "Gigabytes"
+    fr    = "Giga-octets"
 
 [[memory]]
   id = "TB"
-  name_pt = "Terabytes"
-  name_en = "Terabytes"
+  symbol = "TB"
   group = "SI (Base 10)"
+  [memory.name]
+    pt-br = "Terabytes"
+    en    = "Terabytes"
+    de    = "Terabytes"
+    ja    = "テラバイト"
+    es    = "Terabytes"
+    fr    = "Téra-octets"
 
 # --- BASE 2 (IEC) ---
 [[memory]]
   id = "KiB"
-  name_pt = "Kibibytes"
-  name_en = "Kibibytes"
+  symbol = "KiB"
   group = "IEC (Base 2)"
+  [memory.name]
+    pt-br = "Kibibytes"
+    en    = "Kibibytes"
+    de    = "Kibibytes"
+    ja    = "キビバイト"
+    es    = "Kibibytes"
+    fr    = "Kibi-octets"
 
 [[memory]]
   id = "MiB"
-  name_pt = "Mebibytes"
-  name_en = "Mebibytes"
+  symbol = "MiB"
   group = "IEC (Base 2)"
+  [memory.name]
+    pt-br = "Mebibytes"
+    en    = "Mebibytes"
+    de    = "Mebibytes"
+    ja    = "メビバイト"
+    es    = "Mebibytes"
+    fr    = "Mébi-octets"
 
 [[memory]]
   id = "GiB"
-  name_pt = "Gibibytes"
-  name_en = "Gibibytes"
+  symbol = "GiB"
   group = "IEC (Base 2)"
+  [memory.name]
+    pt-br = "Gibibytes"
+    en    = "Gibibytes"
+    de    = "Gibibytes"
+    ja    = "ギビバイト"
+    es    = "Gibibytes"
+    fr    = "Gibi-octets"
 
 [[memory]]
   id = "TiB"
-  name_pt = "Tebibytes"
-  name_en = "Tebibytes"
+  symbol = "TiB"
   group = "IEC (Base 2)"
+  [memory.name]
+    pt-br = "Tebibytes"
+    en    = "Tebibytes"
+    de    = "Tebibytes"
+    ja    = "テビバイト"
+    es    = "Tebibytes"
+    fr    = "Tébi-octets"
 
-# --- COMPRIMENTO/LENGHT ---
+# ==========================================
+# UNIDADES DE COMPRIMENTO
+# ==========================================
 [[length]]
-id = "mm"
-name_pt = "Milímetros"
-name_en = "Millimeters"
-
-[[length]]
-id = "cm"
-name_pt = "Centímetros"
-name_en = "Centimeters"
-
-[[length]]
-id = "m"
-name_pt = "Metros"
-name_en = "Meters"
-
-[[length]]
-id = "km"
-name_pt = "Quilômetros"
-name_en = "Kilometers"
-
-[[length]]
-id = "in"
-name_pt = "Polegadas"
-name_en = "Inches"
+  id = "mm"
+  symbol = "mm"
+  [length.name]
+    pt-br = "Milímetros"
+    en    = "Millimeters"
+    de    = "Millimeter"
+    ja    = "ミリメートル"
+    es    = "Milímetros"
+    fr    = "Millimètres"
 
 [[length]]
-id = "ft"
-name_pt = "Pés"
-name_en = "Feet"
+  id = "cm"
+  symbol = "cm"
+  [length.name]
+    pt-br = "Centímetros"
+    en    = "Centimeters"
+    de    = "Zentimeter"
+    ja    = "センチメートル"
+    es    = "Centímetros"
+    fr    = "Centimètres"
 
 [[length]]
-id = "yd"
-name_pt = "Jardas"
-name_en = "Yards"
+  id = "m"
+  symbol = "m"
+  [length.name]
+    pt-br = "Metros"
+    en    = "Meters"
+    de    = "Meter"
+    ja    = "メートル"
+    es    = "Metros"
+    fr    = "Mètres"
 
 [[length]]
-id = "mi"
-name_pt = "Milhas"
-name_en = "Miles"
+  id = "km"
+  symbol = "km"
+  [length.name]
+    pt-br = "Quilômetros"
+    en    = "Kilometers"
+    de    = "Kilometer"
+    ja    = "キロメートル"
+    es    = "Kilómetros"
+    fr    = "Kilomètres"
 
-# --- TEMPERATURA/TEMPERATURE ---
+[[length]]
+  id = "in"
+  symbol = "in"
+  [length.name]
+    pt-br = "Polegadas"
+    en    = "Inches"
+    de    = "Zoll"
+    ja    = "インチ"
+    es    = "Pulgadas"
+    fr    = "Pouces"
+
+[[length]]
+  id = "ft"
+  symbol = "ft"
+  [length.name]
+    pt-br = "Pés"
+    en    = "Feet"
+    de    = "Fuß"
+    ja    = "フィート"
+    es    = "Pies"
+    fr    = "Pieds"
+
+[[length]]
+  id = "yd"
+  symbol = "yd"
+  [length.name]
+    pt-br = "Jardas"
+    en    = "Yards"
+    de    = "Yards"
+    ja    = "ヤード"
+    es    = "Yardas"
+    fr    = "Yards"
+
+[[length]]
+  id = "mi"
+  symbol = "mi"
+  [length.name]
+    pt-br = "Milhas"
+    en    = "Miles"
+    de    = "Meilen"
+    ja    = "マイル"
+    es    = "Millas"
+    fr    = "Milles"
+
+# ==========================================
+# UNIDADES DE TEMPERATURA
+# ==========================================
 [[temperature]]
-id = "C"
-name_pt = "Celsius"
-name_en = "Celsius"
-symbol = "°C"
+  id = "C"
+  symbol = "°C"
+  [temperature.name]
+    pt-br = "Celsius"
+    en    = "Celsius"
+    de    = "Celsius"
+    ja    = "セルシウス (摂氏)"
+    es    = "Celsius"
+    fr    = "Celsius"
 
 [[temperature]]
-id = "F"
-name_pt = "Fahrenheit"
-name_en = "Fahrenheit"
-symbol = "°F"
+  id = "F"
+  symbol = "°F"
+  [temperature.name]
+    pt-br = "Fahrenheit"
+    en    = "Fahrenheit"
+    de    = "Fahrenheit"
+    ja    = "ファーレンハイト (華氏)"
+    es    = "Fahrenheit"
+    fr    = "Fahrenheit"
 
 [[temperature]]
-id = "K"
-name_pt = "Kelvin"
-name_en = "Kelvin"
-symbol = "K"
+  id = "K"
+  symbol = "K"
+  [temperature.name]
+    pt-br = "Kelvin"
+    en    = "Kelvin"
+    de    = "Kelvin"
+    ja    = "ケルビン"
+    es    = "Kelvin"
+    fr    = "Kelvin"

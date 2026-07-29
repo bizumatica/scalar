@@ -1,124 +1,140 @@
+/**
+ * Scalar Engine - Solver Reativo da Calculadora CIDR / Subnetting IPv4
+ * Padrão: Multi-Input Event-Driven Propagation
+ */
 (function () {
   'use strict';
 
-  const ipInput = document.getElementById('ip-address');
-  const maskSelect = document.getElementById('cidr-mask');
-  const errorDiv = document.getElementById('cidr-error');
-  const outputGrid = document.getElementById('subnet-output');
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Mapeamento de nós do DOM sincronizados com o HTML do partial
+    const inputIp = document.getElementById('ip-address');
+    const selectPrefix = document.getElementById('cidr-prefix');
 
-  const elNetwork = document.getElementById('res-network');
-  const elMask = document.getElementById('res-mask');
-  const elFirst = document.getElementById('res-first');
-  const elLast = document.getElementById('res-last');
-  const elBroadcast = document.getElementById('res-broadcast');
-  const elHosts = document.getElementById('res-hosts');
+    const txtMask = document.getElementById('res-mask');
+    const txtNetwork = document.getElementById('res-network');
+    const txtBroadcast = document.getElementById('res-broadcast');
+    const txtRange = document.getElementById('res-range');
+    const txtHosts = document.getElementById('res-hosts');
+    const boxBroadcast = document.getElementById('box-broadcast');
 
-  if (!ipInput || !maskSelect || !elNetwork) return;
+    // Aborta se a ferramenta não pertencer à página atual do Hugo
+    if (!inputIp || !selectPrefix || !txtNetwork) return;
 
-  // 🌍 Captura dinamicamente o idioma da página injetado pelo Hugo
-  const currentLang = document.documentElement.lang || 'pt-BR';
-  const localeMap = { 'en': 'en-US', 'de': 'de-DE', 'ja': 'ja-JP', 'pt': 'pt-BR' };
-  const currentLocale = localeMap[currentLang] || 'pt-BR';
+    // 2. Detecção flexível de Locale (Atributo HTML ou data-lang)
+    const container = document.getElementById('cidr-tool-container');
+    const currentLang = (container?.getAttribute('data-lang') || document.documentElement.lang || 'pt-BR').toLowerCase();
 
-  // 🗺️ Dicionário de traduções internas do motor de cálculo
-  const translations = {
-    'pt-BR': {
-      format: "Formato de IP Inválido (Use X.X.X.X).",
-      range: "Cada octeto deve estar entre 0 e 255.",
-      na: "N/A (RFC 3021)"
-    },
-    'en-US': {
-      format: "Invalid IP Address format (Use X.X.X.X).",
-      range: "Each octet must be between 0 and 255.",
-      na: "N/A (RFC 3021)"
-    },
-    'de-DE': {
-      format: "Ungültiges IP-Adressformat (Verwenden Sie X.X.X.X).",
-      range: "Jedes Oktett muss zwischen 0 und 255 liegen.",
-      na: "N/V (RFC 3021)"
-    },
-    'ja-JP': {
-      format: "無効なIPアドレス形式です (X.X.X.X を使用してください)。",
-      range: "各オクテットは0から255の間でなければなりません。",
-      na: "該当なし (RFC 3021適用)"
-    }
-  };
+    const localeMap = {
+      'en': 'en-US',
+      'de': 'de-DE',
+      'ja': 'ja-JP',
+      'es': 'es-ES',
+      'fr': 'fr-FR',
+      'pt': 'pt-BR',
+      'pt-br': 'pt-BR'
+    };
+    const currentLocale = localeMap[currentLang] || 'pt-BR';
 
-  const text = translations[currentLocale] || translations['pt-BR'];
+    // 3. Dicionário Internacionalizado de Estados Especiais
+    const translations = {
+      'pt-BR': { singleHost: "N/A (Host único)", rfc: "2 (RFC 3021)" },
+      'en-US': { singleHost: "N/A (Single host)", rfc: "2 (RFC 3021)" },
+      'de-DE': { singleHost: "N/V (Einzelner Host)", rfc: "2 (RFC 3021)" },
+      'ja-JP': { singleHost: "該当なし (単一ホスト)", rfc: "2 (RFC 3021適用)" },
+      'es-ES': { singleHost: "N/A (Host único)", rfc: "2 (RFC 3021)" },
+      'fr-FR': { singleHost: "N/A (Hôte unique)", rfc: "2 (RFC 3021)" }
+    };
 
-  function ipToLong(ip) {
-    return ip.split('.').reduce((acc, octet) => (acc * 256) + parseInt(octet, 10), 0) >>> 0;
-  }
+    const text = translations[currentLocale] || translations['pt-BR'];
 
-  function longToIp(long) {
-    return [(long >>> 24) & 255, (long >>> 16) & 255, (long >>> 8) & 255, long & 255].join('.');
-  }
-
-  function showError(msg) {
-    errorDiv.textContent = msg;
-    errorDiv.classList.remove('hidden');
-    if (outputGrid) outputGrid.style.opacity = '0.3';
-  }
-
-  function clearError() {
-    errorDiv.textContent = '';
-    errorDiv.classList.add('hidden');
-    if (outputGrid) outputGrid.style.opacity = '1';
-  }
-
-  function calcular() {
-    const ipStr = ipInput.value.trim();
-    const ipPattern = /^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/;
-
-    if (!ipPattern.test(ipStr)) {
-      showError(text.format);
-      return;
+    /**
+     * Validação rigorosa de IP IPv4 (Octetos entre 0 e 255)
+     */
+    function isValidIPv4(ip) {
+      const octets = ip.split('.');
+      if (octets.length !== 4) return false;
+      return octets.every(octet => {
+        if (!/^\d+$/.test(octet)) return false;
+        const num = parseInt(octet, 10);
+        return num >= 0 && num <= 255;
+      });
     }
 
-    const octets = ipStr.split('.');
-    for (let i = 0; i < 4; i++) {
-      const val = parseInt(octets[i], 10);
-      if (isNaN(val) || val < 0 || val > 255) {
-        showError(text.range);
+    /**
+     * Converte String IP para Long Inteiro Sem Sinal de 32 bits (Unsigned Integer)
+     */
+    function ipToLong(ip) {
+      return ip.split('.').reduce((acc, octet) => (acc * 256) + parseInt(octet, 10), 0) >>> 0;
+    }
+
+    /**
+     * Converte Long Inteiro Sem Sinal de 32 bits para String IP
+     */
+    function longToIp(long) {
+      return [
+        (long >>> 24) & 255,
+        (long >>> 16) & 255,
+        (long >>> 8) & 255,
+        long & 255
+      ].join('.');
+    }
+
+    /**
+     * Recálculo Reativo dos Parâmetros do Subnetting
+     */
+    function calculate() {
+      const ipStr = inputIp.value.trim();
+      const prefix = parseInt(selectPrefix.value, 10);
+
+      // Em caso de IP parcial ou inválido, redefine os resultados para o estado neutro
+      if (!isValidIPv4(ipStr)) {
+        txtMask.textContent = '-';
+        txtNetwork.textContent = '-';
+        txtBroadcast.textContent = '-';
+        txtRange.textContent = '-';
+        txtHosts.textContent = '-';
         return;
+      }
+
+      // Operações de Rede Bitwise
+      const ipLong = ipToLong(ipStr);
+      const maskLong = prefix === 0 ? 0 : (~0 << (32 - prefix)) >>> 0;
+      const networkLong = (ipLong & maskLong) >>> 0;
+      const broadcastLong = (networkLong | (~maskLong)) >>> 0;
+
+      // Exibição da Máscara e ID de Rede
+      txtMask.textContent = longToIp(maskLong);
+      txtNetwork.textContent = longToIp(networkLong);
+
+      // Tratamento de prefixos especiais de borda (/32 e /31)
+      if (prefix === 32) {
+        if (boxBroadcast) boxBroadcast.style.opacity = '0.4';
+        txtBroadcast.textContent = text.singleHost;
+        txtRange.textContent = longToIp(networkLong);
+        txtHosts.textContent = '1';
+      } else if (prefix === 31) {
+        if (boxBroadcast) boxBroadcast.style.opacity = '1';
+        txtBroadcast.textContent = longToIp(broadcastLong);
+        txtRange.textContent = `${longToIp(networkLong)} - ${longToIp(broadcastLong)}`;
+        txtHosts.textContent = text.rfc;
+      } else {
+        if (boxBroadcast) boxBroadcast.style.opacity = '1';
+        txtBroadcast.textContent = longToIp(broadcastLong);
+
+        const firstUsable = (networkLong + 1) >>> 0;
+        const lastUsable = (broadcastLong - 1) >>> 0;
+        txtRange.textContent = `${longToIp(firstUsable)} - ${longToIp(lastUsable)}`;
+
+        const totalUsableHosts = Math.pow(2, 32 - prefix) - 2;
+        txtHosts.textContent = totalUsableHosts.toLocaleString(currentLocale);
       }
     }
 
-    clearError();
+    // 4. Atribuição de Event Listeners em tempo real
+    inputIp.addEventListener('input', calculate);
+    selectPrefix.addEventListener('change', calculate);
 
-    const prefix = parseInt(maskSelect.value, 10);
-    const ipLong = ipToLong(ipStr);
-    const maskLong = prefix === 0 ? 0 : (~0 << (32 - prefix)) >>> 0;
-    const networkLong = (ipLong & maskLong) >>> 0;
-    const broadcastLong = (networkLong | ~maskLong) >>> 0;
-
-    let firstIp, lastIp, usableHosts;
-    const totalHosts = Math.pow(2, 32 - prefix);
-
-    if (prefix === 32) {
-      firstIp = networkLong;
-      lastIp = networkLong;
-      usableHosts = 1;
-    } else if (prefix === 31) {
-      firstIp = networkLong;
-      lastIp = broadcastLong;
-      usableHosts = 2;
-    } else {
-      firstIp = networkLong + 1;
-      lastIp = broadcastLong - 1;
-      usableHosts = totalHosts - 2;
-    }
-
-    elNetwork.textContent = longToIp(networkLong);
-    elMask.textContent = longToIp(maskLong);
-    elFirst.textContent = longToIp(firstIp);
-    elLast.textContent = longToIp(lastIp);
-    elBroadcast.textContent = prefix >= 31 ? text.na : longToIp(broadcastLong);
-    elHosts.textContent = usableHosts.toLocaleString(currentLocale);
-  }
-
-  ipInput.addEventListener('input', calcular);
-  maskSelect.addEventListener('change', calcular);
-  
-  calcular();
+    // Execução inicial para popular o grid padrão (/24)
+    calculate();
+  });
 })();

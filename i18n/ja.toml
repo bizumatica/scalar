@@ -1,113 +1,356 @@
 # ==============================================================================
-# SCAL4R LOCALIZATION DICTIONARY - JAPANESE (JA) 2026
+# DICIONÁRIO MESTRE DE INTERNACIONALIZAÇÃO (i18n / ja.toml)
+# BUFFER CENTRALIZADO DA PLATAFORMA - 10 FERRAMENTAS / 92 CHAVES
 # ==============================================================================
 
-# Cabeçalho (Subtítulo do Logo)
-[header_subtitle]
-other = "数学的精度。ソフトウェアエンジニアリング。"
+# ------------------------------------------------------------------------------
+# 1. TOOL: CALCULADORA CIDR
+# ------------------------------------------------------------------------------
+[cidr_title]
+other = "CIDR計算ツール"
 
-# Hero Section (Centro da Página Inicial)
-[hero_title]
-other = "すべてのビットに正確さを。"
+[cidr_label_ip]
+other = "IPアドレス："
 
-# Google Adsense gosta de descrições limpas e semânticas
-[hero_subtitle]
-other = "計算ツール · 変換ツール · テクノロジー。"
+[cidr_label_mask]
+other = "サブネットマスク (CIDR)："
 
-# Labels Genéricas
-[value]
-other = "値"
+[cidr_res_network]
+other = "ネットワークアドレス"
 
-[from]
-other = "変換元"
+[cidr_res_broadcast]
+other = "ブロードキャストアドレス"
 
-[to]
-other = "変換先"
+[cidr_res_first_ip]
+other = "最初の利用可能IP"
 
-[result]
-other = "計算結果"
+[cidr_res_last_ip]
+other = "最後の利用可能IP"
 
-[calculate]
-other = "計算する"
+[cidr_res_total_hosts]
+other = "総ホスト数"
 
-[copy]
-other = "コピー"
+[cidr_res_usable_hosts]
+other = "利用可能ホスト数"
 
-# Bases Numéricas (Mantendo padrão técnico misto Katakana/Inglês)
-[base_decimal]
-other = "10進数 (Decimal)"
 
-[base_binary]
+# ------------------------------------------------------------------------------
+# 2. TOOL: CALCULADORA LEI DOS SENOS E COSSENOS
+# ------------------------------------------------------------------------------
+[lsc_title]
+other = "正弦定理・余弦定理計算ツール"
+
+[lsc_label_side_a]
+other = "辺 a："
+
+[lsc_label_side_b]
+other = "辺 b："
+
+[lsc_label_side_c]
+other = "辺 c："
+
+[lsc_label_angle_a]
+other = "角 A (°)："
+
+[lsc_label_angle_b]
+other = "角 B (°)："
+
+[lsc_label_angle_c]
+other = "角 C (°)："
+
+[lsc_btn_calc]
+other = "三角形を計算"
+
+[lsc_res_type]
+other = "三角形の分類"
+
+[lsc_res_area]
+other = "総面積"
+
+[lsc_res_perimeter]
+other = "周囲の長さ"
+
+
+# ------------------------------------------------------------------------------
+# 3. TOOL: CONVERSOR DE BASES NUMÉRICAS
+# ------------------------------------------------------------------------------
+[base_title]
+other = "基数変換ツール (進数変換)"
+
+[base_input_val]
+other = "入力値："
+
+[base_select_from]
+other = "変換元 (基数)："
+
+[base_select_to]
+other = "変換先 (基数)："
+
+[base_opt_bin]
 other = "2進数 (Binary)"
 
-[base_hex]
-other = "16進数 (Hexadecimal)"
-
-[base_octal]
+[base_opt_oct]
 other = "8進数 (Octal)"
 
-# Placeholders Universais
-[placeholder_generic]
-other = "値を入力してください..."
+[base_opt_dec]
+other = "10進数 (Decimal)"
 
-[placeholder_num]
-other = "例: 1024"
+[base_opt_hex]
+other = "16進数 (Hexadecimal)"
 
-# Trigonometria (Terminologia formal de Geometria/Cálculo)
-[trig_instruction]
-other = "三角形の残りのデータを計算するには、正確に3つの値を入力してください（少なくとも1つの辺を含める必要があります）:"
+[base_res_converted]
+other = "変換結果"
 
-[trig_side]
-other = "辺 (Side)"
 
-[trig_angle]
-other = "角 (Angle)"
+# ------------------------------------------------------------------------------
+# 4. TOOL: CONVERSOR DE BYTES E ARMAZENAMENTO
+# ------------------------------------------------------------------------------
+[bytes_title]
+other = "バイト・ストレージ容量変換ツール"
 
-[trig_opposite]
-other = "対辺 (Opposite)"
+[bytes_label_value]
+other = "サイズ / 数値："
 
-[trig_btn_calc]
-other = "三角形の要素を計算"
+[bytes_label_unit]
+other = "単位："
 
-[trig_btn_clear]
-other = "クリア"
+[bytes_unit_b]
+other = "バイト (B)"
 
-[trig_results]
-other = "計算結果一覧:"
+[bytes_unit_kb]
+other = "キロバイト (KB)"
 
-[trig_perimeter]
-other = "周囲の長さ (Perimeter):"
+[bytes_unit_mb]
+other = "メガバイト (MB)"
 
-[trig_area]
-other = "面積 (Area):"
+[bytes_unit_gb]
+other = "ギガバイト (GB)"
 
-[trig_method]
-other = "計算手順と解説 (ステップバイステップ):"
+[bytes_unit_tb]
+other = "テラバイト (TB)"
 
-# --- NOVA FUNCIONALIDADE: PLANEJADOR DE SUB-REDE VPC ---
-[vpc_label_cidr]
-other = "プライマリ CIDR ブロック (例: 10.0.0.0/16)"
+[bytes_res_binary]
+other = "2進法規格 (IEC - KiB/MiB/GiB)"
 
-[vpc_btn_split]
-other = "ブロックを2進数で分割"
+[bytes_res_decimal]
+other = "10進法規格 (SI - KB/MB/GB)"
 
-[vpc_subnet_public]
-other = "サブネット A (パブリック)"
 
-[vpc_subnet_private]
-other = "サブネット B (プライベート)"
+# ------------------------------------------------------------------------------
+# 5. TOOL: CONVERSOR DE COMPRIMENTO
+# ------------------------------------------------------------------------------
+[len_title]
+other = "長さ単位変換ツール"
 
-[vpc_usable_hosts]
-other = "利用可能なホスト数"
+[len_label_val]
+other = "長さ："
 
-[footer_copyright]
-other = "© 2026 Scalar."
+[len_label_from]
+other = "変換元の単位："
 
-[footer_developed_by]
-other = "Julio Prata によって精密に開発されました。"
+[len_label_to]
+other = "変換先の単位："
+
+[len_unit_m]
+other = "メートル (m)"
+
+[len_unit_km]
+other = "キロメートル (km)"
+
+[len_unit_cm]
+other = "センチメートル (cm)"
+
+[len_unit_mm]
+other = "ミリメートル (mm)"
+
+[len_unit_inch]
+other = "インチ (in)"
+
+[len_unit_ft]
+other = "フィート (ft)"
+
+[len_unit_yd]
+other = "ヤード (yd)"
+
+[len_unit_mi]
+other = "マイル (mi)"
+
+
+# ------------------------------------------------------------------------------
+# 6. TOOL: CONVERSOR DE TEMPERATURA
+# ------------------------------------------------------------------------------
+[temp_title]
+other = "温度単位変換ツール"
+
+[temp_label_val]
+other = "度 / 温度："
+
+[temp_label_from]
+other = "変換元："
+
+[temp_label_to]
+other = "変換先："
+
+[temp_unit_c]
+other = "セルシウス度 / 摂氏 (°C)"
+
+[temp_unit_f]
+other = "ファーレンハイト度 / 華氏 (°F)"
+
+[temp_unit_k]
+other = "ケルビン (K)"
+
+[temp_res_result]
+other = "変換後の温度"
+
+
+# ------------------------------------------------------------------------------
+# 7. TOOL: FRAÇÃO GERATRIZ
+# ------------------------------------------------------------------------------
+[fg_title]
+other = "循環小数・分数変換ツール"
+
+[fg_label_decimal]
+other = "小数 / 循環小数："
+
+[fg_placeholder]
+other = "例: 0.333... または 1.25"
+
+[fg_btn_calc]
+other = "分数に変換"
+
+[fg_res_fraction]
+other = "既約分数"
+
+[fg_res_type]
+other = "小数の種類 (有限・循環)"
+
+
+# ------------------------------------------------------------------------------
+# 8. TOOL: MDC E MMC (MÁXIMO DIVISOR COMUM E MÍNIMO MÚLTIPLO COMUM)
+# ------------------------------------------------------------------------------
+[mmc_title]
+other = "最大公約数 (GCD)・最小公倍数 (LCM) 計算ツール"
+
+[mmc_label_numbers]
+other = " see 数値を入力 (カンマまたはスペース区切り)："
+
+[mmc_placeholder]
+other = "例: 12, 18, 24"
+
+[mmc_btn_calc]
+other = "GCDとLCMを計算"
+
+[mmc_res_mdc]
+other = "最大公約数 (GCD)"
+
+[mmc_res_mmc]
+other = "最小公倍数 (LCM)"
+
+[mmc_res_factors]
+other = "素因数分解"
+
+
+# ------------------------------------------------------------------------------
+# 9. TOOL: PLANEJADOR DE SUB-REDE VPC
+# ------------------------------------------------------------------------------
+[vpc_err_format]
+other = "無効なIPアドレス形式です (X.X.X.X の形式で入力してください)。"
+
+[vpc_err_range]
+other = "IPの各オクテットは0から255の間で指定してください。"
+
+[vpc_err_small]
+other = "サブネット分割を行うには、親プレフィックスは /30 以下である必要があります。"
+
+[vpc_label_ip]
+other = "ベースIPアドレス："
+
+[vpc_label_mask]
+other = "親CIDRマスク："
+
+[vpc_label_provider]
+other = "クラウドプロバイダー："
+
+[vpc_prov_standard]
+other = "RFC標準 (予約IP: 2)"
+
+[vpc_subnet_a]
+other = "サブネット A (パブリック / 前半)"
+
+[vpc_subnet_b]
+other = "サブネット B (プライベート / 後半)"
+
+[vpc_res_net]
+other = "ネットワークアドレス："
+
+[vpc_res_mask]
+other = "サブネットマスク："
+
+[vpc_res_first]
+other = "最初の利用可能IP："
+
+[vpc_res_last]
+other = "最後の利用可能IP："
+
+[vpc_res_bcast]
+other = "ブロードキャストアドレス："
+
+[vpc_res_hosts]
+other = "利用可能ホスト数："
+
+
+# ------------------------------------------------------------------------------
+# 10. TOOL: CALCULADORA DE REGRA DE TRÊS
+# ------------------------------------------------------------------------------
+[r3_mode_simple]
+other = "単比例 (2つの量)"
+
+[r3_mode_compound]
+other = "複比例 (3つの量)"
+
+[r3_label_val_a1]
+other = "要素 A (1)"
+
+[r3_label_val_a2]
+other = "に対する値... (2)"
+
+[r3_label_relation_a]
+other = "関係 A → X"
+
+[r3_opt_direct]
+other = "正比例"
+
+[r3_opt_inverse]
+other = "反比例"
+
+[r3_label_val_b1]
+other = "要素 B (1)"
+
+[r3_label_result_x]
+other = "未知数の結果 (X)"
+
+[r3_label_val_c1]
+other = "要素 C (1)"
+
+[r3_label_val_c2]
+other = "に対する値... (2)"
+
+[r3_label_relation_c]
+other = "関係 C → X"
+
+
+# ------------------------------------------------------------------------------
+# A. PARTIALS: HEADER E FOOTER
+# ------------------------------------------------------------------------------
+[header_tagline]
+other = "数学的精度。ソフトウェアエンジニアリング。"
+
+[footer_tagline]
+other = "Julio Prata によって精密に設計されました。"
 
 [footer_about]
-other = "運営概要"
+other = "概要"
 
 [footer_contact]
 other = "お問い合わせ"

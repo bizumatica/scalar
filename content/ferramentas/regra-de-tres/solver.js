@@ -1,132 +1,159 @@
+/**
+ * Scalar Engine - Solver de Regra de Três Simples e Composta
+ * Autor: Julio Prata
+ * Desempenho Zero-Overhead / Pure Vanilla JS
+ */
 (function () {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', () => {
-    let mode = 'simple';
+  function initRuleOfThreeSolver() {
+    const card = document.getElementById('r3-tool-card');
+    if (!card) return; // Fail-fast se o componente não estiver na página
+
+    let currentMode = 'simple';
 
     const els = {
       btnS: document.getElementById('mode-simple'),
       btnC: document.getElementById('mode-compound'),
       rowC: document.getElementById('row-compound'),
       resX: document.getElementById('result-x'),
-      // Inputs e Selects
-      a1: document.getElementById('val-a1'), a2: document.getElementById('val-a2'), tA: document.getElementById('type-a'),
+      a1: document.getElementById('val-a1'),
+      a2: document.getElementById('val-a2'),
+      tA: document.getElementById('type-a'),
       b1: document.getElementById('val-b1'),
-      c1: document.getElementById('val-c1'), c2: document.getElementById('val-c2'), tC: document.getElementById('type-c')
+      c1: document.getElementById('val-c1'),
+      c2: document.getElementById('val-c2'),
+      tC: document.getElementById('type-c')
     };
 
-    // Aborta silenciosamente se os elementos não estiverem no layout renderizado pelo Hugo
-    if (!els.btnS || !els.btnC || !els.rowC || !els.resX || !els.a1 || !els.a2 || !els.b1) return;
+    // Mapeamento dinâmico de internacionalização
+    const lang = card.dataset.lang || document.documentElement.lang || 'pt';
+    const localeMap = { pt: 'pt-BR', de: 'de-DE', ja: 'ja-JP', en: 'en-US' };
+    const currentLocale = localeMap[lang] || 'pt-BR';
 
-    // 🌍 Captura dinâmica de idioma para formatação internacional
-    const currentLang = document.documentElement.lang || 'pt';
-    const localeMap = { 'en': 'en-US', 'de': 'de-DE', 'ja': 'ja-JP', 'pt': 'pt-BR' };
-    const currentLocale = localeMap[currentLang] || 'pt-BR';
-
-    // Formatador internacional inteligente limitado a 4 casas decimais
     const formatter = new Intl.NumberFormat(currentLocale, {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 4,
+      maximumFractionDigits: 6,
       useGrouping: true
     });
 
-    function parseVal(input) {
-      if (!input || !input.value) return NaN;
-      // Normaliza a vírgula de mercados PT/DE para ponto flutuante válido em JS
-      let normalized = input.value.replace(',', '.').trim();
-      return parseFloat(normalized);
+    /**
+     * Sanitizador e Parser numérico seguro
+     * Converte vírgula para ponto e bloqueia NaN sem afetar o cursor do input
+     */
+    function parseValue(inputElement) {
+      if (!inputElement || !inputElement.value) return NaN;
+      
+      let raw = inputElement.value.trim().replace(',', '.');
+      // Trata caso onde o usuário digita múltiplos pontos
+      const parts = raw.split('.');
+      if (parts.length > 2) {
+        raw = parts[0] + '.' + parts.slice(1).join('');
+      }
+
+      const val = parseFloat(raw);
+      return isNaN(val) ? NaN : val;
     }
 
+    /**
+     * Resets do estado de exibição do resultado (X)
+     */
+    function resetResult(errorMessage) {
+      els.resX.textContent = errorMessage || '?';
+      els.resX.className = "w-full bg-blue-950/50 border border-blue-500/50 text-white p-2.5 rounded-lg font-mono min-h-[42px] flex items-center justify-center font-extrabold text-xl shadow-inner transition-colors";
+    }
+
+    /**
+     * Motor de Cálculo Principal
+     */
     function calculate() {
-      // Sanitização em tempo real das caixas de entrada de texto
-      const inputsParaSanitizar = [els.a1, els.a2, els.b1, els.c1, els.c2];
-      inputsParaSanitizar.forEach(inp => {
-        if (inp) {
-          let raw = inp.value;
-          let clean = raw.replace(/[^0-9.,-]/g, '');
-          if (raw !== clean) inp.value = clean;
-        }
-      });
+      const a1 = parseValue(els.a1);
+      const a2 = parseValue(els.a2);
+      const b1 = parseValue(els.b1);
 
-      const a1 = parseVal(els.a1);
-      const a2 = parseVal(els.a2);
-      const b1 = parseVal(els.b1);
-
-      // Bloqueio de segurança aritmético
+      // Validação de presença e divisão por zero
       if (isNaN(a1) || isNaN(a2) || isNaN(b1) || a1 === 0 || a2 === 0) {
-        els.resX.innerText = "?";
-        els.resX.style.color = "#fff";
+        resetResult('?');
         return;
       }
 
-      // Razão da Grandeza A em relação à B
-      // Se Direta: x = b1 * (a2/a1) | Se Inversa: x = b1 * (a1/a2)
+      // Proporção da Grandeza A em relação a X
       const ratioA = (els.tA.value === 'dir') ? (a2 / a1) : (a1 / a2);
-      
       let result = b1 * ratioA;
 
-      // Tratamento complementar para o modo Composto (Grandeza C)
-      if (mode === 'compound') {
-        const c1 = parseVal(els.c1);
-        const c2 = parseVal(els.c2);
+      // Cálculo no Modo Composto (Grandeza C)
+      if (currentMode === 'compound') {
+        const c1 = parseValue(els.c1);
+        const c2 = parseValue(els.c2);
 
-        if (!isNaN(c1) && !isNaN(c2) && c1 !== 0 && c2 !== 0) {
-          const ratioC = (els.tC.value === 'dir') ? (c2 / c1) : (c1 / c2);
-          result = result * ratioC;
-        } else {
-          // Mantém o placeholder neutro de espera caso C esteja parcial ou inválido
-          els.resX.innerText = "?";
-          els.resX.style.color = "#fff";
+        if (isNaN(c1) || isNaN(c2) || c1 === 0 || c2 === 0) {
+          resetResult('?');
           return;
+        }
+
+        const ratioC = (els.tC.value === 'dir') ? (c2 / c1) : (c1 / c2);
+        result *= ratioC;
+      }
+
+      // Validação final e exibição
+      if (isFinite(result)) {
+        els.resX.textContent = formatter.format(result);
+        els.resX.className = "w-full bg-emerald-950/40 border border-emerald-500 text-emerald-400 p-2.5 rounded-lg font-mono min-h-[42px] flex items-center justify-center font-extrabold text-xl shadow-inner transition-colors";
+      } else {
+        resetResult('Erro');
+      }
+    }
+
+    /**
+     * Gerenciador do Estado da UI (Tabs)
+     */
+    function setMode(mode) {
+      currentMode = mode;
+      const isSimple = mode === 'simple';
+
+      // Estilização das abas via utilitários do Tailwind
+      els.btnS.className = isSimple
+        ? 'flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 bg-blue-600 text-white shadow-lg shadow-blue-500/20'
+        : 'flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 bg-transparent text-slate-400 hover:text-slate-200';
+
+      els.btnC.className = !isSimple
+        ? 'flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 bg-blue-600 text-white shadow-lg shadow-blue-500/20'
+        : 'flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 bg-transparent text-slate-400 hover:text-slate-200';
+
+      // Alterna exibição da linha adicional
+      if (els.rowC) {
+        if (isSimple) {
+          els.rowC.classList.add('hidden');
+          els.rowC.classList.remove('grid');
+        } else {
+          els.rowC.classList.remove('hidden');
+          els.rowC.classList.add('grid');
         }
       }
 
-      // Impressão limpa formatada
-      if (isFinite(result)) {
-        els.resX.innerText = formatter.format(result);
-        els.resX.style.color = "#60a5fa"; // Feedback visual de sucesso (Azul)
-      } else {
-        els.resX.innerText = "?";
-        els.resX.style.color = "#fff";
-      }
-    }
-
-    // Gerenciador de alternância visual de Abas (Modos)
-    function switchMode(m) {
-      mode = m;
-      const active = m === 'simple' ? els.btnS : els.btnC;
-      const inactive = m === 'simple' ? els.btnC : els.btnS;
-
-      active.style.background = '#3b82f6';
-      active.style.color = 'white';
-      inactive.style.background = 'transparent';
-      inactive.style.color = '#94a3b8';
-      
-      if (els.rowC) {
-        els.rowC.style.display = m === 'simple' ? 'none' : 'grid';
-      }
       calculate();
     }
 
-    // Atribuição segura dos eventos nos botões de modo
-    els.btnS.onclick = (e) => { e.preventDefault(); switchMode('simple'); };
-    els.btnC.onclick = (e) => { e.preventDefault(); switchMode('compound'); };
+    // Registra Event Listeners sem acoplamento inline
+    els.btnS.addEventListener('click', (e) => { e.preventDefault(); setMode('simple'); });
+    els.btnC.addEventListener('click', (e) => { e.preventDefault(); setMode('compound'); });
 
-    // Observadores unificados (input para digitação, change para os combos selects)
-    const inputs = [els.a1, els.a2, els.b1, els.c1, els.c2];
-    inputs.forEach(inEl => {
-      if (inEl) inEl.addEventListener('input', calculate);
-    });
-
-    const selects = [els.tA, els.tC];
-    selects.forEach(selEl => {
-      if (selEl) {
-        selEl.addEventListener('change', calculate);
-        selEl.addEventListener('input', calculate); // Fallback móvel secundário
+    const watchList = [els.a1, els.a2, els.b1, els.c1, els.c2, els.tA, els.tC];
+    watchList.forEach(element => {
+      if (element) {
+        element.addEventListener('input', calculate);
+        element.addEventListener('change', calculate);
       }
     });
 
-    // Força execução inicial de limpeza estrutural
-    switchMode('simple');
-  });
+    // Inicialização
+    setMode('simple');
+  }
+
+  // Suporte a carregamento assíncrono ou diferido (defer)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRuleOfThreeSolver);
+  } else {
+    initRuleOfThreeSolver();
+  }
 })();

@@ -1,209 +1,78 @@
-{{ $isEn := eq .Lang "en" }}
-{{ $isDe := eq .Lang "de" }}
-{{ $isJa := eq .Lang "ja" }}
+{{ $lang := lower site.Language.Lang }}
 
-{{ $labelIp := cond $isEn "Base IP Address" (cond $isDe "Basis-IP-Adresse" (cond $isJa "ベースIPアドレス" "Endereço IP Base")) }}
-{{ $labelCidr := cond $isEn "Subnet Mask / Prefix (CIDR)" (cond $isDe "Subnetzmaske / Präfix (CIDR)" (cond $isJa "サブネットマスク / プレフィックス (CIDR)" "Máscara / Prefixo (CIDR)")) }}
-{{ $btnCalc := cond $isEn "Calculate Subnet" (cond $isDe "Subnetz berechnen" (cond $isJa "サブネットを計算" "Calcular Sub-rede")) }}
-{{ $resMask := cond $isEn "Decimal Subnet Mask" (cond $isDe "Dezimal-Subnetzmaske" (cond $isJa "10進数サブネットマスク" "Máscara Decimais")) }}
-{{ $resNet := cond $isEn "Network ID" (cond $isDe "Netzwerk-ID" (cond $isJa "ネットワークID" "ID de Rede")) }}
-{{ $resBroad := cond $isEn "Broadcast Address" (cond $isDe "Broadcast-Adresse" (cond $isJa "ブロードキャストアドレス" "Endereço de Broadcast")) }}
-{{ $resRange := cond $isEn "Usable IP Range" (cond $isDe "Nutzbarer IP-Bereich" (cond $isJa "利用可能なIPアドレス範囲" "Faixa de IPs Úteis")) }}
-{{ $resHosts := cond $isEn "Valid Hosts" (cond $isDe "Gültige Hosts" (cond $isJa "有効なホスト数" "Hosts Válidos")) }}
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex/contrib/auto-render.min.js"></script>
-
-<style>
-  .render-math-block, .katex-display {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    white-space: nowrap !important;
-    padding: 0.5rem 0 !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-  .cidr-input:focus, .cidr-select:focus {
-    outline: none !important;
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
-  }
-</style>
-
-<script>
-  (function() {
-    function injetarKaTeX() {
-      if (typeof renderMathInElement === "function") {
-        renderMathInElement(document.body, {
-          delimiters: [
-            {left: '$$', right: '$$', display: true},
-            {left: '$', right: '$', display: false}
-          ],
-          ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
-          throwOnError: false
-        });
-      }
-    }
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", injetarKaTeX);
-    } else {
-      injetarKaTeX();
-    }
-    window.addEventListener("load", injetarKaTeX);
-  })();
-</script>
-
-<div class="cidr-tool-box" style="background: rgba(30, 41, 59, 0.25); border: 1px solid #1e293b; padding: 1.75rem; border-radius: 0.75rem; color: #fff;">
+<div id="cidr-tool-container" data-lang="{{ $lang }}" class="p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
   
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
     
     <div>
-      <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #94a3b8; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">{{ $labelIp }}</label>
-      <input type="text" id="ip-address" class="cidr-input" value="192.168.1.1" placeholder="Ex: 10.0.0.1" 
-             style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 0.5rem; padding: 0.6rem 0.75rem; color: #fff; font-size: 0.9rem; font-family: monospace;">
+      <label for="ip-address" class="block text-xs font-mono font-semibold text-slate-400 uppercase tracking-wider mb-2">
+        {{ i18n "tool_cidr_label_ip" | default "Endereço IP Base" }}
+      </label>
+      <input type="text" 
+             id="ip-address" 
+             value="192.168.1.1" 
+             placeholder="Ex: 10.0.0.1" 
+             inputmode="decimal"
+             autocomplete="off"
+             autocorrect="off"
+             autocapitalize="off"
+             spellcheck="false"
+             class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors">
     </div>
 
     <div>
-      <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #94a3b8; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">{{ $labelCidr }}</label>
-      <select id="cidr-prefix" class="cidr-select" 
-              style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 0.5rem; padding: 0.6rem 0.75rem; color: #fff; font-size: 0.9rem; font-family: monospace; cursor: pointer;">
+      <label for="cidr-prefix" class="block text-xs font-mono font-semibold text-slate-400 uppercase tracking-wider mb-2">
+        {{ i18n "tool_cidr_label_prefix" | default "Máscara / Prefixo (CIDR)" }}
+      </label>
+      <select id="cidr-prefix" 
+              class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2.5 text-white font-mono text-sm cursor-pointer focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors">
       </select>
     </div>
 
   </div>
 
-  <button id="btn-calculate" style="width: 100%; background: #2563eb; color: #fff; border: none; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: background 0.2s;">
-    {{ $btnCalc }}
+  <button id="btn-calculate" 
+          type="button" 
+          class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer">
+    {{ i18n "tool_cidr_btn_calc" | default "Calcular Sub-rede" }}
   </button>
 
-  <div id="cidr-results" style="margin-top: 1.75rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; border-top: 1px dashed #334155; padding-top: 1.5rem;">
+  <div id="cidr-results" class="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-dashed border-slate-700/60 pt-6">
     
-    <div style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
-      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resMask }}</span>
-      <span id="res-mask" style="font-family: monospace; font-size: 1.05rem; font-weight: bold;">-</span>
+    <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800">
+      <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
+        {{ i18n "tool_cidr_res_mask" | default "Máscara de Sub-rede" }}
+      </span>
+      <span id="res-mask" class="font-mono text-base font-bold text-white leading-relaxed">-</span>
     </div>
 
-    <div style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
-      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resNet }}</span>
-      <span id="res-network" style="font-family: monospace; font-size: 1.05rem; font-weight: bold; color: #34d399;">-</span>
+    <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800">
+      <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
+        {{ i18n "tool_cidr_res_net" | default "ID de Rede" }}
+      </span>
+      <span id="res-network" class="font-mono text-base font-bold text-emerald-400 leading-relaxed">-</span>
     </div>
 
-    <div id="box-broadcast" style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
-      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resBroad }}</span>
-      <span id="res-broadcast" style="font-family: monospace; font-size: 1.05rem; font-weight: bold; color: #f87171;">-</span>
+    <div id="box-broadcast" class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800 transition-opacity">
+      <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
+        {{ i18n "tool_cidr_res_broad" | default "Endereço de Broadcast" }}
+      </span>
+      <span id="res-broadcast" class="font-mono text-base font-bold text-rose-400 leading-relaxed">-</span>
     </div>
 
-    <div style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
-      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resRange }}</span>
-      <span id="res-range" style="font-family: monospace; font-size: 0.9rem; font-weight: bold; display: block; margin-top: 0.2rem;">-</span>
+    <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800 sm:col-span-2 lg:col-span-2">
+      <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
+        {{ i18n "tool_cidr_res_range" | default "Faixa de IPs Utilizáveis" }}
+      </span>
+      <span id="res-range" class="font-mono text-sm font-bold text-white block mt-1">-</span>
     </div>
 
-    <div style="background: rgba(15, 23, 42, 0.4); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #1e293b;">
-      <span style="display: block; font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700;">{{ $resHosts }}</span>
-      <span id="res-hosts" style="font-family: monospace; font-size: 1.05rem; font-weight: bold;">-</span>
+    <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800">
+      <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
+        {{ i18n "tool_cidr_res_hosts" | default "Hosts Válidos" }}
+      </span>
+      <span id="res-hosts" class="font-mono text-base font-bold text-white leading-relaxed">-</span>
     </div>
 
   </div>
 </div>
-
-<script>
-  (function() {
-    const selectPrefix = document.getElementById('cidr-prefix');
-    const inputIp = document.getElementById('ip-address');
-    const btnCalc = document.getElementById('btn-calculate');
-
-    // Injeção de variáveis de localidade vindas do Hugo
-    const currentLang = {{ .Lang }};
-    
-    // Mapeamento dinâmico dos alertas e fallbacks no ecossistema JS
-    let txtAlertInvalid = "Por favor, insira um endereço IPv4 válido (ex: 192.168.1.1).";
-    let txtSingleHost = "N/A (Host único)";
-    let langLocale = 'pt-BR';
-
-    if (currentLang === "en") {
-      txtAlertInvalid = "Please enter a valid IPv4 address (e.g., 192.168.1.1).";
-      txtSingleHost = "N/A (Single host)";
-      langLocale = 'en-US';
-    } else if (currentLang === "de") {
-      txtAlertInvalid = "Bitte geben Sie eine gültige IPv4-Adresse ein (z. B. 192.168.1.1).";
-      txtSingleHost = "N/V (Einzelner Host)";
-      langLocale = 'de-DE';
-    } else if (currentLang === "ja") {
-      txtAlertInvalid = "有効なIPv4アドレスを入力してください (例: 192.168.1.1)。";
-      txtSingleHost = "該当なし (単一ホスト)";
-      langLocale = 'ja-JP';
-    }
-
-    for (let i = 32; i >= 1; i--) {
-      let opt = document.createElement('option');
-      opt.value = i;
-      opt.innerHTML = `/${i}`;
-      if (i === 24) opt.selected = true;
-      selectPrefix.appendChild(opt);
-    }
-
-    function ipToLong(ip) {
-      return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
-    }
-
-    function longToIp(long) {
-      return [(long >>> 24) & 255, (long >>> 16) & 255, (long >>> 8) & 255, long & 255].join('.');
-    }
-
-    function calcularCidr() {
-      const ipStr = inputIp.value.trim();
-      const prefix = parseInt(selectPrefix.value, 10);
-      
-      const regexIp = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
-      if (!regexIp.test(ipStr)) {
-        alert(txtAlertInvalid);
-        return;
-      }
-
-      const ipLong = ipToLong(ipStr);
-      const maskLong = prefix === 0 ? 0 : (~0 << (32 - prefix)) >>> 0;
-      const networkLong = (ipLong & maskLong) >>> 0;
-      const broadcastLong = (networkLong | (~maskLong)) >>> 0;
-
-      const txtMask = document.getElementById('res-mask');
-      const txtNetwork = document.getElementById('res-network');
-      const txtBroadcast = document.getElementById('res-broadcast');
-      const txtRange = document.getElementById('res-range');
-      const txtHosts = document.getElementById('res-hosts');
-      const boxBroadcast = document.getElementById('box-broadcast');
-
-      txtMask.innerText = longToIp(maskLong);
-      txtNetwork.innerText = longToIp(networkLong);
-      txtBroadcast.innerText = longToIp(broadcastLong);
-
-      if (prefix === 32) {
-        boxBroadcast.style.opacity = "0.5";
-        txtBroadcast.innerText = txtSingleHost;
-        txtRange.innerText = `${longToIp(networkLong)}`;
-        txtHosts.innerText = "1";
-      } else if (prefix === 31) {
-        boxBroadcast.style.opacity = "1";
-        txtRange.innerText = `${longToIp(networkLong)} - ${longToIp(broadcastLong)}`;
-        txtHosts.innerText = prefix === 31 && currentLang === "ja" ? "2 (RFC 3021適用)" : "2 (RFC 3021)";
-      } else {
-        boxBroadcast.style.opacity = "1";
-        const firstUsable = (networkLong + 1) >>> 0;
-        const lastUsable = (broadcastLong - 1) >>> 0;
-        txtRange.innerText = `${longToIp(firstUsable)} - ${longToIp(lastUsable)}`;
-        
-        const totalHosts = Math.pow(2, 32 - prefix) - 2;
-        txtHosts.innerText = totalHosts.toLocaleString(langLocale);
-      }
-    }
-
-    btnCalc.addEventListener('click', calcularCidr);
-    inputIp.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') calcularCidr();
-    });
-
-    calcularCidr();
-  })();
-</script>

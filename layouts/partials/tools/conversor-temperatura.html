@@ -1,38 +1,71 @@
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    {{/* 1. Captura segura do idioma da página e do dicionário de dados */}}
-    {{ $currentLang := site.Language.Lang }}
-    {{ $data := site.Data.units.temperature }}
+{{ $lang := lower site.Language.Lang }}
 
-    {{ if $data }}
-        {{ range $data }}
-        <div class="flex flex-col gap-2" style="box-sizing: border-box;">
-            
-            {{/* 2. Rótulo dinâmico traduzido para os 4 idiomas da plataforma */}}
-            <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest" style="margin-bottom: 2px; display: block;">
-                {{ if eq $currentLang "pt" }}
-                    {{ .name_pt }}
-                {{ else if eq $currentLang "de" }}
-                    {{ .name_de | default .name_en }}
-                {{ else if eq $currentLang "ja" }}
-                    {{ .name_ja | default .name_en }}
-                {{ else }}
-                    {{ .name_en }}
-                {{ end }} ({{ .symbol }})
-            </label>
-            
-            {{/* 3. Input configurado e higienizado para o solver.js termodinâmico */}}
-            <input type="text" 
-                   id="temp-{{ .id }}" 
-                   data-unit="{{ .id }}" 
-                   inputmode="text" 
-                   placeholder="0" 
-                   style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; width: 100%; box-sizing: border-box;">
-        </div>
-        {{ end }}
-    {{ else }}
-        {{/* 4. Mensagem de depuração em conformidade caso o arquivo TOML falhe */}}
-        <p class="text-red-500 col-span-full text-center font-mono text-xs" style="margin: 0; padding: 1rem; width: 100%;">
-            [ERROR] data/units.toml: [[temperature]] block not found or failed to parse.
-        </p>
-    {{ end }}
+<div id="temp-converter-container" data-lang="{{ $lang }}" class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+  
+  <p class="m-0 text-sm text-slate-400 leading-relaxed">
+    {{ i18n "tool_temp_instruction" | default "Digite um valor de temperatura em qualquer uma das unidades abaixo para converter em tempo real." }}
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    
+    <!-- Celsius (°C) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="temp-celsius" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase">
+        <i data-lucide="thermometer" class="w-4 h-4 shrink-0"></i>
+        <span>{{ i18n "unit_celsius" | default "Celsius" }} (°C)</span>
+      </label>
+      <input type="text" id="temp-celsius" data-unit="celsius" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 25"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+    <!-- Fahrenheit (°F) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="temp-fahrenheit" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase">
+        <i data-lucide="thermometer-snowflake" class="w-4 h-4 shrink-0"></i>
+        <span>{{ i18n "unit_fahrenheit" | default "Fahrenheit" }} (°F)</span>
+      </label>
+      <input type="text" id="temp-fahrenheit" data-unit="fahrenheit" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 77"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+    <!-- Kelvin (K) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="temp-kelvin" class="flex items-center gap-2 text-xs font-bold text-emerald-400 tracking-wider uppercase">
+        <i data-lucide="zap" class="w-4 h-4 shrink-0"></i>
+        <span>{{ i18n "unit_kelvin" | default "Kelvin (Absoluto)" }} (K)</span>
+      </label>
+      <input type="text" id="temp-kelvin" data-unit="kelvin" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 298.15"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+    </div>
+
+    <!-- Rankine (°R) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="temp-rankine" class="flex items-center gap-2 text-xs font-bold text-slate-400 tracking-wider uppercase">
+        <i data-lucide="gauge" class="w-4 h-4 shrink-0"></i>
+        <span>{{ i18n "unit_rankine" | default "Rankine" }} (°R)</span>
+      </label>
+      <input type="text" id="temp-rankine" data-unit="rankine" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 536.67"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+    <!-- Réaumur (°Ré) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="temp-reaumur" class="flex items-center gap-2 text-xs font-bold text-slate-400 tracking-wider uppercase">
+        <i data-lucide="flame" class="w-4 h-4 shrink-0"></i>
+        <span>{{ i18n "unit_reaumur" | default "Réaumur" }} (°Ré)</span>
+      </label>
+      <input type="text" id="temp-reaumur" data-unit="reaumur" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 20"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+  </div>
+
+  <div class="flex justify-end pt-2 border-t border-slate-800/60">
+    <button id="temp-btn-clear" type="button" 
+            class="bg-slate-950 hover:bg-slate-800 text-slate-400 border border-slate-800 font-semibold py-2 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2">
+      <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+      <span>{{ i18n "btn_clear_all" | default "Limpar Todos os Campos" }}</span>
+    </button>
+  </div>
+
 </div>

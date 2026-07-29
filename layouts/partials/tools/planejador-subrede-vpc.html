@@ -1,119 +1,165 @@
-<div class="tool-container w-full max-w-5xl mx-auto p-1">
+{{ $lang := lower site.Language.Lang }}
+
+<div id="vpc-planner-container" data-lang="{{ $lang }}" class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
     
-    <div id="vpc-error" class="hidden p-4 mb-6 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 border border-red-200 font-medium" role="alert"
-         data-err-format="{{ T "vpc_err_format" | default "Invalid IP address format (Use X.X.X.X)." }}"
-         data-err-range="{{ T "vpc_err_range" | default "Each octet must be between 0 and 255." }}"
-         data-err-small="{{ T "vpc_err_small" | default "The parent prefix must be /30 or smaller to allow binary splitting." }}">
+    <!-- Painel de Erros e Avisos de Validação -->
+    <div id="vpc-error" class="hidden p-4 text-xs font-mono rounded-lg bg-red-950/50 text-red-400 border border-red-900/60 transition-all" role="alert"
+         data-err-format="{{ i18n "vpc_err_format" | default "Formato de endereço IP inválido (Use X.X.X.X)." }}"
+         data-err-range="{{ i18n "vpc_err_range" | default "Cada octeto do IP deve estar entre 0 e 255." }}"
+         data-err-small="{{ i18n "vpc_err_small" | default "O prefixo pai deve ser /30 ou menor para permitir divisão binária em sub-redes." }}">
     </div>
 
-    <div class="tool-settings grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+    <!-- Controles de Configuração da Sub-rede -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 bg-slate-950/50 p-5 rounded-xl border border-slate-800">
         
+        <!-- IP Base -->
         <div class="flex flex-col gap-1.5">
-            <label for="vpc-cidr-ip" class="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                {{ T "vpc_label_ip" | default "Base IP Address:" }}
+            <label for="vpc-cidr-ip" class="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
+                {{ i18n "vpc_label_ip" | default "Endereço IP Base:" }}
             </label>
-            <input type="text" id="vpc-cidr-ip" class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 font-mono bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700" value="10.0.0.0" placeholder="10.0.0.0" autocomplete="off" spellcheck="false">
+            <input type="text" id="vpc-cidr-ip" 
+                   class="w-full px-3.5 py-2.5 border rounded-lg font-mono text-sm bg-slate-950 text-white border-slate-800 focus:outline-none focus:border-indigo-500 transition-colors" 
+                   value="10.0.0.0" placeholder="10.0.0.0" autocomplete="off" spellcheck="false">
         </div>
 
+        <!-- Máscara Pai CIDR -->
         <div class="flex flex-col gap-1.5">
-            <label for="vpc-cidr-mask" class="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                {{ T "vpc_label_mask" | default "Parent CIDR Mask:" }}
+            <label for="vpc-cidr-mask" class="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
+                {{ i18n "vpc_label_mask" | default "Máscara CIDR Pai:" }}
             </label>
-            <select id="vpc-cidr-mask" class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 font-mono">
-                {{ range seq 0 30 }}
-                <option value="{{ . }}" {{ if eq . 16 }}selected{{ end }}>/{{ . }}</option>
-                {{ end }}
+            <select id="vpc-cidr-mask" 
+                    class="w-full px-3.5 py-2.5 border rounded-lg bg-slate-950 text-white border-slate-800 font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+                <option value="0">/0 (0.0.0.0)</option>
+                <option value="1">/1 (128.0.0.0)</option>
+                <option value="2">/2 (192.0.0.0)</option>
+                <option value="3">/3 (224.0.0.0)</option>
+                <option value="4">/4 (240.0.0.0)</option>
+                <option value="5">/5 (248.0.0.0)</option>
+                <option value="6">/6 (252.0.0.0)</option>
+                <option value="7">/7 (254.0.0.0)</option>
+                <option value="8">/8 (255.0.0.0)</option>
+                <option value="9">/9 (255.128.0.0)</option>
+                <option value="10">/10 (255.192.0.0)</option>
+                <option value="11">/11 (255.224.0.0)</option>
+                <option value="12">/12 (255.240.0.0)</option>
+                <option value="13">/13 (255.248.0.0)</option>
+                <option value="14">/14 (255.252.0.0)</option>
+                <option value="15">/15 (255.254.0.0)</option>
+                <option value="16" selected>/16 (255.255.0.0)</option>
+                <option value="17">/17 (255.255.128.0)</option>
+                <option value="18">/18 (255.255.192.0)</option>
+                <option value="19">/19 (255.255.224.0)</option>
+                <option value="20">/20 (255.255.240.0)</option>
+                <option value="21">/21 (255.255.248.0)</option>
+                <option value="22">/22 (255.255.252.0)</option>
+                <option value="23">/23 (255.255.254.0)</option>
+                <option value="24">/24 (255.255.255.0)</option>
+                <option value="25">/25 (255.255.255.128)</option>
+                <option value="26">/26 (255.255.255.192)</option>
+                <option value="27">/27 (255.255.255.224)</option>
+                <option value="28">/28 (255.255.255.240)</option>
+                <option value="29">/29 (255.255.255.248)</option>
+                <option value="30">/30 (255.255.255.252)</option>
             </select>
         </div>
 
+        <!-- Provedor de Nuvem -->
         <div class="flex flex-col gap-1.5 sm:col-span-2 md:col-span-1">
-            <label for="vpc-provider" class="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                {{ T "vpc_label_provider" | default "Cloud Provider:" }}
+            <label for="vpc-provider" class="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
+                {{ i18n "vpc_label_provider" | default "Provedor de Nuvem:" }}
             </label>
-            <select id="vpc-provider" class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700">
-                <option value="standard" selected>{{ T "vpc_prov_standard" | default "Standard RFC (Network / Broadcast)" }}</option>
-                <option value="aws">Amazon Web Services (AWS - 5 IPs)</option>
-                <option value="gcp">Google Cloud Platform (GCP - 4 IPs)</option>
-                <option value="azure">Microsoft Azure (5 IPs)</option>
+            <select id="vpc-provider" 
+                    class="w-full px-3.5 py-2.5 border rounded-lg bg-slate-950 text-white border-slate-800 text-sm focus:outline-none focus:border-indigo-500 transition-colors font-medium">
+                <option value="standard" selected>{{ i18n "vpc_prov_standard" | default "Padrão RFC (2 IPs Reservados)" }}</option>
+                <option value="aws">Amazon Web Services (AWS - 5 IPs Reservados)</option>
+                <option value="gcp">Google Cloud Platform (GCP - 4 IPs Reservados)</option>
+                <option value="azure">Microsoft Azure (5 IPs Reservados)</option>
             </select>
         </div>
     </div>
 
-    <div id="vpc-output" class="tool-results grid grid-cols-1 md:grid-cols-2 gap-6 transition-opacity duration-200">
+    <!-- Grid de Resultados (Sub-redes Divididas) -->
+    <div id="vpc-output" class="grid grid-cols-1 md:grid-cols-2 gap-6 transition-opacity duration-200">
         
-        <div class="border rounded-xl p-5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+        <!-- Sub-rede A -->
+        <div class="border rounded-xl p-5 bg-slate-950/60 border-slate-800 shadow-sm flex flex-col justify-between">
             <div>
-                <h3 class="text-base font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                    <span class="bg-blue-600 text-white text-xs font-black px-2 py-0.5 rounded">A</span>
-                    <span class="truncate">{{ T "vpc_subnet_a" | default "Subnet A (Public / Lower Half)" }}</span>
-                </h3>
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+                    <h3 class="text-base font-bold flex items-center gap-2 text-white">
+                        <span class="bg-indigo-600 text-white text-xs font-mono font-black px-2 py-1 rounded">A</span>
+                        <span class="truncate">{{ i18n "vpc_subnet_a" | default "Sub-rede A (Pública / Metade Inferior)" }}</span>
+                    </h3>
+                </div>
                 
                 <div class="space-y-3 text-sm">
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_net" | default "Network:" }}</span>
-                        <span class="font-mono font-bold text-gray-900 dark:text-gray-100 text-right break-all">
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_net" | default "Endereço de Rede:" }}</span>
+                        <span class="font-mono font-bold text-indigo-400 text-right break-all">
                             <span id="suba-network">-</span>/<span id="suba-prefix">-</span>
                         </span>
                     </div>
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_mask" | default "Subnet Mask:" }}</span>
-                        <span id="suba-mask" class="font-mono text-gray-700 dark:text-gray-300 text-right break-all">-</span>
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_mask" | default "Máscara de Sub-rede:" }}</span>
+                        <span id="suba-mask" class="font-mono text-slate-300 text-right break-all">-</span>
                     </div>
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_first" | default "First Usable IP:" }}</span>
-                        <span id="suba-first" class="font-mono font-semibold text-green-600 dark:text-green-400 text-right break-all">-</span>
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_first" | default "Primeiro IP Útil:" }}</span>
+                        <span id="suba-first" class="font-mono font-semibold text-emerald-400 text-right break-all">-</span>
                     </div>
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_last" | default "Last Usable IP:" }}</span>
-                        <span id="suba-last" class="font-mono font-semibold text-green-600 dark:text-green-400 text-right break-all">-</span>
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_last" | default "Último IP Útil:" }}</span>
+                        <span id="suba-last" class="font-mono font-semibold text-emerald-400 text-right break-all">-</span>
                     </div>
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_bcast" | default "Broadcast:" }}</span>
-                        <span id="suba-broadcast" class="font-mono text-gray-700 dark:text-gray-300 text-right break-all">-</span>
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_bcast" | default "Endereço de Broadcast:" }}</span>
+                        <span id="suba-broadcast" class="font-mono text-slate-300 text-right break-all">-</span>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between items-center gap-4 pt-4 mt-2 border-t-2 border-dashed border-gray-200 dark:border-gray-800">
-                <span class="font-semibold text-gray-800 dark:text-gray-200">{{ T "vpc_res_hosts" | default "Usable Hosts:" }}</span>
-                <span id="suba-hosts" class="text-lg font-black text-blue-600 dark:text-blue-400 text-right">-</span>
+            <div class="flex justify-between items-center gap-4 pt-4 mt-4 border-t-2 border-dashed border-slate-800">
+                <span class="font-bold text-xs uppercase font-mono tracking-wider text-slate-400">{{ i18n "vpc_res_hosts" | default "Hosts Úteis:" }}</span>
+                <span id="suba-hosts" class="text-xl font-mono font-black text-indigo-400 text-right">-</span>
             </div>
         </div>
 
-        <div class="border rounded-xl p-5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+        <!-- Sub-rede B -->
+        <div class="border rounded-xl p-5 bg-slate-950/60 border-slate-800 shadow-sm flex flex-col justify-between">
             <div>
-                <h3 class="text-base font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                    <span class="bg-purple-600 text-white text-xs font-black px-2 py-0.5 rounded">B</span>
-                    <span class="truncate">{{ T "vpc_subnet_b" | default "Subnet B (Private / Upper Half)" }}</span>
-                </h3>
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+                    <h3 class="text-base font-bold flex items-center gap-2 text-white">
+                        <span class="bg-purple-600 text-white text-xs font-mono font-black px-2 py-1 rounded">B</span>
+                        <span class="truncate">{{ i18n "vpc_subnet_b" | default "Sub-rede B (Privada / Metade Superior)" }}</span>
+                    </h3>
+                </div>
                 
                 <div class="space-y-3 text-sm">
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_net" | default "Network:" }}</span>
-                        <span class="font-mono font-bold text-gray-900 dark:text-gray-100 text-right break-all">
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_net" | default "Endereço de Rede:" }}</span>
+                        <span class="font-mono font-bold text-purple-400 text-right break-all">
                             <span id="subb-network">-</span>/<span id="subb-prefix">-</span>
                         </span>
                     </div>
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_mask" | default "Subnet Mask:" }}</span>
-                        <span id="subb-mask" class="font-mono text-gray-700 dark:text-gray-300 text-right break-all">-</span>
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_mask" | default "Máscara de Sub-rede:" }}</span>
+                        <span id="subb-mask" class="font-mono text-slate-300 text-right break-all">-</span>
                     </div>
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_first" | default "First Usable IP:" }}</span>
-                        <span id="subb-first" class="font-mono font-semibold text-green-600 dark:text-green-400 text-right break-all">-</span>
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_first" | default "Primeiro IP Útil:" }}</span>
+                        <span id="subb-first" class="font-mono font-semibold text-emerald-400 text-right break-all">-</span>
                     </div>
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_last" | default "Last Usable IP:" }}</span>
-                        <span id="subb-last" class="font-mono font-semibold text-green-600 dark:text-green-400 text-right break-all">-</span>
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_last" | default "Último IP Útil:" }}</span>
+                        <span id="subb-last" class="font-mono font-semibold text-emerald-400 text-right break-all">-</span>
                     </div>
-                    <div class="flex justify-between items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <span class="text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ T "vpc_res_bcast" | default "Broadcast:" }}</span>
-                        <span id="subb-broadcast" class="font-mono text-gray-700 dark:text-gray-300 text-right break-all">-</span>
+                    <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_bcast" | default "Endereço de Broadcast:" }}</span>
+                        <span id="subb-broadcast" class="font-mono text-slate-300 text-right break-all">-</span>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between items-center gap-4 pt-4 mt-2 border-t-2 border-dashed border-gray-200 dark:border-gray-800">
-                <span class="font-semibold text-gray-800 dark:text-gray-200">{{ T "vpc_res_hosts" | default "Usable Hosts:" }}</span>
-                <span id="subb-hosts" class="text-lg font-black text-purple-600 dark:text-purple-400 text-right">-</span>
+            <div class="flex justify-between items-center gap-4 pt-4 mt-4 border-t-2 border-dashed border-slate-800">
+                <span class="font-bold text-xs uppercase font-mono tracking-wider text-slate-400">{{ i18n "vpc_res_hosts" | default "Hosts Úteis:" }}</span>
+                <span id="subb-hosts" class="text-xl font-mono font-black text-purple-400 text-right">-</span>
             </div>
         </div>
 

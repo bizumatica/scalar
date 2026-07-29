@@ -25,8 +25,8 @@ A confusão ocorre porque existem dois padrões principais para definir o que é
 
 Você já comprou um HD de **500 GB** e, ao plugar no computador, o Windows mostrou apenas cerca de **465 GiB**? Isso não é um defeito, é apenas uma diferença de unidades:
 
-1.  O fabricante vende o disco usando o padrão **SI (Base 10)**: 500.000.000.000 Bytes.
-2.  O sistema operacional lê esses mesmos Bytes usando o padrão **IEC (Base 2)**.
+1. O fabricante vende o disco usando o padrão **SI (Base 10)**: 500.000.000.000 Bytes.
+2. O sistema operacional lê esses mesmos Bytes usando o padrão **IEC (Base 2)**.
 
 ### Tabela Comparativa de Unidades
 
@@ -43,7 +43,7 @@ Você já comprou um HD de **500 GB** e, ao plugar no computador, o Windows most
 
 Para converter de uma unidade SI para uma unidade IEC correspondente (ex: MB para MiB):
 
-1.  Transforme o valor total para a unidade base (**Bytes**).
-2.  Divida o total de Bytes pelo fator da base 2 (ex: por 1.048.576 para obter MiB).
+1. Transforme o valor total para a unidade base (**Bytes**).
+2. Divida o total de Bytes pelo fator da base 2 (ex: por 1.048.576 para obter MiB).
 
 O **Scalar** automatiza esse processo, garantindo que você não cometa erros de arredondamento em cálculos de largura de banda ou dimensionamento de servidores.

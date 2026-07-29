@@ -1,15 +1,15 @@
 ---
 title: "Calculadora de MDC e MMC: Máximo Divisor Comum e Mínimo Múltiplo Comum"
 description: "Calcule o MDC e o MMC entre números instantaneamente. Entenda a decomposição em fatores primos e o Algoritmo de Euclides com exemplos."
-date: 2024-05-20
+date: 2026-05-26
 icon: "calculator"
-keywords: ["MDC", "MMC", "máximo divisor comum", "mínimo múltiplo comum", "cálculo de frações", "fatores primos"]
+keywords: ["MDC", "MMC", "máximo divisor comum", "mínimo múltiplo comum", "cálculo de frações", "fatores primos", "algoritmo de euclides"]
 slug: "mdc-mmc"
 ---
 
-O cálculo do **MDC** e do **MMC** é um requisito fundamental na aritmética, sendo essencial para a simplificação de frações, resolução de problemas de lógica e sincronização de eventos periódicos. 
+O cálculo do **MDC** (Máximo Divisor Comum) e do **MMC** (Mínimo Múltiplo Comum) é um requisito fundamental na aritmética, sendo essencial para a simplificação de frações, resolução de problemas de lógica, criptografia e sincronização de eventos periódicos. 
 
-No **Scalar**, utilizamos algoritmos otimizados para entregar o resultado exato, facilitando a vida de estudantes e profissionais. Basta inserir os valores nos campos abaixo para processar o cálculo.
+No **Scalar**, utilizamos algoritmos otimizados para entregar o resultado exato instantaneamente. Basta inserir os valores no campo acima para processar o cálculo em tempo real.
 
 ## Definições Fundamentais
 
@@ -23,33 +23,37 @@ No **Scalar**, utilizamos algoritmos otimizados para entregar o resultado exato,
 
 A forma mais didática de encontrar esses valores é através da fatoração simultânea. Vamos usar os números **12 e 18** como exemplo:
 
-
-
-1.  **Fatoração:**
-    * 12, 18 | **2** (ambos dividem)
-    * 6, 9 | **3** (ambos dividem)
-    * 2, 3 | 2
-    * 1, 3 | 3
-    * 1, 1 | 
+| Valores a Fatorar | Fator Primo | Divisor Comum? (MDC) |
+| :--- | :--- | :--- |
+| **12, 18** | **2** | Sim (divide 12 e 18) |
+| **6, 9** | **3** | Sim (divide 6 e 9) |
+| **2, 3** | **2** | Não (divide apenas 2) |
+| **1, 3** | **3** | Não (divide apenas 3) |
+| **1, 1** | $-$ | Fim do processo |
 
 ### Cálculo do MMC
-Multiplicamos **todos** os fatores primos encontrados:
-$$2 \times 3 \times 2 \times 3 = 36$$
-**MMC (12, 18) = 36**
+Multiplicamos **todos** os fatores primos encontrados na decomposição:
+$$\text{MMC}(12, 18) = 2 \times 3 \times 2 \times 3 = 36$$
 
 ### Cálculo do MDC
-Multiplicamos apenas os fatores que dividiram **todos** os números ao mesmo tempo (marcados em negrito):
-$$2 \times 3 = 6$$
-**MDC (12, 18) = 6**
+Multiplicamos apenas os fatores primos que dividiram **todos** os números simultaneamente (destacados):
+$$\text{MDC}(12, 18) = 2 \times 3 = 6$$
 
 ## O Algoritmo de Euclides
-Para números muito grandes, o Scalar utiliza o **Algoritmo de Euclides** (divisões sucessivas), que é muito mais eficiente computacionalmente do que a fatoração.
+
+Para números de grande magnitude, a fatoração torna-se ineficiente. O **Scalar** utiliza o **Algoritmo de Euclides** baseado em divisões sucessivas pelo resto:
+
+$$\text{MDC}(a, b) = \text{MDC}(b, a \bmod b)$$
+
+Obtido o MDC, o MMC é calculado diretamente pela propriedade fundamental:
+
+$$\text{MMC}(a, b) = \frac{|a \times b|}{\text{MDC}(a, b)}$$
 
 </details>
 
 ## Quando usar cada um?
 
-* **Use o MDC** quando o problema pedir para "dividir em partes iguais", "o maior tamanho possível" ou "máximo de pessoas".
-* **Use o MMC** quando o problema envolver "tempo", "coincidência", "quando os eventos ocorrerão juntos novamente" ou "menor intervalo comum".
+* **Use o MDC** quando o problema pedir para "dividir em partes iguais", "o maior tamanho possível" ou "máximo de elementos por grupo".
+* **Use o MMC** quando o problema envolver "tempo de ciclos", "coincidência de eventos", "quando os eventos ocorrerão juntos novamente" ou "menor intervalo comum".
 
-O **Scalar** automatiza essa lógica, permitindo que você foque na resolução do problema enquanto nós cuidamos da precisão aritmética.
+O **Scalar** automatiza essa lógica com complexidade $O(\log(\min(a, b)))$, permitindo que você foque na análise do problema enquanto garantimos a precisão aritmética.

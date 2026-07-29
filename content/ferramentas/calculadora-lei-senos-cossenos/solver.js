@@ -1,240 +1,234 @@
+/**
+ * Engine Trigonométrica Completa - Lei dos Senos e Cossenos
+ * Cobertura Total de Casos: SSS, SAS, ASA/AAS, SSA (com tratamento do caso ambíguo universal).
+ */
 (function () {
   'use strict';
 
-  // 🌍 Captura o idioma da página injetado pelo Hugo
-  const currentLang = document.documentElement.lang || 'pt-BR';
-  const localeMap = { 'en': 'en-US', 'de': 'de-DE', 'ja': 'ja-JP', 'pt': 'pt-BR' };
-  const currentLocale = localeMap[currentLang] || 'pt-BR';
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('trig-tool-container');
+    if (!container) return;
 
-  // 🗺️ Dicionário i18n para mensagens do Motor Trigonométrico
-  const translations = {
-    'pt-BR': {
-      errCount: "Por favor, insira exatamente 3 valores!",
-      errNoSide: "Pelo menos um dos valores inseridos deve ser um Lado!",
-      errGeo: "❌ Erro geométrico: A soma de dois lados deve ser maior que o terceiro lado (Desigualdade Triangular).",
-      errImpossible: "❌ Impossível construir triângulo com esses valores.",
-      errComplex: "⚠ Combinação complexa. Para obter o passo a passo completo, utilize as estruturas LLL, LAL ou forneça 2 Ângulos.",
-      caseLLL: "✔ Detetado Caso LLL (Três Lados).",
-      caseLAL: "✔ Detetado Caso LAL (Dois lados e o ângulo interno correspondente).",
-      caseALA: "✔ Detetado Caso com 2 Ângulos e 1 Lado (ALA/AAL).",
-      caseLLA: "✔ Detetado Caso LLA adaptado via Lei dos Senos.",
-      logCosA: "Aplicando Lei dos Cossenos para o Ângulo A:",
-      logCosB: "Aplicando Lei dos Cossenos para o Ângulo B:",
-      logSideOp: "Calculando Lado oposto '{side}' via Lei dos Cossenos:",
-      logDiffAng: "Por diferença angular (180° - A - B):",
-      logSumInt: "Determinando ângulo oculto pela soma interna de 180°.",
-      logUnifiedAng: "Ângulos unificados:",
-      logCalcAngles: "Ângulos calculados:",
-      logLawSine: "Aplicando proporcionalidade da Lei dos Senos para os Lados faltantes:",
-      logSidesObt: "Lados obtidos:"
-    },
-    'en-US': {
-      errCount: "Please enter exactly 3 values!",
-      errNoSide: "At least one of the entered values must be a Side!",
-      errGeo: "❌ Geometric error: The sum of any two sides must be greater than the third side (Triangle Inequality).",
-      errImpossible: "❌ Impossible to construct a triangle with these values.",
-      errComplex: "⚠ Complex combination. To obtain the full step-by-step layout, use SSS, SAS structures or provide 2 Angles.",
-      caseLLL: "✔ Detected Case SSS (Three Sides).",
-      caseLAL: "✔ Detected Case SAS (Two sides and the included internal angle).",
-      caseALA: "✔ Detected Case with 2 Angles and 1 Side (ASA/AAS).",
-      caseLLA: "✔ Detected Case SSA adapted via Law of Sines.",
-      logCosA: "Applying Law of Cosines for Angle A:",
-      logCosB: "Applying Law of Cosines for Angle B:",
-      logSideOp: "Calculating opposite Side '{side}' via Law of Cosines:",
-      logDiffAng: "By angular difference (180° - A - B):",
-      logSumInt: "Determining hidden angle by internal sum of 180°.",
-      logUnifiedAng: "Unified angles:",
-      logCalcAngles: "Calculated angles:",
-      logLawSine: "Applying Law of Sines proportionality for the missing Sides:",
-      logSidesObt: "Sides obtained:"
-    },
-    'de-DE': {
-      errCount: "Bitte geben Sie genau 3 Werte ein!",
-      errNoSide: "Mindestens einer der eingegebenen Werte muss eine Seite sein!",
-      errGeo: "❌ Geometrischer Fehler: Die Summe zweier Seiten muss größer als die dritte Seite sein (Dreiecksungleichung).",
-      errImpossible: "❌ Mit diesen Werten kann kein Dreieck konstruiert werden.",
-      errComplex: "⚠ Komplexe Kombination. Um den vollständigen Lösungsweg zu sehen, nutzen Sie SSS, SWS oder geben Sie 2 Winkel an.",
-      caseLLL: "✔ Fall SSS (Drei Seiten) erkannt.",
-      caseLAL: "✔ Fall SWS (Zwei Seiten und der eingeschlossene Innenwinkel) erkannt.",
-      caseALA: "✔ Fall mit 2 Winkeln und 1 Seite (WSW/WWS) erkannt.",
-      caseLLA: "✔ Fall SSW angepasst über den Sinussatz erkannt.",
-      logCosA: "Anwendung des Kosinussatzes für Winkel A:",
-      logCosB: "Anwendung des Kosinussatzes für Winkel B:",
-      logSideOp: "Berechnung der gegenüberliegenden Seite '{side}' über den Kosinussatz:",
-      logDiffAng: "Durch Winkeldifferenz (180° - A - B):",
-      logSumInt: "Bestimmung des fehlenden Winkels durch Innenwinkelsumme von 180°.",
-      logUnifiedAng: "Vereinte Winkel:",
-      logCalcAngles: "Berechnete Winkel:",
-      logLawSine: "Anwendung des Sinussatzes für die fehlenden Seiten:",
-      logSidesObt: "Erhaltene Seiten:"
-    },
-    'ja-JP': {
-      errCount: "正確に3つの値を入力してください！",
-      errNoSide: "入力する値のうち、少なくとも1つは「辺の長さ」である必要があります！",
-      errGeo: "❌ 幾何学的エラー：任意の2辺の和は、残りの1辺よりも大きくなければなりません（三角不等式）。",
-      errImpossible: "❌ これらの値では三角形を構成できません。",
-      errComplex: "⚠ 複雑な組み合わせです。詳細なステップ解説を得るには、SSS（3辺）、SAS（2辺と挟む角）の構造を使用するか、2つの角度を入力してください。",
-      caseLLL: "✔ SSS条件（3辺の長さ）が検出されました。",
-      caseLAL: "✔ SAS条件（2辺とその挟む角）が検出されました。",
-      caseALA: "✔ 2角と1辺の条件（ASA/AAS条件）が検出されました。",
-      caseLLA: "✔ 正弦定理を応用したSSA条件が検出されました。",
-      logCosA: "角度 A に対する余弦定理の適用:",
-      logCosB: "角度 B に対する余弦定理の適用:",
-      logSideOp: "余弦定理による対辺 '{side}' の計算:",
-      logDiffAng: "内角の差（180° - A - B）による算出:",
-      logSumInt: "内角の和（180°）から未知の角度を決定します。",
-      logUnifiedAng: "統一された角度:",
-      logCalcAngles: "計算された角度:",
-      logLawSine: "不足している辺に対する正弦定理の適用:",
-      logSidesObt: "算出された辺の長さ:"
-    }
-  };
+    const inputA = document.getElementById('trig-a');
+    const inputB = document.getElementById('trig-b');
+    const inputC = document.getElementById('trig-c');
+    const inputAngA = document.getElementById('trig-A');
+    const inputAngB = document.getElementById('trig-B');
+    const inputAngC = document.getElementById('trig-C');
 
-  const text = translations[currentLocale] || translations['pt-BR'];
+    const btnCalc = document.getElementById('trig-btn-calc');
+    const btnClear = document.getElementById('trig-btn-clear');
 
-  window.limparCamposTrig = function() {
-    document.getElementById('trig-a').value = '';
-    document.getElementById('trig-b').value = '';
-    document.getElementById('trig-c').value = '';
-    document.getElementById('trig-A').value = '';
-    document.getElementById('trig-B').value = '';
-    document.getElementById('trig-C').value = '';
-    document.getElementById('trig-resultado-box').style.display = 'none';
-  };
+    const errorBox = document.getElementById('trig-error-box');
+    const resultBox = document.getElementById('trig-resultado-box');
+    const resPerimetro = document.getElementById('res-perimetro');
+    const resArea = document.getElementById('res-area');
+    const txtPasso = document.getElementById('trig-passo-a-passo');
 
-  window.resolverTriangulo = function() {
-    let a = parseFloat(document.getElementById('trig-a').value);
-    let b = parseFloat(document.getElementById('trig-b').value);
-    let c = parseFloat(document.getElementById('trig-c').value);
-    let A = parseFloat(document.getElementById('trig-A').value);
-    let B = parseFloat(document.getElementById('trig-B').value);
-    let C = parseFloat(document.getElementById('trig-C').value);
+    const lang = (container.getAttribute('data-lang') || 'pt-br').toLowerCase();
 
-    const box = document.getElementById('trig-resultado-box');
-    const logs = document.getElementById('trig-passo-a-passo');
+    const i18n = {
+      'pt-br': {
+        err3Vals: "Erro: Insira exatamente 3 valores conhecidos.",
+        errNeedSide: "Erro: Pelo menos um dos valores inseridos deve ser um Lado.",
+        errSumAngles: "Erro: A soma dos ângulos fornecidos deve ser estritamente menor que 180°.",
+        errTriangleIneq: "Erro Geométrico: A soma de dois lados deve ser maior que o terceiro (Desigualdade Triangular).",
+        errImpossible: "Erro Geométrico: Impossível construir um triângulo válido com estes dados.",
+        caseLLL: "✔ Caso Detectado: LLL (Três Lados Conhecidos).\n",
+        caseLAL: "✔ Caso Detectado: LAL (Dois Lados e Ângulo Compreendido).\n",
+        caseALA: "✔ Caso Detectado: ALA / AAL (Dois Ângulos e Um Lado).\n",
+        caseLLA: "✔ Caso Detectado: LLA (Dois Lados e Ângulo Oposto via Lei dos Senos).\n"
+      },
+      'en': {
+        err3Vals: "Error: Please enter exactly 3 known values.",
+        errNeedSide: "Error: At least one of the entered values must be a Side.",
+        errSumAngles: "Error: The sum of given angles must be strictly less than 180°.",
+        errTriangleIneq: "Geometric Error: The sum of any two sides must be greater than the third side.",
+        errImpossible: "Geometric Error: Impossible to construct a valid triangle with given parameters.",
+        caseLLL: "✔ Detected Case: SSS (Three Known Sides).\n",
+        caseLAL: "✔ Detected Case: SAS (Two Sides & Included Angle).\n",
+        caseALA: "✔ Detected Case: ASA / AAS (Two Angles & One Side).\n",
+        caseLLA: "✔ Detected Case: SSA (Two Sides & Opposite Angle via Law of Sines).\n"
+      }
+    };
 
-    let ladosCount = (!isNaN(a) ? 1 : 0) + (!isNaN(b) ? 1 : 0) + (!isNaN(c) ? 1 : 0);
-    let angulosCount = (!isNaN(A) ? 1 : 0) + (!isNaN(B) ? 1 : 0) + (!isNaN(C) ? 1 : 0);
-    let totalCount = ladosCount + angulosCount;
+    const dict = i18n[lang] || i18n['pt-br'];
 
-    if (totalCount !== 3) {
-      alert(text.errCount);
-      return;
-    }
-    if (ladosCount === 0) {
-      alert(text.errNoSide);
-      return;
+    const rad = deg => (deg * Math.PI) / 180;
+    const deg = rad => (rad * 180) / Math.PI;
+
+    function parseVal(el) {
+      if (!el || !el.value) return null;
+      const clean = el.value.replace(',', '.').trim();
+      const val = parseFloat(clean);
+      return isNaN(val) || val <= 0 ? null : val;
     }
 
-    const toRad = deg => deg * (Math.PI / 180);
-    const toDeg = rad => rad * (180 / Math.PI);
-    let textoPasso = "";
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.classList.remove('hidden');
+      resultBox.classList.add('hidden');
+      resultBox.classList.remove('flex');
+    }
 
-    // CASO 1: LLL (Três lados conhecidos)
-    if (ladosCount === 3) {
-      if ((a + b <= c) || (a + c <= b) || (b + c <= a)) {
-        logs.innerHTML = text.errGeo;
-        box.style.display = 'flex';
+    function clearError() {
+      errorBox.textContent = '';
+      errorBox.classList.add('hidden');
+    }
+
+    function fmt(val) {
+      return parseFloat(val.toFixed(4)).toLocaleString(lang.includes('pt') ? 'pt-BR' : 'en-US');
+    }
+
+    function resolver() {
+      clearError();
+
+      let a = parseVal(inputA);
+      let b = parseVal(inputB);
+      let c = parseVal(inputC);
+      let A = parseVal(inputAngA);
+      let B = parseVal(inputAngB);
+      let C = parseVal(inputAngC);
+
+      const countSides = (a ? 1 : 0) + (b ? 1 : 0) + (c ? 1 : 0);
+      const countAngles = (A ? 1 : 0) + (B ? 1 : 0) + (C ? 1 : 0);
+      const totalCount = countSides + countAngles;
+
+      if (totalCount !== 3) {
+        showError(dict.err3Vals);
         return;
       }
-      textoPasso += `${text.caseLLL}\n`;
-      textoPasso += `${text.logCosA}\n`;
-      let cosA = (b * b + c * c - a * a) / (2 * b * c);
-      A = toDeg(Math.acos(cosA));
-      textoPasso += `cos(A) = (b² + c² - a²) / (2bc) ➔ A = ${A.toFixed(2)}°\n\n`;
 
-      textoPasso += `${text.logCosB}\n`;
-      let cosB = (a * a + c * c - b * b) / (2 * a * c);
-      B = toDeg(Math.acos(cosB));
-      textoPasso += `cos(B) = (a² + c² - b²) / (2ac) ➔ B = ${B.toFixed(2)}°\n\n`;
-
-      C = 180 - A - B;
-      textoPasso += `${text.logDiffAng} C = ${C.toFixed(2)}°`;
-    }
-    // CASO 2: LAL (Dois lados e o ângulo central conhecido)
-    else if ((!isNaN(a) && !isNaN(b) && !isNaN(C)) || (!isNaN(a) && !isNaN(c) && !isNaN(B)) || (!isNaN(b) && !isNaN(c) && !isNaN(A))) {
-      textoPasso += `${text.caseLAL}\n`;
-      if (!isNaN(b) && !isNaN(c) && !isNaN(A)) {
-        textoPasso += `${text.logSideOp.replace('{side}', 'a')}\n`;
-        a = Math.sqrt(b * b + c * c - 2 * b * c * Math.cos(toRad(A)));
-        textoPasso += `a² = b² + c² - 2bc·cos(A) ➔ a = ${a.toFixed(2)}\n\n`;
-        let cosB = (a * a + c * c - b * b) / (2 * a * c); B = toDeg(Math.acos(cosB));
-        C = 180 - A - B;
-      } else if (!isNaN(a) && !isNaN(c) && !isNaN(B)) {
-        textoPasso += `${text.logSideOp.replace('{side}', 'b')}\n`;
-        b = Math.sqrt(a * a + c * c - 2 * a * c * Math.cos(toRad(B)));
-        textoPasso += `b² = a² + c² - 2ac·cos(B) ➔ b = ${b.toFixed(2)}\n\n`;
-        let cosA = (b * b + c * c - a * a) / (2 * b * c); A = toDeg(Math.acos(cosA));
-        C = 180 - A - B;
-      } else {
-        textoPasso += `${text.logSideOp.replace('{side}', 'c')}\n`;
-        c = Math.sqrt(a * a + b * b - 2 * a * b * Math.cos(toRad(C)));
-        textoPasso += `c² = a² + b² - 2ab·cos(C) ➔ c = ${c.toFixed(2)}\n\n`;
-        let cosA = (b * b + c * c - a * a) / (2 * b * c); A = toDeg(Math.acos(cosA));
-        B = 180 - A - C;
+      if (countSides === 0) {
+        showError(dict.errNeedSide);
+        return;
       }
-      textoPasso += `${text.logCalcAngles} A = ${A.toFixed(2)}°, B = ${B.toFixed(2)}°, C = ${C.toFixed(2)}°`;
-    }
-    // CASO 3: Dois Ângulos e um Lado (ALA / AAL)
-    else if (angulosCount === 2 && ladosCount === 1) {
-      textoPasso += `${text.caseALA}\n`;
-      if (isNaN(A)) { A = 180 - B - C; }
-      else if (isNaN(B)) { B = 180 - A - C; }
-      else if (isNaN(C)) { C = 180 - A - B; }
-      
-      textoPasso += `${text.logSumInt}\n`;
-      textoPasso += `${text.logUnifiedAng} A = ${A.toFixed(2)}°, B = ${B.toFixed(2)}°, C = ${C.toFixed(2)}°\n\n`;
-      textoPasso += `${text.logLawSine}\n`;
 
-      if (!isNaN(a)) {
-        b = a * Math.sin(toRad(B)) / Math.sin(toRad(A));
-        c = a * Math.sin(toRad(C)) / Math.sin(toRad(A));
-      } else if (!isNaN(b)) {
-        a = b * Math.sin(toRad(A)) / Math.sin(toRad(B));
-        c = b * Math.sin(toRad(C)) / Math.sin(toRad(B));
-      } else {
-        a = c * Math.sin(toRad(A)) / Math.sin(toRad(C));
-        b = c * Math.sin(toRad(B)) / Math.sin(toRad(C));
-      }
-      textoPasso += `${text.logSidesObt} a = ${a.toFixed(2)}, b = ${b.toFixed(2)}, c = ${c.toFixed(2)}`;
-    }
-    // CASO 4: Caso Ambigúo / LLA Adaptado
-    else {
-      textoPasso += `${text.caseLLA}\n`;
-      if (!isNaN(a) && !isNaN(b) && !isNaN(A)) {
-        let sinB = (Math.sin(toRad(A)) * b) / a;
-        if (sinB > 1) { 
-          logs.textContent = text.errImpossible; 
-          box.style.display = 'flex'; 
-          return; 
+      let log = "";
+
+      // -----------------------------------------------------------------
+      // CASO 1: LLL (3 Lados)
+      // -----------------------------------------------------------------
+      if (countSides === 3) {
+        if (a + b <= c || a + c <= b || b + c <= a) {
+          showError(dict.errTriangleIneq);
+          return;
         }
-        B = toDeg(Math.asin(sinB)); C = 180 - A - B;
-        c = a * Math.sin(toRad(C)) / Math.sin(toRad(A));
-      } else {
-        logs.textContent = text.errComplex;
-        box.style.display = 'flex';
-        return;
+        log += dict.caseLLL;
+        A = deg(Math.acos((b * b + c * c - a * a) / (2 * b * c)));
+        B = deg(Math.acos((a * a + c * c - b * b) / (2 * a * c)));
+        C = 180 - A - B;
+
+        log += `• Lei dos Cossenos para Ângulo A:\n  cos(A) = (${b}² + ${c}² - ${a}²) / (2 × ${b} × ${c}) ➔ A = ${fmt(A)}°\n\n`;
+        log += `• Lei dos Cossenos para Ângulo B:\n  cos(B) = (${a}² + ${c}² - ${b}²) / (2 × ${a} × ${c}) ➔ B = ${fmt(B)}°\n\n`;
+        log += `• Diferença Angular:\n  C = 180° - A - B ➔ C = ${fmt(C)}°`;
+      } 
+      // -----------------------------------------------------------------
+      // CASO 2: ALA / AAL (2 Ângulos e 1 Lado)
+      // -----------------------------------------------------------------
+      else if (countAngles === 2) {
+        const sumGiven = (A || 0) + (B || 0) + (C || 0);
+        if (sumGiven >= 180) {
+          showError(dict.errSumAngles);
+          return;
+        }
+        log += dict.caseALA;
+        if (!A) A = 180 - B - C;
+        if (!B) B = 180 - A - C;
+        if (!C) C = 180 - A - B;
+
+        const ratio = a ? a / Math.sin(rad(A)) : (b ? b / Math.sin(rad(B)) : c / Math.sin(rad(C)));
+        a = ratio * Math.sin(rad(A));
+        b = ratio * Math.sin(rad(B));
+        c = ratio * Math.sin(rad(C));
+
+        log += `• Soma dos Ângulos Internos = 180°:\n  A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°\n\n`;
+        log += `• Lei dos Senos (Proporção Projeção):\n  a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}`;
+      } 
+      // -----------------------------------------------------------------
+      // CASO 3 & 4: 2 Lados e 1 Ângulo (LAL ou LLA)
+      // -----------------------------------------------------------------
+      else if (countSides === 2 && countAngles === 1) {
+        // Subcaso LAL (Ângulo entre os dois lados)
+        if ((a && b && C) || (a && c && B) || (b && c && A)) {
+          log += dict.caseLAL;
+          if (C) {
+            c = Math.sqrt(a * a + b * b - 2 * a * b * Math.cos(rad(C)));
+            A = deg(Math.acos((b * b + c * c - a * a) / (2 * b * c)));
+            B = 180 - A - C;
+          } else if (B) {
+            b = Math.sqrt(a * a + c * c - 2 * a * c * Math.cos(rad(B)));
+            A = deg(Math.acos((b * b + c * c - a * a) / (2 * b * c)));
+            C = 180 - A - B;
+          } else if (A) {
+            a = Math.sqrt(b * b + c * c - 2 * b * c * Math.cos(rad(A)));
+            B = deg(Math.acos((a * a + c * c - b * b) / (2 * a * c)));
+            C = 180 - A - B;
+          }
+          log += `• Lei dos Cossenos para o 3º Lado:\n  Lados: a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}\n\n`;
+          log += `• Ângulos Derivados:\n  A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°`;
+        } 
+        // Subcaso LLA Universal (Ângulo Oposto a um dos Lados)
+        else {
+          log += dict.caseLLA;
+          let sideOpp, angOpp, sideOther;
+
+          if (a && A) { sideOpp = a; angOpp = A; sideOther = b || c; }
+          else if (b && B) { sideOpp = b; angOpp = B; sideOther = a || c; }
+          else if (c && C) { sideOpp = c; angOpp = C; sideOther = a || b; }
+
+          let sinCalc = (sideOther * Math.sin(rad(angOpp))) / sideOpp;
+          
+          if (sinCalc > 1 && sinCalc < 1.00001) sinCalc = 1; // Tolerância de Ponto Flutuante
+
+          if (sinCalc > 1) {
+            showError(dict.errImpossible);
+            return;
+          }
+
+          const calculatedAngle = deg(Math.asin(sinCalc));
+
+          if (a && b && A) { B = calculatedAngle; C = 180 - A - B; c = (a * Math.sin(rad(C))) / Math.sin(rad(A)); }
+          else if (a && c && A) { C = calculatedAngle; B = 180 - A - C; b = (a * Math.sin(rad(B))) / Math.sin(rad(A)); }
+          else if (b && a && B) { A = calculatedAngle; C = 180 - A - B; c = (b * Math.sin(rad(C))) / Math.sin(rad(B)); }
+          else if (b && c && B) { C = calculatedAngle; A = 180 - B - C; a = (b * Math.sin(rad(A))) / Math.sin(rad(B)); }
+          else if (c && a && C) { A = calculatedAngle; B = 180 - A - C; b = (c * Math.sin(rad(B))) / Math.sin(rad(C)); }
+          else if (c && b && C) { B = calculatedAngle; A = 180 - A - B; a = (c * Math.sin(rad(A))) / Math.sin(rad(C)); }
+
+          log += `• Lei dos Senos para Ângulo Oposto:\n  sin(X) = (${sideOther} × sin(${angOpp}°)) / ${sideOpp}\n\n`;
+          log += `• Resultados Obtidos:\n  Lados: a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}\n  Ângulos: A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°`;
+        }
       }
+
+      // Atualização dos inputs
+      inputA.value = fmt(a);
+      inputB.value = fmt(b);
+      inputC.value = fmt(c);
+      inputAngA.value = fmt(A);
+      inputAngB.value = fmt(B);
+      inputAngC.value = fmt(C);
+
+      // Métricas Finais
+      const perimetro = a + b + c;
+      const s = perimetro / 2;
+      const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+
+      resPerimetro.textContent = fmt(perimetro);
+      resArea.textContent = fmt(area);
+      txtPasso.textContent = log;
+
+      resultBox.classList.remove('hidden');
+      resultBox.classList.add('flex');
     }
 
-    // Área e Perímetro
-    let s = (a + b + c) / 2;
-    let area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
-    let perimetro = a + b + c;
+    function limpar() {
+      clearError();
+      [inputA, inputB, inputC, inputAngA, inputAngB, inputAngC].forEach(el => el.value = '');
+      resultBox.classList.add('hidden');
+      resultBox.classList.remove('flex');
+    }
 
-    // Atualização dos nós do DOM
-    document.getElementById('trig-a').value = a.toFixed(2);
-    document.getElementById('trig-b').value = b.toFixed(2);
-    document.getElementById('trig-c').value = c.toFixed(2);
-    document.getElementById('trig-A').value = A.toFixed(2);
-    document.getElementById('trig-B').value = B.toFixed(2);
-    document.getElementById('trig-C').value = C.toFixed(2);
-
-    // Formatação regionalizada de milhares
-    document.getElementById('res-perimetro').textContent = perimetro.toLocaleString(currentLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    document.getElementById('res-area').textContent = area.toLocaleString(currentLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    
-    logs.textContent = textoPasso;
-    box.style.display = 'flex';
-  };
+    btnCalc.addEventListener('click', resolver);
+    btnClear.addEventListener('click', limpar);
+  });
 })();

@@ -1,94 +1,114 @@
+/**
+ * Scalar - Engine Reativa do Conversor de Comprimento
+ * Padrão: Multi-Input Grid Propagation (Strict Scope & High Precision)
+ */
 (function () {
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const inputs = document.querySelectorAll('input[data-unit]');
-    
-    // Aborta silenciosamente se os elementos não estiverem nesta página do Hugo
+    // 1. Escopo Estreito: Captura estritamente os campos do conversor de comprimento
+    const inputs = Array.from(document.querySelectorAll('input[id^="len-"]'));
+
+    // Aborta silenciosamente se esta ferramenta não estiver presente no DOM da página
     if (inputs.length === 0) return;
 
-    // 🌍 Captura de Idioma Dinâmica para tratamento regionalizado de inputs e outputs
-    const currentLang = document.documentElement.lang || 'pt-BR';
-    const localeMap = { 'en': 'en-US', 'de': 'de-DE', 'ja': 'ja-JP', 'pt': 'pt-BR' };
-    const currentLocale = localeMap[currentLang] || 'pt-BR';
-
-    // 📐 Fatores de conversão exatos baseados na definição oficial internacional de 1 Metro
-    const factors = {
-      mm: 1000,
-      cm: 100,
-      m: 1,
-      km: 0.001,
-      in: 1 / 0.0254,          // 1 metro = ~39.37007874 in (Exato por lei)
-      ft: 1 / 0.3048,          // 1 metro = ~3.280839895 ft (Exato por lei)
-      yd: 1 / 0.9144,          // 1 metro = ~1.093613298 yd (Exato por lei)
-      mi: 1 / 1609.344         // 1 metro = ~0.000621371 mi (Exato por lei)
+    // 2. Fatores Oficiais de Conversão Normalizados (1 Unidade = X Metros)
+    // Tabela direta sem divisões invertidas para evitar erros de ponto flutuante IEEE 754
+    const FACTORS_IN_METERS = {
+      'pm': 1e-12,     // Picômetro
+      'nm': 1e-9,      // Nanômetro
+      'um': 1e-6,      // Micrômetro
+      'mm': 0.001,     // Milímetro
+      'cm': 0.01,      // Centímetro
+      'm': 1,          // Metro (Unidade Pivô)
+      'km': 1000,      // Quilômetro
+      'in': 0.0254,    // Polegada (Definição Internacional Exata)
+      'ft': 0.3048,    // Pé
+      'yd': 0.9144,    // Jarda
+      'mi': 1609.344,  // Milha Terrestre
+      'nmi': 1852      // Milha Náutica
     };
 
+    // Controladora de estado para prevenir loops de eventos em massa
+    let isCalculating = false;
+
     /**
-     * Atualiza todos os campos exceto o que está sendo editado
-     * @param {string} originUnit - ID da unidade de origem
-     * @param {number} value - Valor numérico puro digitado
+     * Formata e limpa o valor numérico recalculado para exibição no input
+     * @param {number} num 
+     * @returns {string}
      */
-    function updateAllFields(originUnit, value) {
-      // Se o campo estiver vazio ou inválido, limpa todos os outros campos remanescentes
-      if (isNaN(value)) {
+    function formatOutput(num) {
+      if (num === 0) return '0';
+
+      // Notação científica para números extremos (subatômicos ou astronômicos)
+      if (Math.abs(num) < 1e-6 || Math.abs(num) >= 1e12) {
+        return num.toExponential(4);
+      }
+
+      // Elimina dízimas residuais de ponto flutuante arredondando em até 8 casas decimais
+      const cleanNum = parseFloat(num.toFixed(8));
+      return cleanNum.toString();
+    }
+
+    /**
+     * Propaga o cálculo para todos os inputs do grid, exceto o campo que está sob digitação
+     * @param {HTMLInputElement} sourceInput - Campo de origem digitado pelo usuário
+     */
+    function propagateConversion(sourceInput) {
+      if (isCalculating) return;
+      isCalculating = true;
+
+      const originUnit = (sourceInput.getAttribute('data-unit') || sourceInput.id.replace('len-', '')).toLowerCase();
+      let rawVal = sourceInput.value.trim();
+
+      // Normalização: substitui vírgula por ponto para permitir parsing numérico limpo
+      if (rawVal.includes(',')) {
+        rawVal = rawVal.replace(',', '.');
+      }
+
+      // Se o campo estiver vazio ou for apagado, limpa todos os outros inputs passivos
+      if (rawVal === '') {
         inputs.forEach(input => {
-          if (input.dataset.unit !== originUnit) {
-            input.value = "";
-          }
+          if (input !== sourceInput) input.value = '';
         });
+        isCalculating = false;
         return;
       }
 
-      // 1. Converte a entrada para a unidade pivô (Metros)
-      const meters = value / factors[originUnit];
+      const parsedValue = parseFloat(rawVal);
 
-      // 2. Converte de Metros para todas as outras unidades
-      inputs.forEach(input => {
-        const unit = input.dataset.unit;
-        
-        // Só atualiza se for um campo diferente e se o usuário não estiver com o cursor focado nele
-        if (unit !== originUnit && document.activeElement !== input) {
-          const result = meters * factors[unit];
-          
-          // Tratamento para evitar dízimas periódicas de arredondamento flutuante
-          const roundedResult = parseFloat(result.toFixed(6));
+      // Trata entrada inválida (ex: letras ou símbolos)
+      if (isNaN(parsedValue)) {
+        inputs.forEach(input => {
+          if (input !== sourceInput) input.value = '';
+        });
+        isCalculating = false;
+        return;
+      }
 
-          // 3. Formatação inteligente baseada na cultura regional
-          // Se o valor for inteiro, joga direto. Se tiver decimal, formata preservando o separador local (, ou .)
-          if (Number.isInteger(roundedResult)) {
-            input.value = roundedResult;
-          } else {
-            // Usa o Intl do navegador para definir se a string conterá '.' ou ',' de acordo com o país
-            input.value = roundedResult.toLocaleString(currentLocale, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 6,
-              useGrouping: false // Evita colocar pontos de milhar dentro do input editável
-            });
-          }
-        }
+      // 1. Converter Unidade de Origem -> Metros (Âncora)
+      const sourceFactor = FACTORS_IN_METERS[originUnit] || 1;
+      const meters = parsedValue * sourceFactor;
+
+      // 2. Propagar Metros -> Demais Unidades do Grid
+      inputs.forEach(targetInput => {
+        // Ignora o próprio campo que está sendo editado ou focado pelo usuário
+        if (targetInput === sourceInput || document.activeElement === targetInput) return;
+
+        const targetUnit = (targetInput.getAttribute('data-unit') || targetInput.id.replace('len-', '')).toLowerCase();
+        const targetFactor = FACTORS_IN_METERS[targetUnit] || 1;
+
+        // Converte de Metros para a unidade de destino
+        const targetResult = meters / targetFactor;
+        targetInput.value = formatOutput(targetResult);
       });
+
+      isCalculating = false;
     }
 
-    // Adiciona o escutador de eventos em todos os inputs gerados dinamicamente pelas views
+    // 3. Adiciona os event listeners de digitação em tempo real
     inputs.forEach(input => {
-      input.addEventListener('input', (e) => {
-        let val = e.target.value;
-
-        if (val === "") {
-          updateAllFields(e.target.dataset.unit, NaN);
-          return;
-        }
-
-        // Normalização gramatical: Se o usuário do país digitar vírgula (,), 
-        // substitui temporariamente por ponto (.) para o parseFloat do JS não quebrar o cálculo
-        if (val.includes(',')) {
-          val = val.replace(',', '.');
-        }
-
-        const parsedVal = parseFloat(val);
-        updateAllFields(e.target.dataset.unit, parsedVal);
-      });
+      input.addEventListener('input', () => propagateConversion(input));
     });
   });
 })();

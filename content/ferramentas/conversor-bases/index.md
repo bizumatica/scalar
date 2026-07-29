@@ -27,13 +27,14 @@ Cada sistema de numeração é definido pela sua **base**, que determina a quant
 
 Para converter um número decimal para binário manualmente:
 
-1.  Divida o número decimal por 2.
-2.  Anote o **resto** (0 ou 1).
-3.  Utilize o quociente para a próxima divisão.
-4.  Repita até o quociente ser zero.
-5.  Leia os restos de baixo para cima.
+1. Divida o número decimal por 2.
+2. Anote o **resto** (0 ou 1).
+3. Utilize o quociente para a próxima divisão.
+4. Repita até o quociente ser zero.
+5. Leia os restos de baixo para cima.
 
 ### Exemplo Prático: Converter 13 para Binário
+
 * 13 ÷ 2 = 6 (resto **1**)
 * 6 ÷ 2 = 3 (resto **0**)
 * 3 ÷ 2 = 1 (resto **1**)

@@ -1,40 +1,93 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    {{/* 1. Definição segura dos dados e do idioma atual */}}
-    {{ $data := site.Data.units.length }}
-    {{ $currentLang := site.Language.Lang }}
+{{ $lang := lower site.Language.Lang }}
 
-    {{ if $data }}
-        {{ range $data }}
-        <div class="flex flex-col gap-1" style="box-sizing: border-box;">
-            
-            {{/* 2. Label dinâmica estendida para suportar os 4 idiomas nativamente */}}
-            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-tighter" style="margin-bottom: 2px; display: block;">
-                {{ if eq $currentLang "pt" }}
-                    {{ .name_pt }}
-                {{ else if eq $currentLang "de" }}
-                    {{ .name_de | default .name_en }}
-                {{ else if eq $currentLang "ja" }}
-                    {{ .name_ja | default .name_en }}
-                {{ else }}
-                    {{ .name_en }}
-                {{ end }} ({{ .id }})
-            </label>
-            
-            {{/* 3. Input híbrido otimizado para a validação regional do solver.js */}}
-            <input type="text" 
-                   id="len-{{ .id }}" 
-                   data-unit="{{ .id }}" 
-                   inputmode="decimal"
-                   placeholder="0"
-                   style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.5rem; border-radius: 0.4rem; font-family: monospace; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box;">
-        </div>
-        {{ end }}
-    {{ else }}
-        {{/* 4. Fallback visual para debug caso o TOML falhe */}}
-        <div class="col-span-full p-4 border border-red-900/50 bg-red-900/20 rounded-lg" style="width: 100%; box-sizing: border-box;">
-            <p class="text-red-400 font-mono text-xs text-center" style="margin: 0;">
-                [ERROR] data/units.toml: [[length]] section not found or failed to load.
-            </p>
-        </div>
-    {{ end }}
+<div id="length-converter-container" data-lang="{{ $lang }}" class="p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+  
+  <p class="m-0 text-sm text-slate-400 leading-relaxed mb-6">
+    {{ i18n "tool_length_instruction" | default "Digite um valor em qualquer unidade de comprimento abaixo. A conversão em tempo real atualizará todas as outras unidades instantaneamente." }}
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    
+    <!-- Quilômetro (km) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="len-km" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
+        {{ i18n "unit_kilometer" | default "Quilômetro" }} (km)
+      </label>
+      <input type="text" id="len-km" data-unit="km" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+    <!-- Metro (m) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="len-m" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
+        {{ i18n "unit_meter" | default "Metro" }} (m)
+      </label>
+      <input type="text" id="len-m" data-unit="m" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+    <!-- Centímetro (cm) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="len-cm" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
+        {{ i18n "unit_centimeter" | default "Centímetro" }} (cm)
+      </label>
+      <input type="text" id="len-cm" data-unit="cm" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+    <!-- Milímetro (mm) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="len-mm" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
+        {{ i18n "unit_millimeter" | default "Milímetro" }} (mm)
+      </label>
+      <input type="text" id="len-mm" data-unit="mm" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+    <!-- Milha (mi) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="len-mi" class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+        {{ i18n "unit_mile" | default "Milha" }} (mi)
+      </label>
+      <input type="text" id="len-mi" data-unit="mi" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+    </div>
+
+    <!-- Jarda (yd) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="len-yd" class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+        {{ i18n "unit_yard" | default "Jarda" }} (yd)
+      </label>
+      <input type="text" id="len-yd" data-unit="yd" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+    </div>
+
+    <!-- Pé (ft) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="len-ft" class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+        {{ i18n "unit_foot" | default "Pé" }} (ft)
+      </label>
+      <input type="text" id="len-ft" data-unit="ft" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+    </div>
+
+    <!-- Polegada (in) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="len-in" class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+        {{ i18n "unit_inch" | default "Polegada" }} (in)
+      </label>
+      <input type="text" id="len-in" data-unit="in" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+    </div>
+
+  </div>
+
+  <div class="flex justify-end mt-6">
+    <button id="length-btn-clear" type="button" 
+            class="bg-slate-950 hover:bg-slate-800 text-slate-400 border border-slate-800 font-semibold py-2 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2">
+      <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+      <span>{{ i18n "btn_clear_all" | default "Limpar Todos os Campos" }}</span>
+    </button>
+  </div>
+
 </div>

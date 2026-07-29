@@ -37,6 +37,7 @@ Desde o "Acordo Internacional de Jardas e Libras" de 1959, as unidades imperiais
 | **1 Milha (mi)** | 1.609,344 m |
 
 ### Curiosidade: O Erro da Mars Climate Orbiter
+
 Em 1999, a NASA perdeu uma sonda espacial de 125 milhões de dólares porque uma equipe de engenharia usou o sistema métrico enquanto outra usou o sistema imperial em um software de navegação. Isso reforça a importância de ferramentas de conversão confiáveis como o **Scalar**.
 
 </details>
@@ -45,8 +46,8 @@ Em 1999, a NASA perdeu uma sonda espacial de 125 milhões de dólares porque uma
 
 Se você precisar realizar uma conversão rápida sem acesso à internet, memorize os fatores principais:
 
-1.  **De Polegadas para Milímetros:** Multiplique o valor por **25,4**.
-2.  **De Pés para Metros:** Multiplique por **0,3048**.
-3.  **De Milhas para Quilômetros:** Multiplique por aproximadamente **1,609**.
+1. **De Polegadas para Milímetros:** Multiplique o valor por **25,4**.
+2. **De Pés para Metros:** Multiplique por **0,3048**.
+3. **De Milhas para Quilômetros:** Multiplique por aproximadamente **1,609**.
 
 O **Scalar** automatiza esses cálculos complexos, eliminando riscos de erro humano em seus projetos técnicos e acadêmicos.

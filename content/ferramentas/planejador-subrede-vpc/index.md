@@ -39,9 +39,11 @@ Quando dividimos um bloco binariamente (ex: quebrar um bloco `/16` em dois bloco
 Em uma arquitetura de múltiplas camadas (*Multi-Tier Architecture*), as sub-redes são divididas de acordo com suas políticas de roteamento internas gerenciadas pelas tabelas de rotas:
 
 ### Sub-redes Públicas (Public Subnets)
+
 Possuem uma rota direta para um **Internet Gateway (IGW)**. Recursos alocados aqui recebem IPs públicos e são acessíveis diretamente pela internet (ex: Load Balancers, Bastion Hosts).
 
 ### Sub-redes Privadas (Private Subnets)
+
 Não possuem rota direta para a internet. Para que instâncias de banco de dados ou microsserviços baixem atualizações, o tráfego de saída deve ser direcionado através de um **NAT Gateway** hospedado na sub-rede pública.
 
 ### Exemplo Prático de Matriz de Roteamento VPC
@@ -62,7 +64,7 @@ Ao planejar sub-redes, o engenheiro precisa lembrar que o número de hosts utili
 | :--- | :--- | :--- |
 | **Padrão RFC** | 2 IPs | Endereço de Rede (`.0`) e Broadcast (`.255`). |
 | **AWS** | **5 IPs** | Rede, Router da VPC, DNS Interno, Uso Futuro e Broadcast. |
-| **Google Cloud**| **4 IPs** | Rede, Gateway padrão, Penúltimo IP (Reserva) e Broadcast. |
+| **Google Cloud** | **4 IPs** | Rede, Gateway padrão, Penúltimo IP (Reserva) e Broadcast. |
 | **Azure** | **5 IPs** | Rede, Gateway da Azure, DNS da Azure, Uso Futuro e Broadcast. |
 
 ---
@@ -84,9 +86,11 @@ Se a regra matemática retornar um valor menor ou igual a zero, o bloco CIDR esc
 ## Perguntas Frequentes sobre Sub-redes VPC (FAQ Target)
 
 ### O que acontece se houver sobreposição (overlapping) de blocos CIDR?
+
 Duas redes com blocos CIDR sobrepostos não conseguem estabelecer conexões de VPC Peering ou conexões VPN híbridas locais (Site-to-Site), pois os roteadores não conseguem determinar o destino correto dos pacotes.
 
 ### Por que a AWS reserva justamente 5 endereços IP?
+
 A AWS reserva o IP `.0` para a rede, `.1` para o roteador interno, `.2` para o servidor DNS da VPC, `.3` para uso futuro da empresa e o último IP da sub-rede para o endereço de broadcast.
 
 </details>

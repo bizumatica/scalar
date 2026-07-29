@@ -1,21 +1,47 @@
-# Pasta de saída (CI/CD faz o build)
+# ==========================================
+# DEPENDÊNCIAS DE PACOTES E BUNDLERS (NPM)
+# ==========================================
+node_modules/
+.npm
+.pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================================
+# SAÍDA E ARTEFATOS DE BUILD (HUGO / TAILWIND)
+# ==========================================
 public/
-
-# Recursos processados pelo Hugo
 resources/
+assets/css/main.css
 
-# Arquivos temporários e locks do Hugo
+# Arquivos temporários, estatísticas do PurgeCSS e locks do Hugo
 .hugo_build.lock
 hugo_stats.json
-
-# Cache do Hugo
 .hugo_cache/
 
-# Sistema e Editores
+# ==========================================
+# VARIÁVEIS DE AMBIENTE E SEGREDOS
+# ==========================================
+.env
+.env.local
+.env.*.local
+
+# ==========================================
+# SISTEMA OPERACIONAL E EDITORES
+# ==========================================
 .DS_Store
 Thumbs.db
 .vscode/
+!.vscode/settings.json
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
 
-# Logs e arquivos de depuração
+# ==========================================
+# LOGS E DEBUGS
+# ==========================================
 *.log
+npm-debug.log*

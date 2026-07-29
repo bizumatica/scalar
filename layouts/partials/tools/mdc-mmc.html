@@ -1,76 +1,60 @@
-{{/* 1. Captura dinâmica do idioma global do Hugo */}}
-{{ $currentLang := site.Language.Lang }}
+{{ $lang := lower site.Language.Lang }}
 
-{{/* 2. Grid de Entrada dos Dados (Campos A e B) */}}
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6" style="box-sizing: border-box; width: 100%;">
-    
-    {{/* Campo Número A */}}
-    <div class="flex flex-col gap-2" style="box-sizing: border-box;">
-        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest" style="margin-bottom: 2px; display: block;">
-            {{ if eq $currentLang "pt" }}
-                Número A
-            {{ else if eq $currentLang "de" }}
-                Zahl A
-            {{ else if eq $currentLang "ja" }}
-                数値 A
-            {{ else }}
-                Number A
-            {{ end }}
-        </label>
-        <input type="text" id="inputA" inputmode="numeric" placeholder="Ex: 24" 
-               style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; width: 100%; box-sizing: border-box;">
-    </div>
-    
-    {{/* Campo Número B */}}
-    <div class="flex flex-col gap-2" style="box-sizing: border-box;">
-        <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest" style="margin-bottom: 2px; display: block;">
-            {{ if eq $currentLang "pt" }}
-                Número B
-            {{ else if eq $currentLang "de" }}
-                Zahl B
-            {{ else if eq $currentLang "ja" }}
-                数値 B
-            {{ else }}
-                Number B
-            {{ end }}
-        </label>
-        <input type="text" id="inputB" inputmode="numeric" placeholder="Ex: 36" 
-               style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem; border-radius: 0.5rem; font-family: monospace; outline: none; width: 100%; box-sizing: border-box;">
-    </div>
-</div>
+<div id="mdc-mmc-container" data-lang="{{ $lang }}"
+     data-msg-error="{{ i18n "err_mdc_mmc_invalid" | default "Insira apenas números inteiros maiores que zero." }}"
+     class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
 
-{{/* 3. Grid de Resultados Sincronizados */}}
-<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4" style="box-sizing: border-box; width: 100%;">
+  <!-- Grid de Entradas de Dados -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
     
-    {{/* Exibição do MDC / ggT / GCD */}}
-    <div style="background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 0.75rem; text-align: center; box-sizing: border-box;">
-        <span class="text-xs text-blue-400 font-bold uppercase block mb-1">
-            {{ if eq $currentLang "pt" }}
-                MDC (Máximo Divisor Comum)
-            {{ else if eq $currentLang "de" }}
-                ggT (Größter gemeinsamer Teiler)
-            {{ else if eq $currentLang "ja" }}
-                GCD (最大公約数)
-            {{ else }}
-                GCD (Greatest Common Divisor)
-            {{ end }}
-        </span>
-        <div id="resultMDC" class="text-2xl font-mono text-white" style="font-weight: 700;">--</div>
+    <!-- Campo Número A -->
+    <div class="flex flex-col gap-2">
+      <label for="inputA" class="text-xs font-mono text-slate-400 uppercase tracking-wider font-bold">
+        {{ i18n "label_number_a" | default "Número A" }}
+      </label>
+      <input type="text" id="inputA" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+             placeholder="{{ i18n "ph_number_a" | default "Ex: 24" }}"
+             class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-indigo-500 transition-colors">
     </div>
+
+    <!-- Campo Número B -->
+    <div class="flex flex-col gap-2">
+      <label for="inputB" class="text-xs font-mono text-slate-400 uppercase tracking-wider font-bold">
+        {{ i18n "label_number_b" | default "Número B" }}
+      </label>
+      <input type="text" id="inputB" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+             placeholder="{{ i18n "ph_number_b" | default "Ex: 36" }}"
+             class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-indigo-500 transition-colors">
+    </div>
+
+  </div>
+
+  <!-- Botão de Ação -->
+  <button id="btn-calcular-mdc-mmc" type="button"
+          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-6 rounded-lg text-sm transition-colors cursor-pointer flex items-center justify-center gap-2">
+    <i data-lucide="calculator" class="w-4 h-4"></i>
+    <span>{{ i18n "btn_calculate_mdc_mmc" | default "Calcular MDC & MMC" }}</span>
+  </button>
+
+  <!-- Grid de Resultados -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-2">
     
-    {{/* Exibição do MMC / kgV / LCM */}}
-    <div style="background: rgba(30, 41, 59, 0.3); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 0.75rem; text-align: center; box-sizing: border-box;">
-        <span class="text-xs text-emerald-400 font-bold uppercase block mb-1">
-            {{ if eq $currentLang "pt" }}
-                MMC (Mínimo Múltiplo Comum)
-            {{ else if eq $currentLang "de" }}
-                kgV (Kleinstes gemeinsames Vielfaches)
-            {{ else if eq $currentLang "ja" }}
-                LCM (最小公倍数)
-            {{ else }}
-                LCM (Least Common Multiple)
-            {{ end }}
-        </span>
-        <div id="resultMMC" class="text-2xl font-mono text-white" style="font-weight: 700;">--</div>
+    <!-- Painel MDC -->
+    <div class="bg-slate-950/60 border border-slate-800/80 p-6 rounded-xl text-center flex flex-col items-center justify-center">
+      <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-2">
+        {{ i18n "label_mdc_title" | default "MDC (Máximo Divisor Comum)" }}
+      </span>
+      <div id="resultMDC" class="text-3xl font-mono font-extrabold text-white">--</div>
     </div>
+
+    <!-- Painel MMC -->
+    <div class="bg-slate-950/60 border border-slate-800/80 p-6 rounded-xl text-center flex flex-col items-center justify-center">
+      <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">
+        {{ i18n "label_mmc_title" | default "MMC (Mínimo Múltiplo Comum)" }}
+      </span>
+      <div id="resultMMC" class="text-3xl font-mono font-extrabold text-white">--</div>
+    </div>
+
+  </div>
+
 </div>

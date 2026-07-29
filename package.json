@@ -1,0 +1,22 @@
+{
+  "name": "scalar-site",
+  "version": "2.0.0",
+  "description": "Engenharia e Ferramentas Estáticas de Alta Performance (Scalar)",
+  "private": true,
+  "scripts": {
+    "precss:build": "node -e \"require('fs').mkdirSync('./assets/css', { recursive: true })\"",
+    "css:build": "npx --no-install tailwindcss -i ./assets/css/input.css -o ./assets/css/main.css --minify",
+    "css:watch": "npx --no-install tailwindcss -i ./assets/css/input.css -o ./assets/css/main.css --watch",
+    "build:css": "npm run precss:build && npm run css:build",
+    "build:stats": "hugo --enableGitInfo",
+    "dev": "npm run precss:build && concurrently \"npx --no-install tailwindcss -i ./assets/css/input.css -o ./assets/css/main.css --watch\" \"hugo server --buildDrafts --disableFastRender\"",
+    "build": "npm run build:css && npm run build:stats && npm run build:css && hugo --gc --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.18",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  }
+}

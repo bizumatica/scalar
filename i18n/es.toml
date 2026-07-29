@@ -1,0 +1,359 @@
+# ==============================================================================
+# DICIONÁRIO MESTRE DE INTERNACIONALIZAÇÃO (i18n / es.toml)
+# BUFFER CENTRALIZADO DA PLATAFORMA - 10 HERRAMIENTAS / 92 CLAVES
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. TOOL: CALCULADORA CIDR
+# ------------------------------------------------------------------------------
+[cidr_title]
+other = "Calculadora CIDR"
+
+[cidr_label_ip]
+other = "Dirección IP:"
+
+[cidr_label_mask]
+other = "Máscara de Subred (CIDR):"
+
+[cidr_res_network]
+other = "Dirección de Red"
+
+[cidr_res_broadcast]
+other = "Dirección de Broadcast"
+
+[cidr_res_first_ip]
+other = "Primera IP Útil"
+
+[cidr_res_last_ip]
+other = "Última IP Útil"
+
+[cidr_res_total_hosts]
+other = "Total de Hosts"
+
+[cidr_res_usable_hosts]
+other = "Hosts Útiles"
+
+
+# ------------------------------------------------------------------------------
+# 2. TOOL: CALCULADORA LEI DOS SENOS E COSSENOS
+# ------------------------------------------------------------------------------
+[lsc_title]
+other = "Calculadora de Ley de Senos y Cosenos"
+
+[lsc_label_side_a]
+other = "Lado a:"
+
+[lsc_label_side_b]
+other = "Lado b:"
+
+[lsc_label_side_c]
+other = "Lado c:"
+
+[lsc_label_angle_a]
+other = "Ángulo A (°):"
+
+[lsc_label_angle_b]
+other = "Ángulo B (°):"
+
+[lsc_label_angle_c]
+other = "Ángulo C (°):"
+
+[lsc_btn_calc]
+other = "Calcular Triángulo"
+
+[lsc_res_type]
+other = "Clasificación del Triángulo"
+
+[lsc_res_area]
+other = "Área Total"
+
+[lsc_res_perimeter]
+other = "Perímetro"
+
+
+# ------------------------------------------------------------------------------
+# 3. TOOL: CONVERSOR DE BASES NUMÉRICAS
+# ------------------------------------------------------------------------------
+[base_title]
+other = "Conversor de Bases Numéricas"
+
+[base_input_val]
+other = "Valor de Entrada:"
+
+[base_select_from]
+other = "De (Base Origen):"
+
+[base_select_to]
+other = "A (Base Destino):"
+
+[base_opt_bin]
+other = "Binario (Base 2)"
+
+[base_opt_oct]
+other = "Octal (Base 8)"
+
+[base_opt_dec]
+other = "Decimal (Base 10)"
+
+[base_opt_hex]
+other = "Hexadecimal (Base 16)"
+
+[base_res_converted]
+other = "Resultado Convertido"
+
+
+# ------------------------------------------------------------------------------
+# 4. TOOL: CONVERSOR DE BYTES E ARMAZENAMENTO
+# ------------------------------------------------------------------------------
+[bytes_title]
+other = "Conversor de Bytes y Almacenamiento"
+
+[bytes_label_value]
+other = "Tamaño / Valor:"
+
+[bytes_label_unit]
+other = "Unidad de Medida:"
+
+[bytes_unit_b]
+other = "Bytes (B)"
+
+[bytes_unit_kb]
+other = "Kilobytes (KB)"
+
+[bytes_unit_mb]
+other = "Megabytes (MB)"
+
+[bytes_unit_gb]
+other = "Gigabytes (GB)"
+
+[bytes_unit_tb]
+other = "Terabytes (TB)"
+
+[bytes_res_binary]
+other = "Estándar Binario (IEC - KiB/MiB/GiB)"
+
+[bytes_res_decimal]
+other = "Estándar Decimal (SI - KB/MB/GB)"
+
+
+# ------------------------------------------------------------------------------
+# 5. TOOL: CONVERSOR DE COMPRIMENTO
+# ------------------------------------------------------------------------------
+[len_title]
+other = "Conversor de Longitud"
+
+[len_label_val]
+other = "Longitud:"
+
+[len_label_from]
+other = "Unidad Origen:"
+
+[len_label_to]
+other = "Unidad Destino:"
+
+[len_unit_m]
+other = "Metros (m)"
+
+[len_unit_km]
+other = "Kilómetros (km)"
+
+[len_unit_cm]
+other = "Centímetros (cm)"
+
+[len_unit_mm]
+other = "Milímetros (mm)"
+
+[len_unit_inch]
+other = "Pulgadas (in)"
+
+[len_unit_ft]
+other = "Pies (ft)"
+
+[len_unit_yd]
+other = "Yardas (yd)"
+
+[len_unit_mi]
+other = "Millas (mi)"
+
+
+# ------------------------------------------------------------------------------
+# 6. TOOL: CONVERSOR DE TEMPERATURA
+# ------------------------------------------------------------------------------
+[temp_title]
+other = "Conversor de Temperatura"
+
+[temp_label_val]
+other = "Grado / Temperatura:"
+
+[temp_label_from]
+other = "De:"
+
+[temp_label_to]
+other = "A:"
+
+[temp_unit_c]
+other = "Celsius (°C)"
+
+[temp_unit_f]
+other = "Fahrenheit (°F)"
+
+[temp_unit_k]
+other = "Kelvin (K)"
+
+[temp_res_result]
+other = "Temperatura Convertida"
+
+
+# ------------------------------------------------------------------------------
+# 7. TOOL: FRAÇÃO GERATRIZ
+# ------------------------------------------------------------------------------
+[fg_title]
+other = "Calculadora de Fracción Generatriz"
+
+[fg_label_decimal]
+other = "Número Decimal / Periódico:"
+
+[fg_placeholder]
+other = "Ej: 0.333... o 1.25"
+
+[fg_btn_calc]
+other = "Convertir en Fracción"
+
+[fg_res_fraction]
+other = "Fracción Generatriz Irreducible"
+
+[fg_res_type]
+other = "Tipo de Decimal / Periódico"
+
+
+# ------------------------------------------------------------------------------
+# 8. TOOL: MDC E MMC (MÁXIMO DIVISOR COMUM E MÍNIMO MÚLTIPLO COMUM)
+# ------------------------------------------------------------------------------
+[mmc_title]
+other = "Calculadora de MCD y MCM"
+
+[mmc_label_numbers]
+other = "Ingrese los Números (separados por coma o espacio):"
+
+[mmc_placeholder]
+other = "Ej: 12, 18, 24"
+
+[mmc_btn_calc]
+other = "Calcular MCD y MCM"
+
+[mmc_res_mdc]
+other = "MCD (Máximo Común Divisor)"
+
+[mmc_res_mmc]
+other = "MCM (Mínimo Común Múltiplo)"
+
+[mmc_res_factors]
+other = "Descomposición en Factores Primos"
+
+
+# ------------------------------------------------------------------------------
+# 9. TOOL: PLANEJADOR DE SUB-REDE VPC
+# ------------------------------------------------------------------------------
+[vpc_err_format]
+other = "Formato de dirección IP no válido (Use X.X.X.X)."
+
+[vpc_err_range]
+other = "Cada octeto de la IP debe estar entre 0 y 255."
+
+[vpc_err_small]
+other = "El prefijo padre debe ser /30 o menor para permitir división binaria en subredes."
+
+[vpc_label_ip]
+other = "Dirección IP Base:"
+
+[vpc_label_mask]
+other = "Máscara CIDR Padre:"
+
+[vpc_label_provider]
+other = "Proveedor de Nube:"
+
+[vpc_prov_standard]
+other = "Estándar RFC (2 IPs Reservadas)"
+
+[vpc_subnet_a]
+other = "Subred A (Pública / Mitad Inferior)"
+
+[vpc_subnet_b]
+other = "Subred B (Privada / Mitad Superior)"
+
+[vpc_res_net]
+other = "Dirección de Red:"
+
+[vpc_res_mask]
+other = "Máscara de Subred:"
+
+[vpc_res_first]
+other = "Primera IP Útil:"
+
+[vpc_res_last]
+other = "Última IP Útil:"
+
+[vpc_res_bcast]
+other = "Dirección de Broadcast:"
+
+[vpc_res_hosts]
+other = "Hosts Útiles:"
+
+
+# ------------------------------------------------------------------------------
+# 10. TOOL: CALCULADORA DE REGRA DE TRÊS
+# ------------------------------------------------------------------------------
+[r3_mode_simple]
+other = "Simple (2 Magnitudes)"
+
+[r3_mode_compound]
+other = "Compuesta (3 Magnitudes)"
+
+[r3_label_val_a1]
+other = "Magnitud A (1)"
+
+[r3_label_val_a2]
+other = "Es a... (2)"
+
+[r3_label_relation_a]
+other = "Relación A → X"
+
+[r3_opt_direct]
+other = "DIRECTA"
+
+[r3_opt_inverse]
+other = "INVERSA"
+
+[r3_label_val_b1]
+other = "Magnitud B (1)"
+
+[r3_label_result_x]
+other = "Resultado Incógnita (X)"
+
+[r3_label_val_c1]
+other = "Magnitud C (1)"
+
+[r3_label_val_c2]
+other = "Es a... (2)"
+
+[r3_label_relation_c]
+other = "Relación C → X"
+
+
+# ------------------------------------------------------------------------------
+# A. PARTIALS: HEADER E FOOTER
+# ------------------------------------------------------------------------------
+[header_tagline]
+other = "PRECISIÓN MATEMÁTICA. INGENIERÍA DE SOFTWARE."
+
+[footer_tagline]
+other = "Desarrollado con precisión por Julio Prata."
+
+[footer_about]
+other = "Sobre nosotros"
+
+[footer_contact]
+other = "Contacto"
+
+[footer_privacy]
+other = "Política de Privacidad"

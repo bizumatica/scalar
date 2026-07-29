@@ -25,8 +25,8 @@ Confusion arises because there are two primary standards for defining what a "Ki
 
 Have you ever bought a **500 GB** hard drive and, upon plugging it in, Windows showed only about **465 GiB**? This isn't a defect; it's simply a difference in units:
 
-1.  The manufacturer sells the disk using the **SI (Base 10)** standard: 500,000,000,000 Bytes.
-2.  The operating system reads those same Bytes using the **IEC (Base 2)** standard.
+1. The manufacturer sells the disk using the **SI (Base 10)** standard: 500,000,000,000 Bytes.
+2. The operating system reads those same Bytes using the **IEC (Base 2)** standard.
 
 ### Unit Comparison Table
 
@@ -43,7 +43,7 @@ Have you ever bought a **500 GB** hard drive and, upon plugging it in, Windows s
 
 To convert from an SI unit to its corresponding IEC unit (e.g., MB to MiB):
 
-1.  Convert the total value to the base unit (**Bytes**).
-2.  Divide the total Bytes by the Base 2 factor (e.g., by 1,048,576 to get MiB).
+1. Convert the total value to the base unit (**Bytes**).
+2. Divide the total Bytes by the Base 2 factor (e.g., by 1,048,576 to get MiB).
 
 **Scalar** automates this process, ensuring you don't make rounding errors in bandwidth calculations or server dimensioning.

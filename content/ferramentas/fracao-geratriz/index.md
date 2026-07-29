@@ -22,20 +22,17 @@ Todo número racional pode ser escrito na forma de fração $a/b$. Quando o deci
 
 Para encontrar a fração geratriz de uma dízima simples, como $0,777...$, seguimos estes passos lógicos:
 
-1.  **Igualamos a X:** $x = 0,777...$
-2.  **Multiplicamos por 10:** (para deslocar o período) $10x = 7,777...$
-3.  **Subtraímos as equações:** * $10x - x = 7,777... - 0,777...$
+1. **Igualamos a X:** $x = 0,777...$
+2. **Multiplicamos por 10:** (para deslocar o período) $10x = 7,777...$
+3. **Subtraímos as equações:** * $10x - x = 7,777... - 0,777...$
     * $9x = 7$
-4.  **Resultado:** $x = 7/9$
+4. **Resultado:** $x = 7/9$
 
 ### Algoritmo de Simplificação (MDC)
 
 Para decimais exatos, após escrever a fração base (ex: $0,75 = 75/100$), o Scalar utiliza o **Algoritmo de Euclides** para encontrar o Máximo Divisor Comum entre o numerador e o denominador, garantindo que a fração seja simplificada ao máximo.
 
-
-
 [Image of Euclidean algorithm flowchart]
-
 
 | Decimal | Fração Base | Simplificação (MDC) | Fração Irredutível |
 | :--- | :--- | :--- | :--- |

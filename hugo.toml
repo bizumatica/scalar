@@ -1,17 +1,17 @@
 # ==============================================================================
 # SCAL4R ARCHITECTURE CONFIGURATION - PRODUCTION 2026
-# Otimizado para Alta Performance Hugo v0.160+ / v0.161+
-# Opção B: Single Content Directory com Roteamento Dinâmico via Front Matter
+# Otimizado para Alta Performance Hugo v0.120+ / v0.160+
+# Single Content Directory com Roteamento Dinâmico via Front Matter
 # ==============================================================================
 
 baseURL = 'https://scal4r.com/'
 defaultContentLanguage = 'pt-br'
 
-# Garante que o PT-BR fique na raiz (scal4r.com/) e as demais línguas nos subdiretórios (/en/, /de/, /ja/)
+# Mantém PT-BR na raiz (scal4r.com/) e demais línguas em subdiretórios (/en/, /de/, /ja/, /es/, /fr/)
 defaultContentLanguageInSubdir = false
 
-# ELIMINAÇÃO DE TAXONOMIAS FANTASMAS (Sintaxe atualizada anti-Thin Content)
-disableKinds = ["taxonomy"]
+# ELIMINAÇÃO DE TAXONOMIAS FANTASMAS (Evita Thin Content em SEO)
+disableKinds = ["taxonomy", "term"]
 
 # ==============================================================================
 # IDIOMAS & LOCALIZAÇÃO (Sincronização Atômica de Rotas Multilinguais)
@@ -20,67 +20,102 @@ disableKinds = ["taxonomy"]
 [languages]
   # --- PORTUGUÊS (RAIZ) ---
   [languages.pt-br]
-    locale = 'pt-br'       
-    label = 'Português'    
+    languageCode = 'pt-br'
+    languageName = 'Português'
     contentDir = 'content' 
     weight = 1
     title = 'Scal4r | Ferramentas de Precisão'
     
     [languages.pt-br.params]
       description = "Scal4r: Ferramentas de Precisão para Engenharia e Computação."
-    
+      isoCode = "pt-BR"
+
     [languages.pt-br.permalinks]
-      # Alinhado com o motor de slugs nativos do Hugo
       ferramentas = '/ferramentas/:slug/'
-      page = '/:slug/' # 👈 Garante o mapeamento de slugs para páginas raiz em PT
+      page = '/:slug/'
 
   # --- INGLÊS ---
   [languages.en]
-    locale = 'en'          
-    label = 'English'      
+    languageCode = 'en'
+    languageName = 'English'
     contentDir = 'content' 
     weight = 2
     title = 'Scal4r | Precision Tools'
     
     [languages.en.params]
       description = "Scal4r: High-precision engineering and computing utility tools."
-    
+      isoCode = "en-US"
+
     [languages.en.permalinks]
       ferramentas = '/tools/:slug/'
-      page = '/:slug/' # 👈 Força o Hugo a ler o slug (ex: slug: "about" vira /en/about/)
+      page = '/:slug/'
 
   # --- ALEMÃO (TIER 1 DACH REGION) ---
   [languages.de]
-    locale = 'de'          
-    label = 'Deutsch'      
+    languageCode = 'de'
+    languageName = 'Deutsch'
     contentDir = 'content' 
     weight = 3
     title = 'Scal4r | Präzisionswerkzeuge'
     
     [languages.de.params]
       description = "Scal4r: Hochpräzise Werkzeuge für Ingenieurwesen und Informatik."
-    
+      isoCode = "de-DE"
+
     [languages.de.permalinks]
       ferramentas = '/werkzeuge/:slug/'
-      page = '/:slug/' # 👈 CORREÇÃO CRÍTICA: Força o Hugo a ler o slug (ex: slug: "kontakt" vira /de/kontakt/)
+      page = '/:slug/'
 
   # --- JAPONÊS (TIER 1 APAC REGION) ---
   [languages.ja]
-    locale = 'ja'          
-    label = '日本語'      
+    languageCode = 'ja'
+    languageName = '日本語'
     contentDir = 'content' 
     weight = 4
     title = 'Scal4r | 精密ツール'
     
     [languages.ja.params]
       description = "Scal4r: 工学およびコンピューティング向けの精密ユーティリティツール。"
-    
+      isoCode = "ja-JP"
+
     [languages.ja.permalinks]
       ferramentas = '/tools/:slug/'
-      page = '/:slug/' # 👈 Força o Hugo a ler o slug no mercado japonês
+      page = '/:slug/'
+
+  # --- ESPANHOL (LATAM / ESPANHA) ---
+  [languages.es]
+    languageCode = 'es'
+    languageName = 'Español'
+    contentDir = 'content'
+    weight = 5
+    title = 'Scal4r | Herramientas de Precisión'
+
+    [languages.es.params]
+      description = "Scal4r: Herramientas de precisión para ingeniería y computación."
+      isoCode = "es-ES"
+
+    [languages.es.permalinks]
+      ferramentas = '/herramientas/:slug/'
+      page = '/:slug/'
+
+  # --- FRANCÊS (EUROPA OCIDENTAL / CANADÁ) ---
+  [languages.fr]
+    languageCode = 'fr'
+    languageName = 'Français'
+    contentDir = 'content'
+    weight = 6
+    title = 'Scal4r | Outils de Précision'
+
+    [languages.fr.params]
+      description = "Scal4r: Outils de précision pour l'ingénierie et l'informatique."
+      isoCode = "fr-FR"
+
+    [languages.fr.permalinks]
+      ferramentas = '/outils/:slug/'
+      page = '/:slug/'
 
 # ==============================================================================
-# CONFIGURAÇÕES DE SISTEMA E DESEMPENHO LOCAL
+# CONFIGURAÇÕES DE SISTEMA, ADSENSE E DESEMPENHO DE BUILD
 # ==============================================================================
 
 [params]
@@ -88,37 +123,28 @@ disableKinds = ["taxonomy"]
 
 [build]
   writeStats = true
+  noJSConfigInHTML = false
   [build.buildStats]
     enableResourceIndices = true
 
-# MINIFICAÇÃO NATIVA (Processamento otimizado para poupar RAM durante o build)
+# MINIFICAÇÃO NATIVA
 [minify]
-  disableHTML = false
-  disableJS = false
-  disableCSS = false
   minifyOutput = true
 
-# CONFIGURAÇÃO DE RASTREABILIDADE (SEO Sênior)
+# CONFIGURAÇÃO DE RASTREABILIDADE (SEO)
 [sitemap]
   changefreq = "weekly"
   priority = 0.8             
   filename = "sitemap.xml"
 
-# ==============================================================================
-# PIPELINE DE OUTPUTS & GERAÇÃO AUTOMÁTICA DO ADS.TXT
-# ==============================================================================
-
-# [outputs]
-#  home = ["HTML", "RSS", "AdsTxt"]
-#
-# [outputFormats.AdsTxt]
-  # baseName = "ads"
-  # mediaType = "text/plain"
-  # isPlainText = true
-  # notAlternative = true
-
-# CORE DE RENDERIZAÇÃO (Suporte a Math/LaTeX e Injeção Segura de Scripts)
+# CORE DE RENDERIZAÇÃO (GOLDMARK PASSTHROUGH NATIVO PARA KATEX/LATEX)
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]'], ['$$', '$$']]
+          inline = [['\(', '\)'], ['$', '$']]
