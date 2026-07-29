@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="{{ .Language.Lang }}" class="scroll-smooth">
+<html lang="{{ .Language.Lang }}" class="scroll-smooth bg-zinc-950 text-zinc-200">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
+    <!-- VIEW TRANSITIONS NATIVAS (ELIMINA PISCAR DE TELA NA TROCA DE IDIOMAS) -->
+    <meta name="view-transition" content="same-origin">
+
+    <!-- CSS CRÍTICO ANTI-FLASH & VIEW TRANSITIONS OVERRIDE -->
+    <style>
+        html, body {
+            background-color: #09090b !important; /* Cor exata do bg-zinc-950 */
+            color: #e4e4e7;
+            margin: 0;
+            padding: 0;
+        }
+        @view-transition {
+            navigation: auto;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            ::view-transition-group(*),
+            ::view-transition-old(*),
+            ::view-transition-new(*) {
+                animation: none !important;
+            }
+        }
+    </style>
+
     <!-- SEO & METADADOS -->
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
@@ -60,7 +83,7 @@
         </script>
     {{ end }}
 
-    <!-- ADSENSE LAZY-LOADING (PERFORMANCE CORE WEB VITALS) -->
+    <!-- ADSENSE LAZY-LOADING PRECISO (PERFORMANCE V8 & INTERSECTION OBSERVER) -->
     {{ if or .IsHome (eq .Section "ferramentas") }}
         {{ with .Site.Params.adsense_id }}
         <script>
@@ -78,6 +101,23 @@
                     document.head.appendChild(script);
                 }
 
+                // Disparo por rolagem ou visibilidade do slot
+                if ('IntersectionObserver' in window) {
+                    var observer = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) {
+                                loadAdSense();
+                                observer.disconnect();
+                            }
+                        });
+                    }, { rootMargin: "200px" });
+
+                    document.querySelectorAll('.adsbygoogle').forEach(function(el) {
+                        observer.observe(el);
+                    });
+                }
+
+                // Fallbacks baseados em ociosidade e interação do usuário
                 if ("requestIdleCallback" in window) {
                     requestIdleCallback(function() { setTimeout(loadAdSense, 2000); });
                 } else {

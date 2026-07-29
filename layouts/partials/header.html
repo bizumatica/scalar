@@ -5,21 +5,19 @@
     <!-- BRANDING: Logo com Δ e Tagline Centralizados -->
     <div class="flex flex-col items-center gap-1.5">
       <a href="{{ site.Home.RelPermalink }}" class="group flex items-center gap-2 text-2xl sm:text-3xl font-black tracking-wider text-zinc-100 hover:text-white transition-colors">
-        <!-- Ícone / Letra Delta Grega (Δ) -->
         <span class="text-indigo-500 group-hover:scale-110 transition-transform font-serif text-3xl sm:text-4xl">Δ</span>
         <span>SCALAR</span>
       </a>
-      <!-- Tagline dinâmica via Hugo i18n -->
       <p class="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-zinc-400">
         {{ i18n "header_tagline" | default (i18n "site_tagline") | default "PRECISÃO MATEMÁTICA. ENGENHARIA DE SOFTWARE." }}
       </p>
     </div>
 
-    <!-- NAVEGAÇÃO DE IDIOMAS (I18N): Destaque Primário do Idioma Atual + Grid 2x3 Mobile -->
+    <!-- NAVEGAÇÃO DE IDIOMAS (I18N): Destaque Primário + Prefetch de Alta Performance -->
     {{ if .IsTranslated }}
     <nav class="w-full pt-3 border-t border-zinc-900/80 flex justify-center" aria-label="Language Selector">
       
-      <!-- LÓGICA HUGO: Reordenação de Slices para Colocar o Idioma Ativo na Primeira Posição -->
+      <!-- REORDENAÇÃO GO/HUGO: O Idioma Ativo Sempre Assume a Posição 0 (Primeiro Slot) -->
       {{ $currentLang := .Lang }}
       {{ $activeLangSlice := slice }}
       {{ $otherLangsSlice := slice }}
@@ -34,17 +32,20 @@
 
       {{ $orderedLangs := $activeLangSlice | append $otherLangsSlice }}
 
-      <!-- Container da Matriz: 'grid-cols-2' estrito no Mobile e Flexbox no Desktop -->
+      <!-- CONTAINER GRID 2 COLUNAS (MOBILE) / FLEXBOX (DESKTOP) -->
       <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-2.5 w-full max-w-[240px] sm:max-w-none" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));">
         {{ range $orderedLangs }}
           {{ $isCurrent := eq .Lang $currentLang }}
           
-          <!-- Pílula Compacta (Idioma Ativo ganha Destaque Primário de Borda e Fundo) -->
+          <!-- PÍLULA DE IDIOMA COM PREFETCH NO HOVER -->
           <a href="{{ .RelPermalink }}" 
-             {{ if $isCurrent }}aria-current="page"{{ end }}
+             {{ if $isCurrent }}
+               aria-current="page"
+             {{ else }}
+               onmouseenter="if(!document.querySelector('link[href=\'{{ .RelPermalink }}\']')){let l=document.createElement('link');l.rel='prefetch';l.href='{{ .RelPermalink }}';document.head.appendChild(l);}"
+             {{ end }}
              class="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono border transition-all duration-200 w-full sm:w-auto {{ if $isCurrent }} bg-indigo-950/60 border-indigo-500 text-indigo-300 font-bold shadow-sm shadow-indigo-500/20 ring-1 ring-indigo-500/30 {{ else }} bg-zinc-900/50 border-zinc-800/80 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 hover:border-zinc-700 {{ end }}">
             
-            <!-- SVG da Bandeira do Idioma -->
             {{ if templates.Exists "partials/flag-svg.html" }}
               {{ partial "flag-svg.html" (dict "lang" .Lang) }}
             {{ end }}
@@ -60,7 +61,6 @@
   </div>
 </header>
 
-<!-- CSS de Override para Breakpoint Desktop (Garante flexbox em telas sm ou maiores) -->
 <style>
   @media (min-width: 640px) {
     nav[aria-label="Language Selector"] > div {
