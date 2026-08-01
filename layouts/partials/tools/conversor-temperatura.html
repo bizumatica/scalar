@@ -1,9 +1,11 @@
-{{ $lang := lower site.Language.Lang }}
+{{ $slug := "conversor-temperatura" }}
 
-<div id="temp-converter-container" data-lang="{{ $lang }}" class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+<div id="temp-converter-container" 
+     data-lang="{{ lower site.Language.Lang }}" 
+     class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
   
-  <p class="m-0 text-sm text-slate-400 leading-relaxed">
-    {{ i18n "tool_temp_instruction" | default "Digite um valor de temperatura em qualquer uma das unidades abaixo para converter em tempo real." }}
+  <p class="m-0 text-sm text-slate-400 leading-relaxed font-mono">
+    {{ i18n (printf "solvers.%s.instruction" $slug) }}
   </p>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -12,7 +14,7 @@
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="temp-celsius" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase">
         <i data-lucide="thermometer" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "unit_celsius" | default "Celsius" }} (°C)</span>
+        <span>{{ i18n (printf "solvers.%s.unit_celsius" $slug) }}</span>
       </label>
       <input type="text" id="temp-celsius" data-unit="celsius" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 25"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -22,7 +24,7 @@
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="temp-fahrenheit" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase">
         <i data-lucide="thermometer-snowflake" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "unit_fahrenheit" | default "Fahrenheit" }} (°F)</span>
+        <span>{{ i18n (printf "solvers.%s.unit_fahrenheit" $slug) }}</span>
       </label>
       <input type="text" id="temp-fahrenheit" data-unit="fahrenheit" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 77"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -32,7 +34,7 @@
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="temp-kelvin" class="flex items-center gap-2 text-xs font-bold text-emerald-400 tracking-wider uppercase">
         <i data-lucide="zap" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "unit_kelvin" | default "Kelvin (Absoluto)" }} (K)</span>
+        <span>{{ i18n (printf "solvers.%s.unit_kelvin" $slug) }}</span>
       </label>
       <input type="text" id="temp-kelvin" data-unit="kelvin" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 298.15"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
@@ -42,7 +44,7 @@
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="temp-rankine" class="flex items-center gap-2 text-xs font-bold text-slate-400 tracking-wider uppercase">
         <i data-lucide="gauge" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "unit_rankine" | default "Rankine" }} (°R)</span>
+        <span>{{ i18n (printf "solvers.%s.unit_rankine" $slug) }}</span>
       </label>
       <input type="text" id="temp-rankine" data-unit="rankine" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 536.67"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -52,7 +54,7 @@
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="temp-reaumur" class="flex items-center gap-2 text-xs font-bold text-slate-400 tracking-wider uppercase">
         <i data-lucide="flame" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "unit_reaumur" | default "Réaumur" }} (°Ré)</span>
+        <span>{{ i18n (printf "solvers.%s.unit_reaumur" $slug) }}</span>
       </label>
       <input type="text" id="temp-reaumur" data-unit="reaumur" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 20"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -64,7 +66,7 @@
     <button id="temp-btn-clear" type="button" 
             class="bg-slate-950 hover:bg-slate-800 text-slate-400 border border-slate-800 font-semibold py-2 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2">
       <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-      <span>{{ i18n "btn_clear_all" | default "Limpar Todos os Campos" }}</span>
+      <span class="font-mono">{{ i18n (printf "solvers.%s.btn_clear" $slug) }}</span>
     </button>
   </div>
 

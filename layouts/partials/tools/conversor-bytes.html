@@ -1,9 +1,11 @@
-{{ $lang := lower site.Language.Lang }}
+{{ $slug := "conversor-bytes" }}
 
-<div id="byte-converter-container" data-lang="{{ $lang }}" class="p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+<div id="byte-converter-container" 
+     data-lang="{{ lower site.Language.Lang }}" 
+     class="p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
   
-  <p class="m-0 text-sm text-slate-400 leading-relaxed mb-6">
-    {{ i18n "tool_byte_instruction" | default "Digite um valor em qualquer unidade de armazenamento abaixo. A conversão em tempo real atualizará todas as outras unidades instantaneamente." }}
+  <p class="m-0 text-sm text-slate-400 leading-relaxed mb-6 font-mono">
+    {{ i18n (printf "solvers.%s.instruction" $slug) }}
   </p>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -11,7 +13,7 @@
     <!-- Bit -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="byte-b" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
-        {{ i18n "unit_bit" | default "Bit" }} (b)
+        {{ i18n (printf "solvers.%s.unit_bit" $slug) }}
       </label>
       <input type="text" id="byte-b" data-unit="b" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -20,7 +22,7 @@
     <!-- Byte -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="byte-B" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
-        {{ i18n "unit_byte" | default "Byte" }} (B)
+        {{ i18n (printf "solvers.%s.unit_byte" $slug) }}
       </label>
       <input type="text" id="byte-B" data-unit="B" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -29,7 +31,7 @@
     <!-- Kilobyte -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="byte-KB" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
-        {{ i18n "unit_kilobyte" | default "Kilobyte" }} (KB)
+        {{ i18n (printf "solvers.%s.unit_kb" $slug) }}
       </label>
       <input type="text" id="byte-KB" data-unit="KB" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -38,7 +40,7 @@
     <!-- Megabyte -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="byte-MB" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
-        {{ i18n "unit_megabyte" | default "Megabyte" }} (MB)
+        {{ i18n (printf "solvers.%s.unit_mb" $slug) }}
       </label>
       <input type="text" id="byte-MB" data-unit="MB" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -47,7 +49,7 @@
     <!-- Gigabyte -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="byte-GB" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
-        {{ i18n "unit_gigabyte" | default "Gigabyte" }} (GB)
+        {{ i18n (printf "solvers.%s.unit_gb" $slug) }}
       </label>
       <input type="text" id="byte-GB" data-unit="GB" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -56,7 +58,7 @@
     <!-- Terabyte -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="byte-TB" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
-        {{ i18n "unit_terabyte" | default "Terabyte" }} (TB)
+        {{ i18n (printf "solvers.%s.unit_tb" $slug) }}
       </label>
       <input type="text" id="byte-TB" data-unit="TB" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -65,7 +67,7 @@
     <!-- Petabyte -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="byte-PB" class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider">
-        {{ i18n "unit_petabyte" | default "Petabyte" }} (PB)
+        {{ i18n (printf "solvers.%s.unit_pb" $slug) }}
       </label>
       <input type="text" id="byte-PB" data-unit="PB" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -74,9 +76,27 @@
     <!-- Kibibyte (IEC) -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
       <label for="byte-KiB" class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
-        {{ i18n "unit_kibibyte" | default "Kibibyte" }} (KiB)
+        {{ i18n (printf "solvers.%s.unit_kib" $slug) }}
       </label>
       <input type="text" id="byte-KiB" data-unit="KiB" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+    </div>
+
+    <!-- Mebibyte (IEC) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="byte-MiB" class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+        {{ i18n (printf "solvers.%s.unit_mib" $slug) }}
+      </label>
+      <input type="text" id="byte-MiB" data-unit="MiB" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
+             class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+    </div>
+
+    <!-- Gibibyte (IEC) -->
+    <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
+      <label for="byte-GiB" class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+        {{ i18n (printf "solvers.%s.unit_gib" $slug) }}
+      </label>
+      <input type="text" id="byte-GiB" data-unit="GiB" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
     </div>
 
@@ -86,7 +106,7 @@
     <button id="byte-btn-clear" type="button" 
             class="bg-slate-950 hover:bg-slate-800 text-slate-400 border border-slate-800 font-semibold py-2 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2">
       <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-      <span>{{ i18n "btn_clear_all" | default "Limpar Todos os Campos" }}</span>
+      <span class="font-mono">{{ i18n (printf "solvers.%s.btn_clear" $slug) }}</span>
     </button>
   </div>
 

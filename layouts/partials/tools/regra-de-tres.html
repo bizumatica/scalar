@@ -1,68 +1,74 @@
-{{/* Partial Hugo: Calculadora de Regra de Três Simples e Composta */}}
-{{ $currentLang := site.Language.Lang | default "pt" }}
+{{ $slug := "regra-de-tres" }}
 
 <div id="r3-tool-card" 
      class="w-full max-w-2xl mx-auto bg-slate-900/80 border border-slate-700/80 p-5 sm:p-7 rounded-2xl shadow-2xl backdrop-blur-md" 
-     data-lang="{{ $currentLang }}">
+     data-lang="{{ lower site.Language.Lang }}"
+     data-err-div-zero="{{ i18n (printf "solvers.%s.err_div_zero" $slug) }}">
     
-    {{/* Seletor de Modo (Tabs) */}}
-    <div class="flex gap-2 mb-6 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800">
+    <!-- Seletor de Modo (Tabs) e Botão Limpar -->
+    <div class="flex gap-2 mb-6 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800 items-center">
         <button type="button" 
                 id="mode-simple" 
-                class="flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 bg-blue-600 text-white shadow-lg shadow-blue-500/20">
-            {{ if eq $currentLang "pt" }}Simples (2 Grandezas){{ else if eq $currentLang "de" }}Einfach{{ else if eq $currentLang "ja" }}単比例{{ else }}Simple (2 Values){{ end }}
+                class="flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 bg-blue-600 text-white shadow-lg shadow-blue-500/20 cursor-pointer">
+            {{ i18n (printf "solvers.%s.tab_simple" $slug) }}
         </button>
         <button type="button" 
                 id="mode-compound" 
-                class="flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 bg-transparent text-slate-400 hover:text-slate-200">
-            {{ if eq $currentLang "pt" }}Composta (3 Grandezas){{ else if eq $currentLang "de" }}Zusammengesetzt{{ else if eq $currentLang "ja" }}複比例{{ else }}Compound (3 Values){{ end }}
+                class="flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 bg-transparent text-slate-400 hover:text-slate-200 cursor-pointer">
+            {{ i18n (printf "solvers.%s.tab_compound" $slug) }}
+        </button>
+        <button type="button" 
+                id="btn-clear-r3" 
+                title="{{ i18n (printf "solvers.%s.btn_clear" $slug) }}"
+                class="bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-white px-3 py-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-center">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
         </button>
     </div>
 
     <div id="r3-container" class="space-y-6">
         
-        {{/* Block 1: Grandeza A */}}
+        <!-- Bloco 1: Grandeza A -->
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end bg-slate-800/40 p-4 rounded-xl border border-slate-800">
             <div class="sm:col-span-4">
                 <label for="val-a1" class="block mb-1.5 text-xs font-mono uppercase tracking-wider text-slate-400">
-                    {{ if eq $currentLang "pt" }}Grandeza A (1){{ else }}Value A (1){{ end }}
+                    {{ i18n (printf "solvers.%s.label_val_a1" $slug) }}
                 </label>
                 <input type="text" id="val-a1" inputmode="decimal" placeholder="10" 
-                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors">
+                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors" autocomplete="off">
             </div>
             
             <div class="sm:col-span-4">
                 <label for="val-a2" class="block mb-1.5 text-xs font-mono uppercase tracking-wider text-slate-400">
-                    {{ if eq $currentLang "pt" }}Está para... (2){{ else }}Is to... (2){{ end }}
+                    {{ i18n (printf "solvers.%s.label_val_a2" $slug) }}
                 </label>
                 <input type="text" id="val-a2" inputmode="decimal" placeholder="20" 
-                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors">
+                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors" autocomplete="off">
             </div>
 
             <div class="sm:col-span-4">
                 <label for="type-a" class="block mb-1.5 text-[10px] font-mono uppercase tracking-wider text-blue-400 font-semibold">
-                    {{ if eq $currentLang "pt" }}Relação A $\rightarrow$ X{{ else }}Relation A $\rightarrow$ X{{ end }}
+                    {{ i18n (printf "solvers.%s.label_rel_a" $slug) }}
                 </label>
                 <select id="type-a" class="w-full bg-slate-800 text-blue-400 border border-slate-700 p-2.5 rounded-lg text-xs font-extrabold h-[42px] cursor-pointer outline-none focus:border-blue-500">
-                    <option value="dir">{{ if eq $currentLang "pt" }}DIRETA{{ else }}DIRECT{{ end }}</option>
-                    <option value="inv">{{ if eq $currentLang "pt" }}INVERSA{{ else }}INVERSE{{ end }}</option>
+                    <option value="dir" selected>{{ i18n (printf "solvers.%s.opt_direct" $slug) }}</option>
+                    <option value="inv">{{ i18n (printf "solvers.%s.opt_inverse" $slug) }}</option>
                 </select>
             </div>
         </div>
 
-        {{/* Block 2: Grandeza B (Incógnita X) */}}
+        <!-- Bloco 2: Grandeza B (Incógnita X) -->
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end bg-blue-950/20 p-4 rounded-xl border border-blue-900/40">
             <div class="sm:col-span-4">
                 <label for="val-b1" class="block mb-1.5 text-xs font-mono uppercase tracking-wider text-slate-400">
-                    {{ if eq $currentLang "pt" }}Grandeza B (1){{ else }}Value B (1){{ end }}
+                    {{ i18n (printf "solvers.%s.label_val_b1" $slug) }}
                 </label>
                 <input type="text" id="val-b1" inputmode="decimal" placeholder="30" 
-                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors">
+                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors" autocomplete="off">
             </div>
 
             <div class="sm:col-span-8">
                 <label class="block mb-1.5 text-xs font-mono uppercase tracking-wider text-blue-400 font-bold">
-                    {{ if eq $currentLang "pt" }}Resultado Incógnita (X){{ else }}Result (X){{ end }}
+                    {{ i18n (printf "solvers.%s.label_res_x" $slug) }}
                 </label>
                 <div id="result-x" class="w-full bg-blue-950/50 border border-blue-500/50 text-white p-2.5 rounded-lg font-mono min-h-[42px] flex items-center justify-center font-extrabold text-xl shadow-inner transition-colors">
                     ?
@@ -70,31 +76,31 @@
             </div>
         </div>
 
-        {{/* Block 3: Grandeza C (Opcional - Composta) */}}
+        <!-- Bloco 3: Grandeza C (Opcional - Composta) -->
         <div id="row-compound" class="hidden grid-cols-1 sm:grid-cols-12 gap-3 items-end bg-slate-800/40 p-4 rounded-xl border border-slate-800 border-dashed">
             <div class="sm:col-span-4">
                 <label for="val-c1" class="block mb-1.5 text-xs font-mono uppercase tracking-wider text-slate-400">
-                    {{ if eq $currentLang "pt" }}Grandeza C (1){{ else }}Value C (1){{ end }}
+                    {{ i18n (printf "solvers.%s.label_val_c1" $slug) }}
                 </label>
                 <input type="text" id="val-c1" inputmode="decimal" placeholder="5" 
-                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors">
+                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors" autocomplete="off">
             </div>
 
             <div class="sm:col-span-4">
                 <label for="val-c2" class="block mb-1.5 text-xs font-mono uppercase tracking-wider text-slate-400">
-                    {{ if eq $currentLang "pt" }}Está para... (2){{ else }}Is to... (2){{ end }}
+                    {{ i18n (printf "solvers.%s.label_val_c2" $slug) }}
                 </label>
                 <input type="text" id="val-c2" inputmode="decimal" placeholder="15" 
-                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors">
+                       class="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg font-mono outline-none focus:border-blue-500 transition-colors" autocomplete="off">
             </div>
 
             <div class="sm:col-span-4">
                 <label for="type-c" class="block mb-1.5 text-[10px] font-mono uppercase tracking-wider text-blue-400 font-semibold">
-                    {{ if eq $currentLang "pt" }}Relação C $\rightarrow$ X{{ else }}Relation C $\rightarrow$ X{{ end }}
+                    {{ i18n (printf "solvers.%s.label_rel_c" $slug) }}
                 </label>
                 <select id="type-c" class="w-full bg-slate-800 text-blue-400 border border-slate-700 p-2.5 rounded-lg text-xs font-extrabold h-[42px] cursor-pointer outline-none focus:border-blue-500">
-                    <option value="dir">{{ if eq $currentLang "pt" }}DIRETA{{ else }}DIRECT{{ end }}</option>
-                    <option value="inv">{{ if eq $currentLang "pt" }}INVERSA{{ else }}INVERSE{{ end }}</option>
+                    <option value="dir" selected>{{ i18n (printf "solvers.%s.opt_direct" $slug) }}</option>
+                    <option value="inv">{{ i18n (printf "solvers.%s.opt_inverse" $slug) }}</option>
                 </select>
             </div>
         </div>

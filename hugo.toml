@@ -20,8 +20,8 @@ disableKinds = ["taxonomy", "term"]
 [languages]
   # --- PORTUGUÊS (RAIZ) ---
   [languages.pt-br]
-    languageCode = 'pt-br'
-    languageName = 'Português'
+    locale = 'pt-br'
+    label = 'Português'
     contentDir = 'content' 
     weight = 1
     title = 'Scal4r | Ferramentas de Precisão'
@@ -36,8 +36,8 @@ disableKinds = ["taxonomy", "term"]
 
   # --- INGLÊS ---
   [languages.en]
-    languageCode = 'en'
-    languageName = 'English'
+    locale = 'en'
+    label = 'English'
     contentDir = 'content' 
     weight = 2
     title = 'Scal4r | Precision Tools'
@@ -52,8 +52,8 @@ disableKinds = ["taxonomy", "term"]
 
   # --- ALEMÃO (TIER 1 DACH REGION) ---
   [languages.de]
-    languageCode = 'de'
-    languageName = 'Deutsch'
+    locale = 'de'
+    label = 'Deutsch'
     contentDir = 'content' 
     weight = 3
     title = 'Scal4r | Präzisionswerkzeuge'
@@ -68,8 +68,8 @@ disableKinds = ["taxonomy", "term"]
 
   # --- JAPONÊS (TIER 1 APAC REGION) ---
   [languages.ja]
-    languageCode = 'ja'
-    languageName = '日本語'
+    locale = 'ja'
+    label = '日本語'
     contentDir = 'content' 
     weight = 4
     title = 'Scal4r | 精密ツール'
@@ -84,8 +84,8 @@ disableKinds = ["taxonomy", "term"]
 
   # --- ESPANHOL (LATAM / ESPANHA) ---
   [languages.es]
-    languageCode = 'es'
-    languageName = 'Español'
+    locale = 'es'
+    label = 'Español'
     contentDir = 'content'
     weight = 5
     title = 'Scal4r | Herramientas de Precisión'
@@ -100,8 +100,8 @@ disableKinds = ["taxonomy", "term"]
 
   # --- FRANCÊS (EUROPA OCIDENTAL / CANADÁ) ---
   [languages.fr]
-    languageCode = 'fr'
-    languageName = 'Français'
+    locale = 'fr'
+    label = 'Français'
     contentDir = 'content'
     weight = 6
     title = 'Scal4r | Outils de Précision'

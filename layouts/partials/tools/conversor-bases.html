@@ -1,19 +1,20 @@
-{{/* 1. Captura e Normalização do Idioma Atual */}}
-{{ $lang := lower site.Language.Lang }}
+{{ $slug := "conversor-bases" }}
 
-<div id="base-converter-container" data-lang="{{ $lang }}" class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+<div id="base-converter-container" 
+     data-lang="{{ lower site.Language.Lang }}" 
+     class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
   
-  <p class="m-0 text-sm text-slate-400 leading-relaxed">
-    {{ i18n "tool_base_conv_instruction" | default "Digite um número em qualquer um dos campos abaixo. A conversão em tempo real atualizará todas as outras bases instantaneamente." }}
+  <p class="m-0 text-sm text-slate-400 leading-relaxed font-mono">
+    {{ i18n (printf "solvers.%s.instruction" $slug) }}
   </p>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
     
     <!-- Decimal (Base 10) -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
-      <label for="base-dec" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase">
+      <label for="base-dec" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase font-mono">
         <i data-lucide="hash" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "tool_base_conv_decimal" | default "Decimal (Base 10)" }}</span>
+        <span>{{ i18n (printf "solvers.%s.label_dec" $slug) }}</span>
       </label>
       <input type="text" id="base-dec" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 255"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -21,9 +22,9 @@
 
     <!-- Binário (Base 2) -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
-      <label for="base-bin" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase">
+      <label for="base-bin" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase font-mono">
         <i data-lucide="binary" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "tool_base_conv_binary" | default "Binário (Base 2)" }}</span>
+        <span>{{ i18n (printf "solvers.%s.label_bin" $slug) }}</span>
       </label>
       <input type="text" id="base-bin" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 11111111"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -31,9 +32,9 @@
 
     <!-- Hexadecimal (Base 16) -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
-      <label for="base-hex" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase">
+      <label for="base-hex" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase font-mono">
         <i data-lucide="terminal" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "tool_base_conv_hexadecimal" | default "Hexadecimal (Base 16)" }}</span>
+        <span>{{ i18n (printf "solvers.%s.label_hex" $slug) }}</span>
       </label>
       <input type="text" id="base-hex" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: FF"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -41,9 +42,9 @@
 
     <!-- Octal (Base 8) -->
     <div class="flex flex-col gap-1.5 bg-slate-950/50 p-3.5 border border-slate-800 rounded-lg">
-      <label for="base-oct" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase">
+      <label for="base-oct" class="flex items-center gap-2 text-xs font-bold text-indigo-400 tracking-wider uppercase font-mono">
         <i data-lucide="cpu" class="w-4 h-4 shrink-0"></i>
-        <span>{{ i18n "tool_base_conv_octal" | default "Octal (Base 8)" }}</span>
+        <span>{{ i18n (printf "solvers.%s.label_oct" $slug) }}</span>
       </label>
       <input type="text" id="base-oct" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ex: 377"
              class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -55,13 +56,13 @@
   <div class="bg-slate-950/30 p-4 border border-slate-800/80 rounded-lg flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
     <div class="flex items-center gap-2 shrink-0">
       <i data-lucide="settings-2" class="w-4 h-4 text-emerald-400"></i>
-      <label for="base-custom-num" class="text-xs font-bold text-emerald-400 tracking-wider uppercase">
-        {{ i18n "tool_base_conv_custom" | default "Base Personalizada (2-36)" }}
+      <label for="base-custom-num" class="text-xs font-bold text-emerald-400 tracking-wider uppercase font-mono">
+        {{ i18n (printf "solvers.%s.label_custom" $slug) }}
       </label>
     </div>
 
     <div class="flex items-center gap-2 shrink-0">
-      <span class="text-xs text-slate-400">{{ i18n "tool_base_conv_select_base" | default "Escolha a Base:" }}</span>
+      <span class="text-xs text-slate-400 font-mono">{{ i18n (printf "solvers.%s.label_select_base" $slug) }}</span>
       <select id="base-custom-sel" class="bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-xs focus:outline-none focus:border-emerald-500 transition-colors">
         {{ range seq 2 36 }}
           <option value="{{ . }}" {{ if eq . 32 }}selected{{ end }}>Base {{ . }}</option>
@@ -69,7 +70,7 @@
       </select>
     </div>
 
-    <input type="text" id="base-custom-num" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Valor na base selecionada..."
+    <input type="text" id="base-custom-num" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="{{ i18n (printf "solvers.%s.placeholder_custom" $slug) }}"
            class="flex-1 bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
   </div>
 
@@ -77,7 +78,7 @@
     <button id="base-btn-clear" type="button" 
             class="bg-slate-950 hover:bg-slate-800 text-slate-400 border border-slate-800 font-semibold py-2 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2">
       <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-      <span>{{ i18n "btn_clear_all" | default "Limpar Todos os Campos" }}</span>
+      <span class="font-mono">{{ i18n (printf "solvers.%s.btn_clear" $slug) }}</span>
     </button>
   </div>
 

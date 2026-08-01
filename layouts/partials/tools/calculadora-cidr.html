@@ -1,12 +1,16 @@
-{{ $lang := lower site.Language.Lang }}
+{{ $slug := "calculadora-cidr" }}
 
-<div id="cidr-tool-container" data-lang="{{ $lang }}" class="p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+<div id="cidr-tool-container" 
+     data-lang="{{ lower site.Language.Lang }}"
+     data-i18n-single-host="{{ i18n (printf "solvers.%s.single_host" $slug) }}"
+     data-i18n-rfc3021="{{ i18n (printf "solvers.%s.rfc_3021" $slug) }}"
+     class="p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
   
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
     
     <div>
       <label for="ip-address" class="block text-xs font-mono font-semibold text-slate-400 uppercase tracking-wider mb-2">
-        {{ i18n "tool_cidr_label_ip" | default "Endereço IP Base" }}
+        {{ i18n (printf "solvers.%s.label_ip" $slug) }}
       </label>
       <input type="text" 
              id="ip-address" 
@@ -22,10 +26,11 @@
 
     <div>
       <label for="cidr-prefix" class="block text-xs font-mono font-semibold text-slate-400 uppercase tracking-wider mb-2">
-        {{ i18n "tool_cidr_label_prefix" | default "Máscara / Prefixo (CIDR)" }}
+        {{ i18n (printf "solvers.%s.label_prefix" $slug) }}
       </label>
       <select id="cidr-prefix" 
               class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2.5 text-white font-mono text-sm cursor-pointer focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors">
+        <!-- Populado dinamicamente no carregamento da página pelo JS -->
       </select>
     </div>
 
@@ -34,42 +39,42 @@
   <button id="btn-calculate" 
           type="button" 
           class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer">
-    {{ i18n "tool_cidr_btn_calc" | default "Calcular Sub-rede" }}
+    {{ i18n (printf "solvers.%s.btn_calc" $slug) }}
   </button>
 
   <div id="cidr-results" class="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-dashed border-slate-700/60 pt-6">
     
     <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800">
       <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
-        {{ i18n "tool_cidr_res_mask" | default "Máscara de Sub-rede" }}
+        {{ i18n (printf "solvers.%s.res_mask" $slug) }}
       </span>
       <span id="res-mask" class="font-mono text-base font-bold text-white leading-relaxed">-</span>
     </div>
 
     <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800">
       <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
-        {{ i18n "tool_cidr_res_net" | default "ID de Rede" }}
+        {{ i18n (printf "solvers.%s.res_net" $slug) }}
       </span>
       <span id="res-network" class="font-mono text-base font-bold text-emerald-400 leading-relaxed">-</span>
     </div>
 
     <div id="box-broadcast" class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800 transition-opacity">
       <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
-        {{ i18n "tool_cidr_res_broad" | default "Endereço de Broadcast" }}
+        {{ i18n (printf "solvers.%s.res_broad" $slug) }}
       </span>
       <span id="res-broadcast" class="font-mono text-base font-bold text-rose-400 leading-relaxed">-</span>
     </div>
 
     <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800 sm:col-span-2 lg:col-span-2">
       <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
-        {{ i18n "tool_cidr_res_range" | default "Faixa de IPs Utilizáveis" }}
+        {{ i18n (printf "solvers.%s.res_range" $slug) }}
       </span>
       <span id="res-range" class="font-mono text-sm font-bold text-white block mt-1">-</span>
     </div>
 
     <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800">
       <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight">
-        {{ i18n "tool_cidr_res_hosts" | default "Hosts Válidos" }}
+        {{ i18n (printf "solvers.%s.res_hosts" $slug) }}
       </span>
       <span id="res-hosts" class="font-mono text-base font-bold text-white leading-relaxed">-</span>
     </div>

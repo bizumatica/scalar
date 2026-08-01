@@ -17,12 +17,8 @@
     const selectCustomBase = document.getElementById('base-custom-sel');
     const btnClear = document.getElementById('base-btn-clear');
 
-    // Tabela completa de numeração até a Base 36
     const ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyz';
 
-    /**
-     * Sanitiza a string removendo caracteres que não pertencem à base.
-     */
     function sanitizeForBase(str, base) {
       if (!str) return '';
       const allowedDigits = ALPHABET.slice(0, base);
@@ -30,9 +26,6 @@
       return str.replace(regex, '');
     }
 
-    /**
-     * Converte uma string genérica em uma dada base para BigInt sem estouro IEEE 754.
-     */
     function parseToBigInt(str, base) {
       if (!str) return null;
       const clean = str.toLowerCase();
@@ -52,9 +45,6 @@
       }
     }
 
-    /**
-     * Converte um valor BigInt para uma string em qualquer base (2 a 36).
-     */
     function bigIntToString(bigintVal, base) {
       if (bigintVal === null || bigintVal === undefined) return '';
       if (bigintVal === 0n) return '0';
@@ -72,14 +62,10 @@
       return result;
     }
 
-    /**
-     * Atualiza dinamicamente todos os inputs exceto aquele que disparou o evento.
-     */
     function updateAllFields(sourceInput, base) {
       const rawValue = sourceInput.value.trim();
       const sanitized = sanitizeForBase(rawValue, base);
       
-      // Ajusta o valor se houver caracteres inválidos digitados
       if (sourceInput.value !== sanitized) {
         sourceInput.value = sanitized;
       }
@@ -93,16 +79,17 @@
 
       if (decimalValue === null) return;
 
-      // Sincronização e formatação dos campos remanescentes
-      if (sourceInput !== inputDec) inputDec.value = bigIntToString(decimalValue, 10);
-      if (sourceInput !== inputBin) inputBin.value = bigIntToString(decimalValue, 2);
-      if (sourceInput !== inputHex) inputHex.value = bigIntToString(decimalValue, 16).toUpperCase();
-      if (sourceInput !== inputOct) inputOct.value = bigIntToString(decimalValue, 8);
+      if (sourceInput !== inputDec && inputDec) inputDec.value = bigIntToString(decimalValue, 10);
+      if (sourceInput !== inputBin && inputBin) inputBin.value = bigIntToString(decimalValue, 2);
+      if (sourceInput !== inputHex && inputHex) inputHex.value = bigIntToString(decimalValue, 16).toUpperCase();
+      if (sourceInput !== inputOct && inputOct) inputOct.value = bigIntToString(decimalValue, 8);
       
-      const customBase = parseInt(selectCustomBase.value, 10);
-      if (sourceInput !== inputCustom) {
-        const resCustom = bigIntToString(decimalValue, customBase);
-        inputCustom.value = customBase > 10 ? resCustom.toUpperCase() : resCustom;
+      if (selectCustomBase && inputCustom) {
+        const customBase = parseInt(selectCustomBase.value, 10);
+        if (sourceInput !== inputCustom) {
+          const resCustom = bigIntToString(decimalValue, customBase);
+          inputCustom.value = customBase > 10 ? resCustom.toUpperCase() : resCustom;
+        }
       }
     }
 
@@ -114,7 +101,6 @@
       if (inputCustom) inputCustom.value = '';
     }
 
-    // Registra os escutadores de evento reativos
     if (inputDec) inputDec.addEventListener('input', () => updateAllFields(inputDec, 10));
     if (inputBin) inputBin.addEventListener('input', () => updateAllFields(inputBin, 2));
     if (inputHex) inputHex.addEventListener('input', () => updateAllFields(inputHex, 16));

@@ -1,55 +1,55 @@
 ---
-title: "Calculadora de Regla de Tres: Simple y Compuesta"
-description: "Resuelva problemas de proporción con la Calculadora de Regla de Tres de Scalar. Soporte para magnitudes directas e inversamente proporcionales."
+title: "Calculadora de Regra de Três: Simples e Composta"
+description: "Resolva problemas de proporção com a Calculadora de Regra de Três do Scalar. Suporte para grandezas diretas e inversamente proporcionais."
 date: 2026-05-26
 icon: "proportion"
-keywords: ["regla de tres simple", "regla de tres compuesta", "proporcion", "calculo de porcentajes", "matematicas basicas"]
-slug: "regla-de-tres"
+keywords: ["regra de tres simples", "regra de tres composta", "proporcao", "calculo de porcentagem", "matematica basica"]
+slug: "regra-de-tres"
 ---
 
-La **Regla de Tres** es una técnica matemática para encontrar un valor desconocido a partir de proporciones conocidas entre varias magnitudes. En **Scalar**, puede resolver desde cálculos financieros rápidos hasta problemas complejos de ingeniería que involucran múltiples variables.
+A **Regra de Três** é uma técnica matemática para encontrar um valor desconhecido a partir de proporções conhecidas entre várias grandezas. No **Scalar**, você pode resolver desde cálculos financeiros rápidos até problemas complexos de engenharia que envolvem múltiplas variáveis.
 
-## ¿Cómo utilizar la herramienta?
+## Como utilizar a ferramenta?
 
-1. Elija entre el modo **Simple** (dos magnitudes) o **Compuesto** (tres o más magnitudes).
-2. Defina si la relación es **Directa** (cuando una magnitud aumenta, la otra también aumenta en la misma proporción) o **Inversa** (cuando una magnitud aumenta, la otra disminuye).
-3. Ingrese los valores conocidos y **Scalar** calculará el valor de $X$ de forma instantánea.
+1. Escolha entre o modo **Simples** (duas grandezas) ou **Composto** (três ou mais grandezas).
+2. Defina se a relação é **Direta** (quando uma grandeza aumenta, a outra também aumenta na mesma proporção) ou **Inversa** (quando uma grandeza aumenta, a outra diminui).
+3. Insira os valores conhecidos e o **Scalar** calculará o valor de $X$ de forma instantânea.
 
 <details>
-<summary>Ver Teoría y Diferencia entre Proporción Directa e Inversa</summary>
+<summary>Ver Teoria e Diferença entre Proporção Direta e Inversa</summary>
 
-## Regla de Tres Simple
+## Regra de Três Simples
 
-Se aplica cuando relacionamos dos magnitudes.
+Aplica-se quando relacionamos duas grandezas.
 
-### Proporción Directa
+### Proporção Direta
 
-Si $A$ aumenta, $B$ aumenta en la misma razón:
+Se $A$ aumenta, $B$ aumenta na mesma razão:
 $$\frac{a}{b} = \frac{c}{X} \implies X = \frac{b \cdot c}{a}$$
 
-* *Ejemplo:* Si 2 operarios construyen 4 metros de muro, 4 operarios construirán 8 metros.
+* *Exemplo:* Se 2 operários constroem 4 metros de muro, 4 operários construirão 8 metros.
 
-### Proporción Inversa
+### Proporção Inversa
 
-Si $A$ aumenta, $B$ disminuye proporcionalmente:
+Se $A$ aumenta, $B$ diminui proporcionalmente:
 $$a \cdot b = c \cdot X \implies X = \frac{a \cdot b}{c}$$
 
-* *Ejemplo:* Si 2 operarios tardan 10 días en terminar una obra, 4 operarios tardarán 5 días.
+* *Exemplo:* Se 2 operários levam 10 dias para terminar uma obra, 4 operários levarão 5 dias.
 
-## Regla de Tres Compuesta
+## Regra de Três Composta
 
-Se utiliza cuando intervienen tres o más magnitudes interdependientes. La clave matemática consiste en comparar cada magnitud individual con la magnitud que contiene la incógnita $X$, determinando si la relación parcial es directa o inversa antes de estructurar la ecuación final:
+É utilizada quando intervêm três ou mais grandezas interdependente. A chave matemática consiste em comparar cada grandeza individual com a grandeza que contém a incógnita $X$, determinando se a relação parcial é direta ou inversa antes de estruturar a equação final:
 
 $$\frac{X}{b_0} = \left(\frac{a_1}{a_0}\right)^{\pm 1} \cdot \left(\frac{c_1}{c_0}\right)^{\pm 1}$$
 
-donde el exponente $+1$ se aplica a relaciones directas y $-1$ a relaciones inversas.
+onde o expoente $+1$ se aplica a relações diretas e $-1$ a relações inversas.
 
 </details>
 
-## Aplicaciones Prácticas
+## Aplicações Práticas
 
-* **Ingeniería y Producción:** Escalar insumos, tiempos de máquina y rendimiento de personal en líneas de ensamblaje.
-* **Comercio y Finanzas:** Ajustar presupuestos, conversión de divisas y cálculo de descuentos o recargos porcentuales.
-* **Física y Química:** Estequiometría de reacciones y conversiones de unidades compuestas.
+* **Engenharia e Produção:** Dimensionar insumos, tempos de máquina e rendimento de pessoal em linhas de montagem.
+* **Comércio e Finanças:** Ajustar orçamentos, conversão de moedas e cálculo de descontos ou acréscimos percentuais.
+* **Física e Química:** Estequiometria de reações e conversões de unidades compostas.
 
-**Scalar** automatiza esta lógica aritmética eliminando el riesgo de errores algebraicos en sus cálculos diarios.
+O **Scalar** automatiza essa lógica aritmética eliminando o risco de erros algébricos nos seus cálculos diários.

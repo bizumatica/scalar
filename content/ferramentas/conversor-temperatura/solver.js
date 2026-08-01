@@ -16,30 +16,7 @@
     if (inputs.length === 0) return;
 
     /**
-     * Normaliza uma string de entrada numérica permitindo sinal negativo no início e um único ponto decimal.
-     */
-    function sanitizeInput(val) {
-      if (!val) return '';
-      
-      // Substitui vírgula por ponto para suportar teclados pt-BR / de-DE
-      let clean = val.replace(',', '.').replace(/[^0-9.-]/g, '');
-
-      // Trata múltiplos sinais negativos
-      const isNegative = clean.startsWith('-');
-      clean = clean.replace(/-/g, '');
-      if (isNegative) clean = '-' + clean;
-
-      // Mantém apenas o primeiro ponto decimal
-      const parts = clean.split('.');
-      if (parts.length > 2) {
-        clean = parts[0] + '.' + parts.slice(1).join('');
-      }
-
-      return clean;
-    }
-
-    /**
-     * Converte o valor de qualquer unidade de origem para a escala pivot (Kelvin).
+     * Converte o valor de qualquer unidade de origem para a escala pivô (Kelvin).
      */
     function toKelvin(val, unit) {
       switch (unit) {
@@ -79,12 +56,11 @@
     }
 
     /**
-     * Formata o valor numérico eliminando dízimas de ponto flutuante sem corromper a digitação.
+     * Formata o valor numérico eliminando dízimas de ponto flutuante.
      */
     function formatValue(val) {
       if (val === null || isNaN(val)) return '';
-      // Arredonda para no máximo 4 casas decimais e remove zeros desnecessários
-      return parseFloat(val.toFixed(4)).toString();
+      return String(parseFloat(val.toFixed(4)));
     }
 
     /**
@@ -92,29 +68,37 @@
      */
     function processConversion(activeInput) {
       const originUnit = activeInput.dataset.unit;
-      const rawValue = activeInput.value;
-      const sanitized = sanitizeInput(rawValue);
+      let rawVal = activeInput.value.trim();
 
-      // Corrige a caixa atual se o usuário digitou um caractere inválido
-      if (activeInput.value !== sanitized) {
-        activeInput.value = sanitized;
+      if (rawVal.includes(',')) {
+        rawVal = rawVal.replace(',', '.');
       }
 
-      // Se o campo estiver vazio ou for apenas o sinal "-", limpa os demais campos
-      if (sanitized === '' || sanitized === '-') {
+      // Limpa os demais campos se a entrada for vazia ou apenas um sinal
+      if (rawVal === '' || rawVal === '-' || rawVal === '.') {
         inputs.forEach(input => {
           if (input !== activeInput) input.value = '';
         });
         return;
       }
 
-      const numValue = parseFloat(sanitized);
-      if (isNaN(numValue)) return;
+      const numValue = parseFloat(rawVal);
+      if (isNaN(numValue)) {
+        inputs.forEach(input => {
+          if (input !== activeInput) input.value = '';
+        });
+        return;
+      }
 
       const kelvinValue = toKelvin(numValue, originUnit);
 
-      // Impede o cálculo se o valor estiver abaixo do Zero Absoluto (0 K)
-      if (kelvinValue === null || kelvinValue < 0) return;
+      // Limpa os campos se o valor informado estiver abaixo do Zero Absoluto (0 K)
+      if (kelvinValue === null || kelvinValue < 0) {
+        inputs.forEach(input => {
+          if (input !== activeInput) input.value = '';
+        });
+        return;
+      }
 
       // Sincroniza os demais campos
       inputs.forEach(input => {
@@ -127,7 +111,9 @@
     }
 
     function clearAll() {
-      inputs.forEach(input => input.value = '');
+      inputs.forEach(input => {
+        input.value = '';
+      });
     }
 
     // Registra os escutadores reativos nos campos de entrada

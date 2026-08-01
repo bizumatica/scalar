@@ -1,12 +1,18 @@
-{{ $lang := lower site.Language.Lang }}
+{{ $slug := "planejador-subrede-vpc" }}
 
-<div id="vpc-planner-container" data-lang="{{ $lang }}" class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+<div id="vpc-planner-container" 
+     data-lang="{{ lower site.Language.Lang }}" 
+     class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
     
+    <p class="m-0 text-sm text-slate-400 leading-relaxed font-mono">
+        {{ i18n (printf "solvers.%s.instruction" $slug) }}
+    </p>
+
     <!-- Painel de Erros e Avisos de Validação -->
     <div id="vpc-error" class="hidden p-4 text-xs font-mono rounded-lg bg-red-950/50 text-red-400 border border-red-900/60 transition-all" role="alert"
-         data-err-format="{{ i18n "vpc_err_format" | default "Formato de endereço IP inválido (Use X.X.X.X)." }}"
-         data-err-range="{{ i18n "vpc_err_range" | default "Cada octeto do IP deve estar entre 0 e 255." }}"
-         data-err-small="{{ i18n "vpc_err_small" | default "O prefixo pai deve ser /30 ou menor para permitir divisão binária em sub-redes." }}">
+         data-err-format="{{ i18n (printf "solvers.%s.err_format" $slug) }}"
+         data-err-range="{{ i18n (printf "solvers.%s.err_range" $slug) }}"
+         data-err-small="{{ i18n (printf "solvers.%s.err_small" $slug) }}">
     </div>
 
     <!-- Controles de Configuração da Sub-rede -->
@@ -15,7 +21,7 @@
         <!-- IP Base -->
         <div class="flex flex-col gap-1.5">
             <label for="vpc-cidr-ip" class="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
-                {{ i18n "vpc_label_ip" | default "Endereço IP Base:" }}
+                {{ i18n (printf "solvers.%s.label_ip" $slug) }}
             </label>
             <input type="text" id="vpc-cidr-ip" 
                    class="w-full px-3.5 py-2.5 border rounded-lg font-mono text-sm bg-slate-950 text-white border-slate-800 focus:outline-none focus:border-indigo-500 transition-colors" 
@@ -25,7 +31,7 @@
         <!-- Máscara Pai CIDR -->
         <div class="flex flex-col gap-1.5">
             <label for="vpc-cidr-mask" class="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
-                {{ i18n "vpc_label_mask" | default "Máscara CIDR Pai:" }}
+                {{ i18n (printf "solvers.%s.label_mask" $slug) }}
             </label>
             <select id="vpc-cidr-mask" 
                     class="w-full px-3.5 py-2.5 border rounded-lg bg-slate-950 text-white border-slate-800 font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
@@ -63,18 +69,25 @@
             </select>
         </div>
 
-        <!-- Provedor de Nuvem -->
+        <!-- Provedor de Nuvem e Ação -->
         <div class="flex flex-col gap-1.5 sm:col-span-2 md:col-span-1">
             <label for="vpc-provider" class="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
-                {{ i18n "vpc_label_provider" | default "Provedor de Nuvem:" }}
+                {{ i18n (printf "solvers.%s.label_provider" $slug) }}
             </label>
-            <select id="vpc-provider" 
-                    class="w-full px-3.5 py-2.5 border rounded-lg bg-slate-950 text-white border-slate-800 text-sm focus:outline-none focus:border-indigo-500 transition-colors font-medium">
-                <option value="standard" selected>{{ i18n "vpc_prov_standard" | default "Padrão RFC (2 IPs Reservados)" }}</option>
-                <option value="aws">Amazon Web Services (AWS - 5 IPs Reservados)</option>
-                <option value="gcp">Google Cloud Platform (GCP - 4 IPs Reservados)</option>
-                <option value="azure">Microsoft Azure (5 IPs Reservados)</option>
-            </select>
+            <div class="flex gap-2">
+                <select id="vpc-provider" 
+                        class="flex-1 px-3.5 py-2.5 border rounded-lg bg-slate-950 text-white border-slate-800 text-sm focus:outline-none focus:border-indigo-500 transition-colors font-medium">
+                    <option value="standard" selected>{{ i18n (printf "solvers.%s.prov_standard" $slug) }}</option>
+                    <option value="aws">{{ i18n (printf "solvers.%s.prov_aws" $slug) }}</option>
+                    <option value="gcp">{{ i18n (printf "solvers.%s.prov_gcp" $slug) }}</option>
+                    <option value="azure">{{ i18n (printf "solvers.%s.prov_azure" $slug) }}</option>
+                </select>
+
+                <button id="btn-reset-vpc" type="button" title="{{ i18n (printf "solvers.%s.btn_reset" $slug) }}"
+                        class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white px-3 py-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-center">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -87,37 +100,37 @@
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
                     <h3 class="text-base font-bold flex items-center gap-2 text-white">
                         <span class="bg-indigo-600 text-white text-xs font-mono font-black px-2 py-1 rounded">A</span>
-                        <span class="truncate">{{ i18n "vpc_subnet_a" | default "Sub-rede A (Pública / Metade Inferior)" }}</span>
+                        <span class="truncate">{{ i18n (printf "solvers.%s.subnet_a" $slug) }}</span>
                     </h3>
                 </div>
                 
                 <div class="space-y-3 text-sm">
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_net" | default "Endereço de Rede:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_net" $slug) }}</span>
                         <span class="font-mono font-bold text-indigo-400 text-right break-all">
                             <span id="suba-network">-</span>/<span id="suba-prefix">-</span>
                         </span>
                     </div>
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_mask" | default "Máscara de Sub-rede:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_mask" $slug) }}</span>
                         <span id="suba-mask" class="font-mono text-slate-300 text-right break-all">-</span>
                     </div>
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_first" | default "Primeiro IP Útil:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_first" $slug) }}</span>
                         <span id="suba-first" class="font-mono font-semibold text-emerald-400 text-right break-all">-</span>
                     </div>
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_last" | default "Último IP Útil:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_last" $slug) }}</span>
                         <span id="suba-last" class="font-mono font-semibold text-emerald-400 text-right break-all">-</span>
                     </div>
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_bcast" | default "Endereço de Broadcast:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_bcast" $slug) }}</span>
                         <span id="suba-broadcast" class="font-mono text-slate-300 text-right break-all">-</span>
                     </div>
                 </div>
             </div>
             <div class="flex justify-between items-center gap-4 pt-4 mt-4 border-t-2 border-dashed border-slate-800">
-                <span class="font-bold text-xs uppercase font-mono tracking-wider text-slate-400">{{ i18n "vpc_res_hosts" | default "Hosts Úteis:" }}</span>
+                <span class="font-bold text-xs uppercase font-mono tracking-wider text-slate-400">{{ i18n (printf "solvers.%s.res_hosts" $slug) }}</span>
                 <span id="suba-hosts" class="text-xl font-mono font-black text-indigo-400 text-right">-</span>
             </div>
         </div>
@@ -128,37 +141,37 @@
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
                     <h3 class="text-base font-bold flex items-center gap-2 text-white">
                         <span class="bg-purple-600 text-white text-xs font-mono font-black px-2 py-1 rounded">B</span>
-                        <span class="truncate">{{ i18n "vpc_subnet_b" | default "Sub-rede B (Privada / Metade Superior)" }}</span>
+                        <span class="truncate">{{ i18n (printf "solvers.%s.subnet_b" $slug) }}</span>
                     </h3>
                 </div>
                 
                 <div class="space-y-3 text-sm">
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_net" | default "Endereço de Rede:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_net" $slug) }}</span>
                         <span class="font-mono font-bold text-purple-400 text-right break-all">
                             <span id="subb-network">-</span>/<span id="subb-prefix">-</span>
                         </span>
                     </div>
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_mask" | default "Máscara de Sub-rede:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_mask" $slug) }}</span>
                         <span id="subb-mask" class="font-mono text-slate-300 text-right break-all">-</span>
                     </div>
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_first" | default "Primeiro IP Útil:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_first" $slug) }}</span>
                         <span id="subb-first" class="font-mono font-semibold text-emerald-400 text-right break-all">-</span>
                     </div>
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_last" | default "Último IP Útil:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_last" $slug) }}</span>
                         <span id="subb-last" class="font-mono font-semibold text-emerald-400 text-right break-all">-</span>
                     </div>
                     <div class="flex justify-between items-center gap-4 border-b border-slate-800/60 pb-2">
-                        <span class="text-slate-400 whitespace-nowrap">{{ i18n "vpc_res_bcast" | default "Endereço de Broadcast:" }}</span>
+                        <span class="text-slate-400 whitespace-nowrap">{{ i18n (printf "solvers.%s.res_bcast" $slug) }}</span>
                         <span id="subb-broadcast" class="font-mono text-slate-300 text-right break-all">-</span>
                     </div>
                 </div>
             </div>
             <div class="flex justify-between items-center gap-4 pt-4 mt-4 border-t-2 border-dashed border-slate-800">
-                <span class="font-bold text-xs uppercase font-mono tracking-wider text-slate-400">{{ i18n "vpc_res_hosts" | default "Hosts Úteis:" }}</span>
+                <span class="font-bold text-xs uppercase font-mono tracking-wider text-slate-400">{{ i18n (printf "solvers.%s.res_hosts" $slug) }}</span>
                 <span id="subb-hosts" class="text-xl font-mono font-black text-purple-400 text-right">-</span>
             </div>
         </div>

@@ -1,16 +1,19 @@
 /**
  * Scalar Engine - Solver de Planejamento de Sub-redes VPC Multi-Cloud
  * Análise de Redes IPv4, Offsets de Nuvem (AWS, GCP, Azure, RFC) & Bitwise Math Unsigned
- * Autor: Julio Prata
+ * Autor: Julio Prata & Scalar Team
  */
 (function () {
   'use strict';
 
   function initVPCSolver() {
     const container = document.getElementById('vpc-planner-container');
+    if (!container) return;
+
     const ipInput = document.getElementById('vpc-cidr-ip');
     const maskSelect = document.getElementById('vpc-cidr-mask');
     const providerSelect = document.getElementById('vpc-provider');
+    const btnReset = document.getElementById('btn-reset-vpc');
     const errorDiv = document.getElementById('vpc-error');
     const outputContainer = document.getElementById('vpc-output');
 
@@ -36,28 +39,20 @@
       }
     };
 
-    // Validação de Existência dos Elementos na Página Atual
     if (!ipInput || !maskSelect || !providerSelect || !fields.suba.net || !fields.subb.net) return;
 
-    // 🌍 Resolução de Idioma e Regionalização Dinâmica
-    const rawLang = (container && container.dataset.lang) || document.documentElement.lang || window.navigator.language || 'pt';
+    // Resolução de Idioma e Regionalização
+    const rawLang = container.dataset.lang || document.documentElement.lang || window.navigator.language || 'pt';
     const normalizedLang = rawLang.toLowerCase();
 
     const localeMap = {
       'pt': 'pt-BR', 'pt-br': 'pt-BR', 'pt-pt': 'pt-PT',
       'en': 'en-US', 'en-us': 'en-US', 'en-gb': 'en-GB',
       'de': 'de-DE', 'de-de': 'de-DE',
-      'ja': 'ja-JP', 'ja-jp': 'ja-JP'
+      'es': 'es-ES', 'fr': 'fr-FR', 'ja': 'ja-JP'
     };
     const currentLocale = localeMap[normalizedLang] || 'pt-BR';
-
-    const naTexts = {
-      'pt-BR': 'N/A',
-      'en-US': 'N/A',
-      'de-DE': 'N/V',
-      'ja-JP': '該当なし'
-    };
-    const txtNA = naTexts[currentLocale] || 'N/A';
+    const txtNA = 'N/A';
 
     /**
      * Converte String IPv4 (X.X.X.X) para Inteiro Unsigned 32-bit (Big-Endian)
@@ -124,7 +119,7 @@
 
       const parentPrefix = parseInt(maskSelect.value, 10);
       
-      // Trava: Bloco pai deve ser <= /30 para ser dividido em duas sub-redes /31
+      // Trava: Bloco pai deve ser <= /30 para ser dividido em duas sub-redes
       if (parentPrefix >= 31) {
         showError('small');
         return;
@@ -166,7 +161,6 @@
         }
       } else if (provider === 'gcp') {
         // GCP: Reserva 4 IPs (.0 Network, .1 Gateway, .2 Reservado, .3 DNS Interno)
-        // O primeiro IP útil atribuível a instâncias começa no offset .4
         if (childBlockSize > 4) {
           offsetFirst = 4;
           offsetLast = 1;
@@ -177,7 +171,6 @@
       } else {
         // Standard RFC 1812 / RFC 3021
         if (childPrefix === 31) {
-          // RFC 3021: Sub-rede /31 permite 2 hosts em links P2P
           offsetFirst = 0;
           offsetLast = 0;
           usableHosts = 2;
@@ -220,8 +213,15 @@
       }
     }
 
+    function resetForm() {
+      ipInput.value = '10.0.0.0';
+      maskSelect.value = '16';
+      providerSelect.value = 'standard';
+      calcularVPC();
+    }
+
     /**
-     * Debounce de Alta Performance para evitar Reflow Excessivo no DOM durante a Digitação
+     * Debounce para evitar Reflows no DOM durante a Digitação
      */
     function debounce(fn, delay) {
       let timer = null;
@@ -237,12 +237,12 @@
     ipInput.addEventListener('input', debouncedCalcular);
     maskSelect.addEventListener('change', calcularVPC);
     providerSelect.addEventListener('change', calcularVPC);
+    if (btnReset) btnReset.addEventListener('click', resetForm);
 
     // Processamento Inicial
     calcularVPC();
   }
 
-  // Garantia de Execução no Ciclo do DOM
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initVPCSolver);
   } else {

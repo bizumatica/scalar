@@ -1,6 +1,6 @@
 /**
  * Engine Trigonométrica Completa - Lei dos Senos e Cossenos
- * Cobertura Total de Casos: SSS, SAS, ASA/AAS, SSA (com tratamento do caso ambíguo universal).
+ * Padronização $O(1)$ i18n - Project Scalar
  */
 (function () {
   'use strict';
@@ -25,34 +25,11 @@
     const resArea = document.getElementById('res-area');
     const txtPasso = document.getElementById('trig-passo-a-passo');
 
+    if (!inputA || !btnCalc) return;
+
+    // Conexão i18n universal $O(1)$
+    const dict = window.getSolverDict ? window.getSolverDict('trig-tool-container') : {};
     const lang = (container.getAttribute('data-lang') || 'pt-br').toLowerCase();
-
-    const i18n = {
-      'pt-br': {
-        err3Vals: "Erro: Insira exatamente 3 valores conhecidos.",
-        errNeedSide: "Erro: Pelo menos um dos valores inseridos deve ser um Lado.",
-        errSumAngles: "Erro: A soma dos ângulos fornecidos deve ser estritamente menor que 180°.",
-        errTriangleIneq: "Erro Geométrico: A soma de dois lados deve ser maior que o terceiro (Desigualdade Triangular).",
-        errImpossible: "Erro Geométrico: Impossível construir um triângulo válido com estes dados.",
-        caseLLL: "✔ Caso Detectado: LLL (Três Lados Conhecidos).\n",
-        caseLAL: "✔ Caso Detectado: LAL (Dois Lados e Ângulo Compreendido).\n",
-        caseALA: "✔ Caso Detectado: ALA / AAL (Dois Ângulos e Um Lado).\n",
-        caseLLA: "✔ Caso Detectado: LLA (Dois Lados e Ângulo Oposto via Lei dos Senos).\n"
-      },
-      'en': {
-        err3Vals: "Error: Please enter exactly 3 known values.",
-        errNeedSide: "Error: At least one of the entered values must be a Side.",
-        errSumAngles: "Error: The sum of given angles must be strictly less than 180°.",
-        errTriangleIneq: "Geometric Error: The sum of any two sides must be greater than the third side.",
-        errImpossible: "Geometric Error: Impossible to construct a valid triangle with given parameters.",
-        caseLLL: "✔ Detected Case: SSS (Three Known Sides).\n",
-        caseLAL: "✔ Detected Case: SAS (Two Sides & Included Angle).\n",
-        caseALA: "✔ Detected Case: ASA / AAS (Two Angles & One Side).\n",
-        caseLLA: "✔ Detected Case: SSA (Two Sides & Opposite Angle via Law of Sines).\n"
-      }
-    };
-
-    const dict = i18n[lang] || i18n['pt-br'];
 
     const rad = deg => (deg * Math.PI) / 180;
     const deg = rad => (rad * 180) / Math.PI;
@@ -65,13 +42,17 @@
     }
 
     function showError(msg) {
+      if (!errorBox) return;
       errorBox.textContent = msg;
       errorBox.classList.remove('hidden');
-      resultBox.classList.add('hidden');
-      resultBox.classList.remove('flex');
+      if (resultBox) {
+        resultBox.classList.add('hidden');
+        resultBox.classList.remove('flex');
+      }
     }
 
     function clearError() {
+      if (!errorBox) return;
       errorBox.textContent = '';
       errorBox.classList.add('hidden');
     }
@@ -95,44 +76,40 @@
       const totalCount = countSides + countAngles;
 
       if (totalCount !== 3) {
-        showError(dict.err3Vals);
+        showError(dict.err3vals || "Insira exatamente 3 valores.");
         return;
       }
 
       if (countSides === 0) {
-        showError(dict.errNeedSide);
+        showError(dict.errneedside || "Pelo menos um dos valores deve ser um Lado.");
         return;
       }
 
       let log = "";
 
-      // -----------------------------------------------------------------
-      // CASO 1: LLL (3 Lados)
-      // -----------------------------------------------------------------
+      // CASO 1: LLL
       if (countSides === 3) {
         if (a + b <= c || a + c <= b || b + c <= a) {
-          showError(dict.errTriangleIneq);
+          showError(dict.errtriangleineq || "Erro Geométrico.");
           return;
         }
-        log += dict.caseLLL;
+        log += (dict.caselll || "Caso Detectado: LLL") + "\n\n";
         A = deg(Math.acos((b * b + c * c - a * a) / (2 * b * c)));
         B = deg(Math.acos((a * a + c * c - b * b) / (2 * a * c)));
         C = 180 - A - B;
 
-        log += `• Lei dos Cossenos para Ângulo A:\n  cos(A) = (${b}² + ${c}² - ${a}²) / (2 × ${b} × ${c}) ➔ A = ${fmt(A)}°\n\n`;
-        log += `• Lei dos Cossenos para Ângulo B:\n  cos(B) = (${a}² + ${c}² - ${b}²) / (2 × ${a} × ${c}) ➔ B = ${fmt(B)}°\n\n`;
-        log += `• Diferença Angular:\n  C = 180° - A - B ➔ C = ${fmt(C)}°`;
+        log += `• cos(A) = (${b}² + ${c}² - ${a}²) / (2 × ${b} × ${c}) ➔ A = ${fmt(A)}°\n`;
+        log += `• cos(B) = (${a}² + ${c}² - ${b}²) / (2 × ${a} × ${c}) ➔ B = ${fmt(B)}°\n`;
+        log += `• C = 180° - A - B ➔ C = ${fmt(C)}°`;
       } 
-      // -----------------------------------------------------------------
-      // CASO 2: ALA / AAL (2 Ângulos e 1 Lado)
-      // -----------------------------------------------------------------
+      // CASO 2: ALA / AAL
       else if (countAngles === 2) {
         const sumGiven = (A || 0) + (B || 0) + (C || 0);
         if (sumGiven >= 180) {
-          showError(dict.errSumAngles);
+          showError(dict.errsumangles || "A soma deve ser < 180°.");
           return;
         }
-        log += dict.caseALA;
+        log += (dict.caseala || "Caso Detectado: ALA / AAL") + "\n\n";
         if (!A) A = 180 - B - C;
         if (!B) B = 180 - A - C;
         if (!C) C = 180 - A - B;
@@ -142,16 +119,13 @@
         b = ratio * Math.sin(rad(B));
         c = ratio * Math.sin(rad(C));
 
-        log += `• Soma dos Ângulos Internos = 180°:\n  A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°\n\n`;
-        log += `• Lei dos Senos (Proporção Projeção):\n  a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}`;
+        log += `• A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°\n`;
+        log += `• Lados: a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}`;
       } 
-      // -----------------------------------------------------------------
-      // CASO 3 & 4: 2 Lados e 1 Ângulo (LAL ou LLA)
-      // -----------------------------------------------------------------
+      // CASO 3 & 4: LAL ou LLA
       else if (countSides === 2 && countAngles === 1) {
-        // Subcaso LAL (Ângulo entre os dois lados)
         if ((a && b && C) || (a && c && B) || (b && c && A)) {
-          log += dict.caseLAL;
+          log += (dict.caselal || "Caso Detectado: LAL") + "\n\n";
           if (C) {
             c = Math.sqrt(a * a + b * b - 2 * a * b * Math.cos(rad(C)));
             A = deg(Math.acos((b * b + c * c - a * a) / (2 * b * c)));
@@ -165,12 +139,10 @@
             B = deg(Math.acos((a * a + c * c - b * b) / (2 * a * c)));
             C = 180 - A - B;
           }
-          log += `• Lei dos Cossenos para o 3º Lado:\n  Lados: a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}\n\n`;
-          log += `• Ângulos Derivados:\n  A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°`;
-        } 
-        // Subcaso LLA Universal (Ângulo Oposto a um dos Lados)
-        else {
-          log += dict.caseLLA;
+          log += `• Lados: a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}\n`;
+          log += `• Ângulos: A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°`;
+        } else {
+          log += (dict.casella || "Caso Detectado: LLA") + "\n\n";
           let sideOpp, angOpp, sideOther;
 
           if (a && A) { sideOpp = a; angOpp = A; sideOther = b || c; }
@@ -178,11 +150,10 @@
           else if (c && C) { sideOpp = c; angOpp = C; sideOther = a || b; }
 
           let sinCalc = (sideOther * Math.sin(rad(angOpp))) / sideOpp;
-          
-          if (sinCalc > 1 && sinCalc < 1.00001) sinCalc = 1; // Tolerância de Ponto Flutuante
+          if (sinCalc > 1 && sinCalc < 1.00001) sinCalc = 1;
 
           if (sinCalc > 1) {
-            showError(dict.errImpossible);
+            showError(dict.errimpossible || "Impossível construir triângulo.");
             return;
           }
 
@@ -195,23 +166,15 @@
           else if (c && a && C) { A = calculatedAngle; B = 180 - A - C; b = (c * Math.sin(rad(B))) / Math.sin(rad(C)); }
           else if (c && b && C) { B = calculatedAngle; A = 180 - A - B; a = (c * Math.sin(rad(A))) / Math.sin(rad(C)); }
 
-          log += `• Lei dos Senos para Ângulo Oposto:\n  sin(X) = (${sideOther} × sin(${angOpp}°)) / ${sideOpp}\n\n`;
-          log += `• Resultados Obtidos:\n  Lados: a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}\n  Ângulos: A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°`;
+          log += `• Lados: a = ${fmt(a)}, b = ${fmt(b)}, c = ${fmt(c)}\n`;
+          log += `• Ângulos: A = ${fmt(A)}°, B = ${fmt(B)}°, C = ${fmt(C)}°`;
         }
       }
 
-      // Atualização dos inputs
-      inputA.value = fmt(a);
-      inputB.value = fmt(b);
-      inputC.value = fmt(c);
-      inputAngA.value = fmt(A);
-      inputAngB.value = fmt(B);
-      inputAngC.value = fmt(C);
-
-      // Métricas Finais
+      // Atualiza visualização sem reescrever o value dos inputs (mantém a experiência limpa)
       const perimetro = a + b + c;
       const s = perimetro / 2;
-      const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+      const area = Math.sqrt(Math.max(0, s * (s - a) * (s - b) * (s - c)));
 
       resPerimetro.textContent = fmt(perimetro);
       resArea.textContent = fmt(area);
@@ -223,9 +186,13 @@
 
     function limpar() {
       clearError();
-      [inputA, inputB, inputC, inputAngA, inputAngB, inputAngC].forEach(el => el.value = '');
-      resultBox.classList.add('hidden');
-      resultBox.classList.remove('flex');
+      [inputA, inputB, inputC, inputAngA, inputAngB, inputAngC].forEach(el => {
+        if (el) el.value = '';
+      });
+      if (resultBox) {
+        resultBox.classList.add('hidden');
+        resultBox.classList.remove('flex');
+      }
     }
 
     btnCalc.addEventListener('click', resolver);

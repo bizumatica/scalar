@@ -1,80 +1,96 @@
-{{ $lang := lower site.Language.Lang }}
+{{ $slug := "calculadora-lei-senos-cossenos" }}
 
-<div id="trig-tool-container" data-lang="{{ $lang }}" class="flex flex-col gap-6 p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
-  <p class="m-0 text-sm text-slate-400 leading-relaxed">
-    {{ i18n "tool_trig_instruction" | default "Insira exatamente 3 valores conhecidos (sendo pelo menos um lado) para calcular os demais componentes do triângulo." }}
+<div id="trig-tool-container" 
+     data-lang="{{ lower site.Language.Lang }}"
+     data-i18n-err3vals="{{ i18n (printf "solvers.%s.err_3_vals" $slug) }}"
+     data-i18n-errneedside="{{ i18n (printf "solvers.%s.err_need_side" $slug) }}"
+     data-i18n-errsumangles="{{ i18n (printf "solvers.%s.err_sum_angles" $slug) }}"
+     data-i18n-errtriangleineq="{{ i18n (printf "solvers.%s.err_triangle_ineq" $slug) }}"
+     data-i18n-errimpossible="{{ i18n (printf "solvers.%s.err_impossible" $slug) }}"
+     data-i18n-caselll="{{ i18n (printf "solvers.%s.case_lll" $slug) }}"
+     data-i18n-caselal="{{ i18n (printf "solvers.%s.case_lal" $slug) }}"
+     data-i18n-caseala="{{ i18n (printf "solvers.%s.case_ala" $slug) }}"
+     data-i18n-casella="{{ i18n (printf "solvers.%s.case_lla" $slug) }}"
+     class="p-6 rounded-xl border border-slate-800 bg-slate-900/40 text-white w-full box-border">
+
+  <div class="flex items-center justify-between mb-4">
+    <span class="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest bg-blue-950/50 border border-blue-800/40 px-2.5 py-1 rounded">
+      {{ i18n (printf "solvers.%s.badge_engine" $slug) }}
+    </span>
+  </div>
+
+  <p class="text-xs text-slate-400 mb-6 font-mono">
+    {{ i18n (printf "solvers.%s.instruction" $slug) }}
   </p>
 
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-    <!-- Lados -->
-    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
-      <label for="trig-a" class="block text-xs font-bold text-indigo-400 mb-1 tracking-wider uppercase">
-        {{ i18n "side" | default "Lado" }} a
-      </label>
-      <input type="text" id="trig-a" inputmode="decimal" autocomplete="off" placeholder="5" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+  <!-- Lados -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+    <div>
+      <label for="trig-a" class="block text-xs font-mono text-slate-400 mb-1">{{ i18n (printf "solvers.%s.label_a" $slug) }}</label>
+      <input type="number" id="trig-a" step="any" placeholder="a" class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm focus:border-blue-500 focus:outline-none">
     </div>
-    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
-      <label for="trig-b" class="block text-xs font-bold text-indigo-400 mb-1 tracking-wider uppercase">
-        {{ i18n "side" | default "Lado" }} b
-      </label>
-      <input type="text" id="trig-b" inputmode="decimal" autocomplete="off" placeholder="7" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+    <div>
+      <label for="trig-b" class="block text-xs font-mono text-slate-400 mb-1">{{ i18n (printf "solvers.%s.label_b" $slug) }}</label>
+      <input type="number" id="trig-b" step="any" placeholder="b" class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm focus:border-blue-500 focus:outline-none">
     </div>
-    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
-      <label for="trig-c" class="block text-xs font-bold text-indigo-400 mb-1 tracking-wider uppercase">
-        {{ i18n "side" | default "Lado" }} c
-      </label>
-      <input type="text" id="trig-c" inputmode="decimal" autocomplete="off" placeholder="9" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
-    </div>
-
-    <!-- Ângulos -->
-    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
-      <label for="trig-A" class="block text-xs font-bold text-emerald-400 mb-1 tracking-wider uppercase">
-        {{ i18n "angle" | default "Ângulo" }} A (°)
-      </label>
-      <input type="text" id="trig-A" inputmode="decimal" autocomplete="off" placeholder="{{ i18n "tool_trig_opp_a" | default "Oposto a a" }}" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
-    </div>
-    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
-      <label for="trig-B" class="block text-xs font-bold text-emerald-400 mb-1 tracking-wider uppercase">
-        {{ i18n "angle" | default "Ângulo" }} B (°)
-      </label>
-      <input type="text" id="trig-B" inputmode="decimal" autocomplete="off" placeholder="{{ i18n "tool_trig_opp_b" | default "Oposto a b" }}" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
-    </div>
-    <div class="bg-slate-950/50 p-3 border border-slate-800 rounded-lg">
-      <label for="trig-C" class="block text-xs font-bold text-emerald-400 mb-1 tracking-wider uppercase">
-        {{ i18n "angle" | default "Ângulo" }} C (°)
-      </label>
-      <input type="text" id="trig-C" inputmode="decimal" autocomplete="off" placeholder="{{ i18n "tool_trig_opp_c" | default "Oposto a c" }}" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+    <div>
+      <label for="trig-c" class="block text-xs font-mono text-slate-400 mb-1">{{ i18n (printf "solvers.%s.label_c" $slug) }}</label>
+      <input type="number" id="trig-c" step="any" placeholder="c" class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm focus:border-blue-500 focus:outline-none">
     </div>
   </div>
 
-  <div class="flex gap-3">
-    <button id="trig-btn-calc" type="button" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer">
-      {{ i18n "btn_calculate" | default "Calcular" }}
+  <!-- Ângulos -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+    <div>
+      <label for="trig-A" class="block text-xs font-mono text-slate-400 mb-1">{{ i18n (printf "solvers.%s.label_ang_a" $slug) }}</label>
+      <input type="number" id="trig-A" step="any" placeholder="A" class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm focus:border-blue-500 focus:outline-none">
+    </div>
+    <div>
+      <label for="trig-B" class="block text-xs font-mono text-slate-400 mb-1">{{ i18n (printf "solvers.%s.label_ang_b" $slug) }}</label>
+      <input type="number" id="trig-B" step="any" placeholder="B" class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm focus:border-blue-500 focus:outline-none">
+    </div>
+    <div>
+      <label for="trig-C" class="block text-xs font-mono text-slate-400 mb-1">{{ i18n (printf "solvers.%s.label_ang_c" $slug) }}</label>
+      <input type="number" id="trig-C" step="any" placeholder="C" class="w-full bg-slate-950/60 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm focus:border-blue-500 focus:outline-none">
+    </div>
+  </div>
+
+  <!-- Botões -->
+  <div class="flex gap-3 mb-6">
+    <button id="trig-btn-calc" type="button" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer">
+      {{ i18n (printf "solvers.%s.btn_calc" $slug) }}
     </button>
-    <button id="trig-btn-clear" type="button" class="bg-slate-950 hover:bg-slate-800 text-slate-400 border border-slate-800 font-semibold py-2.5 px-5 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer">
-      {{ i18n "btn_clear" | default "Limpar" }}
+    <button id="trig-btn-clear" type="button" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 px-4 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer">
+      {{ i18n (printf "solvers.%s.btn_clear" $slug) }}
     </button>
   </div>
 
-  <div id="trig-error-box" class="hidden p-3 bg-rose-950/40 border border-rose-800/60 rounded-lg text-rose-300 text-xs font-mono"></div>
+  <!-- Box Erro -->
+  <div id="trig-error-box" class="hidden p-3.5 mb-6 rounded-lg bg-rose-950/50 border border-rose-800/60 text-rose-300 font-mono text-xs"></div>
 
-  <div id="trig-resultado-box" class="hidden border-t border-dashed border-slate-800 pt-6 flex-col gap-4">
-    <h4 class="m-0 text-white font-bold text-base">{{ i18n "tool_trig_results_title" | default "Propriedades Calculadas" }}</h4>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-      <div class="bg-slate-950/40 p-3 rounded-lg border border-slate-800/80 text-slate-400">
-        {{ i18n "tool_trig_perimeter" | default "Perímetro:" }} <span id="res-perimetro" class="text-white font-mono font-bold ml-1">-</span>
+  <!-- Resultados -->
+  <div id="trig-resultado-box" class="hidden flex-col gap-4 border-t border-dashed border-slate-700/60 pt-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800">
+        <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight mb-1">
+          {{ i18n (printf "solvers.%s.res_perimeter" $slug) }}
+        </span>
+        <span id="res-perimetro" class="font-mono text-lg font-bold text-white">-</span>
       </div>
-      <div class="bg-slate-950/40 p-3 rounded-lg border border-slate-800/80 text-slate-400">
-        {{ i18n "tool_trig_area" | default "Área:" }} <span id="res-area" class="text-white font-mono font-bold ml-1">-</span>
+      <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-800">
+        <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight mb-1">
+          {{ i18n (printf "solvers.%s.res_area" $slug) }}
+        </span>
+        <span id="res-area" class="font-mono text-lg font-bold text-emerald-400">-</span>
       </div>
     </div>
 
-    <div class="bg-slate-950 p-4 border border-slate-800 rounded-lg">
-      <span class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-widest block mb-2">
-        {{ i18n "tool_trig_method" | default "Passo a Passo da Resolução" }}
+    <div class="bg-slate-950/40 p-4 rounded-lg border border-slate-800">
+      <span class="block text-[10px] font-mono font-bold text-blue-400 uppercase tracking-tight mb-2">
+        {{ i18n (printf "solvers.%s.res_steps" $slug) }}
       </span>
-      <div id="trig-passo-a-passo" class="text-xs text-slate-300 font-mono leading-relaxed whitespace-pre-line"></div>
+      <pre id="trig-passo-a-passo" class="font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed overflow-x-auto"></pre>
     </div>
   </div>
+
 </div>

@@ -45,3 +45,14 @@ Thumbs.db
 # ==========================================
 *.log
 npm-debug.log*
+
+# ==========================================
+# PYTHON E AMBIENTES VIRTUAIS
+# ==========================================
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
